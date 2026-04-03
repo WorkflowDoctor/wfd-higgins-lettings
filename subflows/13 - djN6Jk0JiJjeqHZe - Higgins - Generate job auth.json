@@ -1,0 +1,230 @@
+{
+  "workflow": {
+    "id": "djN6Jk0JiJjeqHZe",
+    "name": "Higgins: Generate job auth",
+    "active": true,
+    "isArchived": false,
+    "versionId": "f7266522-32ed-4319-afd5-d78a5327a090",
+    "activeVersionId": "f7266522-32ed-4319-afd5-d78a5327a090",
+    "triggerCount": 0,
+    "createdAt": "2026-02-27T15:28:15.539Z",
+    "updatedAt": "2026-04-03T16:12:40.104Z",
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": true
+    },
+    "connections": {
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: _Secrets'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: _Secrets'": {
+        "main": [
+          [
+            {
+              "node": "Generate link",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "baseUrl"
+              },
+              {
+                "name": "number"
+              },
+              {
+                "name": "ttlSeconds"
+              },
+              {
+                "name": "sub"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "8d3f055a-1a02-44ed-b76b-db3dec578e67",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {
+          "jsCode": "const crypto = require(\"crypto\");\n\nconst input = $input.first().json;\n\nconst secret = input.n8n_secrets.job_link_secret;   // pass in securely\nconst number = String(input.number);\nconst ttl = Number(input.ttlSeconds ?? 3600);\nconst sub = input.sub ? String(input.sub) : null;\n\nconst now = Math.floor(Date.now() / 1000);\nconst exp = now + ttl;\n\n// ------------------------------\n// Canonical message (MUST match AuthGate)\n// ------------------------------\nfunction buildMsg({ job, exp, sub }) {\n  let msg = `job=${job}&exp=${exp}`;\n  if (sub) msg += `&sub=${sub}`;\n  return msg;\n}\n\nfunction formatTTL(seconds) {\n  seconds = Math.max(0, Math.floor(Number(seconds) || 0));\n\n  const days = Math.floor(seconds / 86400);\n  seconds %= 86400;\n\n  const hours = Math.floor(seconds / 3600);\n  seconds %= 3600;\n\n  const minutes = Math.floor(seconds / 60);\n  const secs = seconds % 60;\n\n  const parts = [];\n  if (days) parts.push(`${days}d`);\n  if (hours) parts.push(`${hours}h`);\n  if (minutes) parts.push(`${minutes}m`);\n  if (secs || parts.length === 0) parts.push(`${secs}s`);\n\n  return parts.join(\" \");\n}\n\nfunction expiryIsoFromTTL(ttlSeconds) {\n  const ttl = Math.max(0, Number(ttlSeconds) || 0);\n\n  const expiryDate = new Date(Date.now() + ttl * 1000);\n\n  return expiryDate.toISOString(); // ISO 8601 in UTC\n}\n\nfunction formatFriendlyUK(isoString) {\n  return new Intl.DateTimeFormat(\"en-GB\", {\n    dateStyle: \"full\",\n    timeStyle: \"long\",\n    timeZone: \"Europe/London\",\n  }).format(new Date(isoString));\n}\n\nconst msg = buildMsg({ job: number, exp, sub });\n\nconst auth = crypto\n  .createHmac(\"sha256\", secret)\n  .update(msg)\n  .digest(\"base64url\");\n\n// ------------------------------\n// Manual querystring builder\n// ------------------------------\nfunction toQueryString(obj = {}) {\n  return Object.entries(obj)\n    .filter(([, v]) => v !== undefined && v !== null && v !== \"\")\n    .map(([k, v]) =>\n      `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`\n    )\n    .join(\"&\");\n}\n\nconst query = {\n  number,\n  exp,\n  auth,\n};\n\nif (sub) query.sub = sub;\n\nconst qs = toQueryString(query);\n\nconst url = `${input.baseUrl}?${qs}`;\n\nreturn [\n  {\n    json: {\n      secureLink: {\n        number,\n        exp,\n        sub,\n        auth,\n        msg,   // useful for debugging signature mismatches\n        url,\n        ttl: formatTTL(ttl),\n        ttlSeconds: ttl,\n        expires: expiryIsoFromTTL(ttl),\n        expiresFriendly: formatFriendlyUK(expiryIsoFromTTL(ttl))\n      }\n    }\n  }\n];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          416,
+          0
+        ],
+        "id": "f2dce233-d027-406e-ba2a-ab6a10aa1036",
+        "name": "Generate link"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "BN8XZNDtPswzUt9h",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/BN8XZNDtPswzUt9h",
+            "cachedResultName": "WfD Shared Project — Higgins: _Secrets"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          208,
+          0
+        ],
+        "id": "bc8d0d72-addc-4b72-8b14-12698ec6f198",
+        "name": "Call 'Higgins: _Secrets'"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "workflowInputs": {
+              "values": [
+                {
+                  "name": "baseUrl"
+                },
+                {
+                  "name": "number"
+                },
+                {
+                  "name": "ttlSeconds"
+                },
+                {
+                  "name": "sub"
+                }
+              ]
+            }
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            0,
+            0
+          ],
+          "id": "8d3f055a-1a02-44ed-b76b-db3dec578e67",
+          "name": "When Executed by Another Workflow"
+        },
+        {
+          "parameters": {
+            "jsCode": "const crypto = require(\"crypto\");\n\nconst input = $input.first().json;\n\nconst secret = input.n8n_secrets.job_link_secret;   // pass in securely\nconst number = String(input.number);\nconst ttl = Number(input.ttlSeconds ?? 3600);\nconst sub = input.sub ? String(input.sub) : null;\n\nconst now = Math.floor(Date.now() / 1000);\nconst exp = now + ttl;\n\n// ------------------------------\n// Canonical message (MUST match AuthGate)\n// ------------------------------\nfunction buildMsg({ job, exp, sub }) {\n  let msg = `job=${job}&exp=${exp}`;\n  if (sub) msg += `&sub=${sub}`;\n  return msg;\n}\n\nfunction formatTTL(seconds) {\n  seconds = Math.max(0, Math.floor(Number(seconds) || 0));\n\n  const days = Math.floor(seconds / 86400);\n  seconds %= 86400;\n\n  const hours = Math.floor(seconds / 3600);\n  seconds %= 3600;\n\n  const minutes = Math.floor(seconds / 60);\n  const secs = seconds % 60;\n\n  const parts = [];\n  if (days) parts.push(`${days}d`);\n  if (hours) parts.push(`${hours}h`);\n  if (minutes) parts.push(`${minutes}m`);\n  if (secs || parts.length === 0) parts.push(`${secs}s`);\n\n  return parts.join(\" \");\n}\n\nfunction expiryIsoFromTTL(ttlSeconds) {\n  const ttl = Math.max(0, Number(ttlSeconds) || 0);\n\n  const expiryDate = new Date(Date.now() + ttl * 1000);\n\n  return expiryDate.toISOString(); // ISO 8601 in UTC\n}\n\nfunction formatFriendlyUK(isoString) {\n  return new Intl.DateTimeFormat(\"en-GB\", {\n    dateStyle: \"full\",\n    timeStyle: \"long\",\n    timeZone: \"Europe/London\",\n  }).format(new Date(isoString));\n}\n\nconst msg = buildMsg({ job: number, exp, sub });\n\nconst auth = crypto\n  .createHmac(\"sha256\", secret)\n  .update(msg)\n  .digest(\"base64url\");\n\n// ------------------------------\n// Manual querystring builder\n// ------------------------------\nfunction toQueryString(obj = {}) {\n  return Object.entries(obj)\n    .filter(([, v]) => v !== undefined && v !== null && v !== \"\")\n    .map(([k, v]) =>\n      `${encodeURIComponent(k)}=${encodeURIComponent(String(v))}`\n    )\n    .join(\"&\");\n}\n\nconst query = {\n  number,\n  exp,\n  auth,\n};\n\nif (sub) query.sub = sub;\n\nconst qs = toQueryString(query);\n\nconst url = `${input.baseUrl}?${qs}`;\n\nreturn [\n  {\n    json: {\n      secureLink: {\n        number,\n        exp,\n        sub,\n        auth,\n        msg,   // useful for debugging signature mismatches\n        url,\n        ttl: formatTTL(ttl),\n        ttlSeconds: ttl,\n        expires: expiryIsoFromTTL(ttl),\n        expiresFriendly: formatFriendlyUK(expiryIsoFromTTL(ttl))\n      }\n    }\n  }\n];"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            416,
+            0
+          ],
+          "id": "f2dce233-d027-406e-ba2a-ab6a10aa1036",
+          "name": "Generate link"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "BN8XZNDtPswzUt9h",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/BN8XZNDtPswzUt9h",
+              "cachedResultName": "WfD Shared Project — Higgins: _Secrets"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            208,
+            0
+          ],
+          "id": "bc8d0d72-addc-4b72-8b14-12698ec6f198",
+          "name": "Call 'Higgins: _Secrets'"
+        }
+      ],
+      "connections": {
+        "When Executed by Another Workflow": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: _Secrets'",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: _Secrets'": {
+          "main": [
+            [
+              {
+                "node": "Generate link",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

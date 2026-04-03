@@ -1,0 +1,714 @@
+{
+  "workflow": {
+    "id": "HLTvEjno9haFrNfC",
+    "name": "Higgins: Notify email to job originator",
+    "active": true,
+    "isArchived": false,
+    "versionId": "d6bea39e-2944-476d-87af-6a343b8982f7",
+    "activeVersionId": "d6bea39e-2944-476d-87af-6a343b8982f7",
+    "triggerCount": 0,
+    "createdAt": "2025-12-03T14:35:37.047Z",
+    "updatedAt": "2026-04-03T16:23:39.645Z",
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": true
+    },
+    "connections": {
+      "HTML (Confirm request)": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: HTML Render'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "EntryPoint": {
+        "main": [
+          [
+            {
+              "node": "Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Defaults": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: GetJob'",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Call 'Higgins: Generate job auth'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: HTML Render'": {
+        "main": [
+          [
+            {
+              "node": "Send a message1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a message1": {
+        "main": [
+          []
+        ]
+      },
+      "Call 'Higgins: GetJob'": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "HTML (Confirm request)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: Generate job auth'": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "html": "<!-- #pageTitle '#{{ $json.job.JobNumber }}<br /><small class=\"text-muted\">{{ $json.job.AddressLine1 }}, {{ $json.job.Postcode }}</small>' -->\n<dl class=\"text-muted\">\n  <dt>Priority:</dt>\n  <dd>{{ $json.job.Priority }}</dd>\n  \n  <dt>Tags:</dt>\n  <dd>{{ $json.job.Tags }}</dd>\n  \n  <dt>Contact:</dt>\n  <dd>{{ $json.job.ContactForAccess ?? '' }}</dd>\n  \n  <dt>Description (summary):</dt>\n  <dd>{{ $json.job.Description }}</dd>\n  \n  <dt>Conversation (summary):</dt>\n  <dd>{{ $json.job.ThreadSummary }}</dd>\n</dl>\n<hr />\n<a class=\"button\" href=\"{{ $json.secureLink.url }}&task={{ $json.action ?? 'confirm' }}\">Review and Confirm</a>\n<br />\n<small class=\"text-muted\">This link is valid for {{ $json.secureLink.ttl }} and will expire {{ $json.secureLink.expiresFriendly }}</small>\n"
+        },
+        "type": "n8n-nodes-base.html",
+        "typeVersion": 1.2,
+        "position": [
+          416,
+          -512
+        ],
+        "id": "4f09e172-483d-482a-b501-2d594514c3f2",
+        "name": "HTML (Confirm request)"
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "jobNumber"
+              },
+              {
+                "name": "recipient"
+              },
+              {
+                "name": "action"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -480,
+          -512
+        ],
+        "id": "ad9e8848-3743-464e-ac40-fe82d2e44b75",
+        "name": "EntryPoint"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "RgFuxYHwCa6cNZTQ",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/RgFuxYHwCa6cNZTQ",
+            "cachedResultName": "WfD Shared Project — Higgins: _Defaults"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          -256,
+          -512
+        ],
+        "id": "7a11e4a3-2681-4a5a-a305-041cde082827",
+        "name": "Defaults"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "CPMBwF51nRpqmBzc",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/CPMBwF51nRpqmBzc",
+            "cachedResultName": "WfD Shared Project — Higgins: HTML Render"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          640,
+          -512
+        ],
+        "id": "66556242-c08b-4681-8b4c-bbc4185cc38b",
+        "name": "Call 'Higgins: HTML Render'"
+      },
+      {
+        "parameters": {
+          "toRecipients": "={{ $('Merge').item.json.job.PropertyManagerEmail ?? $('Defaults').item.json.n8n_defaults.DefaultEmail }}",
+          "subject": "=ACTION REQUIRED for {{ $('Call \\'Higgins: GetJob\\'').item.json.job.JobTitle }}",
+          "bodyContent": "={{ $json.emailHtml }}",
+          "additionalFields": {
+            "ccRecipients": "pete@higginslettings.co.uk",
+            "bodyContentType": "html"
+          }
+        },
+        "type": "n8n-nodes-base.microsoftOutlook",
+        "typeVersion": 2,
+        "position": [
+          864,
+          -512
+        ],
+        "id": "448b775f-32fe-4c9c-b278-05504dfdf028",
+        "name": "Send a message1",
+        "webhookId": "f7773158-9819-4eb1-afc9-89e35f7bcdbf"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "7GnSWkz7nyJh-HH5OQ_SE",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+            "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "jobNumber": "={{ $json.jobNumber }}"
+            },
+            "matchingColumns": [
+              "jobNumber"
+            ],
+            "schema": [
+              {
+                "id": "jobNumber",
+                "displayName": "jobNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          -32,
+          -608
+        ],
+        "id": "b9dc0ef8-bed8-45a7-8e99-d54479a35161",
+        "name": "Call 'Higgins: GetJob'"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          192,
+          -512
+        ],
+        "id": "932d55d4-1017-4447-9b25-3830a75d6511",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "djN6Jk0JiJjeqHZe",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/djN6Jk0JiJjeqHZe",
+            "cachedResultName": "WfD Shared Project — Higgins: Generate job auth"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "baseUrl": "={{ $json.n8n_defaults.job_edit_webhook }}",
+              "number": "={{ $json.jobNumber }}",
+              "ttlSeconds": "={{ 60 * 24 * 60 * 60 // 60 days }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "baseUrl",
+                "displayName": "baseUrl",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "number",
+                "displayName": "number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "ttlSeconds",
+                "displayName": "ttlSeconds",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "sub",
+                "displayName": "sub",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": true,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          -32,
+          -416
+        ],
+        "id": "5f7f799e-e515-430d-98ee-3f0204304152",
+        "name": "Call 'Higgins: Generate job auth'"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "html": "<!-- #pageTitle '#{{ $json.job.JobNumber }}<br /><small class=\"text-muted\">{{ $json.job.AddressLine1 }}, {{ $json.job.Postcode }}</small>' -->\n<dl class=\"text-muted\">\n  <dt>Priority:</dt>\n  <dd>{{ $json.job.Priority }}</dd>\n  \n  <dt>Tags:</dt>\n  <dd>{{ $json.job.Tags }}</dd>\n  \n  <dt>Contact:</dt>\n  <dd>{{ $json.job.ContactForAccess ?? '' }}</dd>\n  \n  <dt>Description (summary):</dt>\n  <dd>{{ $json.job.Description }}</dd>\n  \n  <dt>Conversation (summary):</dt>\n  <dd>{{ $json.job.ThreadSummary }}</dd>\n</dl>\n<hr />\n<a class=\"button\" href=\"{{ $json.secureLink.url }}&task={{ $json.action ?? 'confirm' }}\">Review and Confirm</a>\n<br />\n<small class=\"text-muted\">This link is valid for {{ $json.secureLink.ttl }} and will expire {{ $json.secureLink.expiresFriendly }}</small>\n"
+          },
+          "type": "n8n-nodes-base.html",
+          "typeVersion": 1.2,
+          "position": [
+            416,
+            -512
+          ],
+          "id": "4f09e172-483d-482a-b501-2d594514c3f2",
+          "name": "HTML (Confirm request)"
+        },
+        {
+          "parameters": {
+            "workflowInputs": {
+              "values": [
+                {
+                  "name": "jobNumber"
+                },
+                {
+                  "name": "recipient"
+                },
+                {
+                  "name": "action"
+                }
+              ]
+            }
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            -480,
+            -512
+          ],
+          "id": "ad9e8848-3743-464e-ac40-fe82d2e44b75",
+          "name": "EntryPoint"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "RgFuxYHwCa6cNZTQ",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/RgFuxYHwCa6cNZTQ",
+              "cachedResultName": "WfD Shared Project — Higgins: _Defaults"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            -256,
+            -512
+          ],
+          "id": "7a11e4a3-2681-4a5a-a305-041cde082827",
+          "name": "Defaults"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "CPMBwF51nRpqmBzc",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/CPMBwF51nRpqmBzc",
+              "cachedResultName": "WfD Shared Project — Higgins: HTML Render"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            640,
+            -512
+          ],
+          "id": "66556242-c08b-4681-8b4c-bbc4185cc38b",
+          "name": "Call 'Higgins: HTML Render'"
+        },
+        {
+          "parameters": {
+            "toRecipients": "={{ $('Merge').item.json.job.PropertyManagerEmail ?? $('Defaults').item.json.n8n_defaults.DefaultEmail }}",
+            "subject": "=ACTION REQUIRED for {{ $('Call \\'Higgins: GetJob\\'').item.json.job.JobTitle }}",
+            "bodyContent": "={{ $json.emailHtml }}",
+            "additionalFields": {
+              "ccRecipients": "pete@higginslettings.co.uk",
+              "bodyContentType": "html"
+            }
+          },
+          "type": "n8n-nodes-base.microsoftOutlook",
+          "typeVersion": 2,
+          "position": [
+            864,
+            -512
+          ],
+          "id": "448b775f-32fe-4c9c-b278-05504dfdf028",
+          "name": "Send a message1",
+          "webhookId": "f7773158-9819-4eb1-afc9-89e35f7bcdbf"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "7GnSWkz7nyJh-HH5OQ_SE",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+              "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "jobNumber": "={{ $json.jobNumber }}"
+              },
+              "matchingColumns": [
+                "jobNumber"
+              ],
+              "schema": [
+                {
+                  "id": "jobNumber",
+                  "displayName": "jobNumber",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            -32,
+            -608
+          ],
+          "id": "b9dc0ef8-bed8-45a7-8e99-d54479a35161",
+          "name": "Call 'Higgins: GetJob'"
+        },
+        {
+          "parameters": {
+            "mode": "combine",
+            "combineBy": "combineByPosition",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.merge",
+          "typeVersion": 3.2,
+          "position": [
+            192,
+            -512
+          ],
+          "id": "932d55d4-1017-4447-9b25-3830a75d6511",
+          "name": "Merge"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "djN6Jk0JiJjeqHZe",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/djN6Jk0JiJjeqHZe",
+              "cachedResultName": "WfD Shared Project — Higgins: Generate job auth"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "baseUrl": "={{ $json.n8n_defaults.job_edit_webhook }}",
+                "number": "={{ $json.jobNumber }}",
+                "ttlSeconds": "={{ 60 * 24 * 60 * 60 // 60 days }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "baseUrl",
+                  "displayName": "baseUrl",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "number",
+                  "displayName": "number",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "ttlSeconds",
+                  "displayName": "ttlSeconds",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "sub",
+                  "displayName": "sub",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": true,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            -32,
+            -416
+          ],
+          "id": "5f7f799e-e515-430d-98ee-3f0204304152",
+          "name": "Call 'Higgins: Generate job auth'"
+        }
+      ],
+      "connections": {
+        "HTML (Confirm request)": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: HTML Render'",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "EntryPoint": {
+          "main": [
+            [
+              {
+                "node": "Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Defaults": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: GetJob'",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "Call 'Higgins: Generate job auth'",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: HTML Render'": {
+          "main": [
+            [
+              {
+                "node": "Send a message1",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Send a message1": {
+          "main": [
+            []
+          ]
+        },
+        "Call 'Higgins: GetJob'": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Merge": {
+          "main": [
+            [
+              {
+                "node": "HTML (Confirm request)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: Generate job auth'": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 1
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

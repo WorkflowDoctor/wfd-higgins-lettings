@@ -1,0 +1,852 @@
+{
+  "workflow": {
+    "id": "usc7tdi0NOfDMdh6",
+    "name": "Higgins: Notify job updates",
+    "active": true,
+    "isArchived": false,
+    "versionId": "9f5d2f73-d4eb-4bc3-b0b3-c8b1fcd31cb3",
+    "activeVersionId": "9f5d2f73-d4eb-4bc3-b0b3-c8b1fcd31cb3",
+    "triggerCount": 0,
+    "createdAt": "2026-03-26T17:24:13.857Z",
+    "updatedAt": "2026-04-03T16:23:57.332Z",
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": true
+    },
+    "connections": {
+      "HTML (Confirm request)": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: HTML Render'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "EntryPoint": {
+        "main": [
+          [
+            {
+              "node": "Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Defaults": {
+        "main": [
+          [
+            {
+              "node": "Find JobNumber",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: HTML Render'": {
+        "main": [
+          [
+            {
+              "node": "Send a message1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Send a message1": {
+        "main": [
+          []
+        ]
+      },
+      "Call 'Higgins: GetJob'": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Inject recipients",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: Generate job auth'": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Find JobNumber": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: GetJob'",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Call 'Higgins: Generate job auth'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Inject recipients": {
+        "main": [
+          [
+            {
+              "node": "HTML (Confirm request)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "html": "<!-- #pageTitle '#{{ $json.job.JobNumber }}<br /><small>{{ $json.job.AddressLine1 }}, {{ $json.job.Postcode }}</small>' -->\n<!-- #jobCreated '{{ ($json.job.Created || \"\").substring(0,10) }}' -->\n<!-- #jobStatus  '{{ $json.job.Status }}' -->\n<!-- #jobNumber  '{{ $json.job.JobNumber }}' -->\n\n<h2>\n  There has been a new update to a {{ $json.Payload.FormType }}.\n</h2>\n\n<div>\n  {{ $json.Notification.Message }}\n</div>\n\n<hr />\n<a class=\"button\" href=\"{{ $json.secureLink.url }}&task={{ $json.Notification.Task }}\">Review</a>\n<br />\n<small class=\"text-muted\">This link is valid for {{ $json.secureLink.ttl }} and will expire {{ $json.secureLink.expiresFriendly }}</small>\n"
+        },
+        "type": "n8n-nodes-base.html",
+        "typeVersion": 1.2,
+        "position": [
+          864,
+          -624
+        ],
+        "id": "48473a1c-54e8-4acb-b3bf-2da6da832e58",
+        "name": "HTML (Confirm request)"
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -480,
+          -624
+        ],
+        "id": "4be04c43-e5b6-4401-9c27-cc125264225f",
+        "name": "EntryPoint"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "RgFuxYHwCa6cNZTQ",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/RgFuxYHwCa6cNZTQ",
+            "cachedResultName": "WfD Shared Project — Higgins: _Defaults"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          -256,
+          -624
+        ],
+        "id": "6e1b7021-2521-4aeb-9ecf-bb953ddbf4a2",
+        "name": "Defaults"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "CPMBwF51nRpqmBzc",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/CPMBwF51nRpqmBzc",
+            "cachedResultName": "WfD Shared Project — Higgins: HTML - render for web & email"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1088,
+          -624
+        ],
+        "id": "ff0aac96-fcc5-4c58-a321-a7f3debbf063",
+        "name": "Call 'Higgins: HTML Render'"
+      },
+      {
+        "parameters": {
+          "toRecipients": "={{ $('Inject recipients').item.json.Notification.To }}",
+          "subject": "=Notification for {{ $('Inject recipients').item.json.job.JobNumber }}: {{ $('Inject recipients').item.json.job.Address }} ({{ ($('Inject recipients').item.json.job.Description || '').substring(0,50) }})",
+          "bodyContent": "={{ $json.emailHtml }}",
+          "additionalFields": {
+            "ccRecipients": "pete@higginslettings.co.uk",
+            "importance": "={{ $('Inject recipients').item.json.Notification.Urgent ? 'High': 'Normal' }}",
+            "bodyContentType": "html",
+            "replyTo": "={{ $('Defaults').item.json.result.note.From }}"
+          }
+        },
+        "type": "n8n-nodes-base.microsoftOutlook",
+        "typeVersion": 2,
+        "position": [
+          1312,
+          -624
+        ],
+        "id": "b6427b1a-5caa-414d-baa8-7adc5e644f12",
+        "name": "Send a message1",
+        "webhookId": "bf9fa304-fcdf-43ee-9eed-b1e81ebc6c1b"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "7GnSWkz7nyJh-HH5OQ_SE",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+            "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "id": "={{ $json.ID }}",
+              "jobNumber": "={{ $json.JobNumber }}"
+            },
+            "matchingColumns": [
+              "jobNumber"
+            ],
+            "schema": [
+              {
+                "id": "jobNumber",
+                "displayName": "jobNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "job",
+                "displayName": "job",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "object",
+                "removed": true
+              },
+              {
+                "id": "include",
+                "displayName": "include",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          192,
+          -720
+        ],
+        "id": "5f9c4475-8c8a-4292-92d7-1d4d56f019bf",
+        "name": "Call 'Higgins: GetJob'"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          416,
+          -624
+        ],
+        "id": "1626ba74-73de-4a53-9e92-8a2095522124",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "djN6Jk0JiJjeqHZe",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/djN6Jk0JiJjeqHZe",
+            "cachedResultName": "WfD Shared Project — Higgins: Generate job auth"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "baseUrl": "={{ $json.n8n_defaults.job_edit_webhook }}",
+              "number": "={{ $json.JobNumber }}",
+              "ttlSeconds": "={{ 60 * 24 * 60 * 60 // 60 days }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "baseUrl",
+                "displayName": "baseUrl",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "number",
+                "displayName": "number",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "ttlSeconds",
+                "displayName": "ttlSeconds",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "sub",
+                "displayName": "sub",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": true,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          192,
+          -528
+        ],
+        "id": "aef1114b-efd3-4bf5-a6f3-178f1449a53a",
+        "name": "Call 'Higgins: Generate job auth'"
+      },
+      {
+        "parameters": {
+          "jsCode": "const input = $input.first().json;\n\nlet JobNumber = input.result?.JobNumber || input.result[input.FormType]?.JobNumber;\nlet ID = input.result?.job?.ID || input.result[input.FormType]?.JobLookupId;\n\nreturn [{\n  json: {\n    ID,\n    JobNumber,\n    n8n_defaults: input.n8n_defaults\n  }\n}]"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -32,
+          -624
+        ],
+        "id": "4c8f71e5-c1bf-49a3-861a-c735c95d1958",
+        "name": "Find JobNumber"
+      },
+      {
+        "parameters": {
+          "jsCode": "const input = $('EntryPoint').first().json;\nconst items = $input.all();\n\nconst objectType = input.FormType.toLowerCase();\nconst formResponse = input.result[objectType] || {};\n\nlet From = formResponse.From;\nlet To = [ formResponse.To ];\nlet Message = \"\";\nlet Urgent = formResponse.Urgent;\nlet Direction = input.Direction || 'outbound';\nlet OutboundNotification = Direction === 'outbound';\nlet Task = '';\n\nlet PropertyManagerEmail = formResponse.PropertyManagerEmail || $input.first().json.job?.PropertyManagerEmail;\n\nif (PropertyManagerEmail && !To.includes(PropertyManagerEmail))\n{\n  To.push(formResponse.PropertyManagerEmail);\n}\n\nswitch (objectType)\n{\n  case 'note':\n    Message = `<dl>\n                  <dt>From:</dt>\n                  <dd>${$('EntryPoint').first().json.result.note.From}</dd>\n                  <dt>Note:</dt>\n                  <dd>${formResponse.Note}</dd>\n                </dl>`;\n    Task = '';\n    break;\n  case 'note':\n    Message = `<dl>\n                  <dt>From:</dt>\n                  <dd>${$('EntryPoint').first().json.result.note.From}</dd>\n                  <dt>Note:</dt>\n                  <dd>${formResponse.Note}</dd>\n                </dl>`;\n    Task = '';\n    break;\n  default:\n    Message = 'Visit the job link to see details';\n}\n\nreturn items.map(item => {\n  return {\n    json: {\n      Notification: {\n        From,\n        To: To.filter(n => n != null),\n        Message,\n        Urgent,\n        Direction,\n        OutboundNotification,\n        Task\n      },\n      Payload: {\n        ...input\n      },\n      ...item.json,\n    },\n    binary: item.binary, // keep this if you want to preserve binary\n  };\n});"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          640,
+          -624
+        ],
+        "id": "252a04a9-e6ab-4fc0-b6df-1dc643dddb3e",
+        "name": "Inject recipients"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "html": "<!-- #pageTitle '#{{ $json.job.JobNumber }}<br /><small>{{ $json.job.AddressLine1 }}, {{ $json.job.Postcode }}</small>' -->\n<!-- #jobCreated '{{ ($json.job.Created || \"\").substring(0,10) }}' -->\n<!-- #jobStatus  '{{ $json.job.Status }}' -->\n<!-- #jobNumber  '{{ $json.job.JobNumber }}' -->\n\n<h2>\n  There has been a new update to a {{ $json.Payload.FormType }}.\n</h2>\n\n<div>\n  {{ $json.Notification.Message }}\n</div>\n\n<hr />\n<a class=\"button\" href=\"{{ $json.secureLink.url }}&task={{ $json.Notification.Task }}\">Review</a>\n<br />\n<small class=\"text-muted\">This link is valid for {{ $json.secureLink.ttl }} and will expire {{ $json.secureLink.expiresFriendly }}</small>\n"
+          },
+          "type": "n8n-nodes-base.html",
+          "typeVersion": 1.2,
+          "position": [
+            864,
+            -624
+          ],
+          "id": "48473a1c-54e8-4acb-b3bf-2da6da832e58",
+          "name": "HTML (Confirm request)"
+        },
+        {
+          "parameters": {
+            "inputSource": "passthrough"
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            -480,
+            -624
+          ],
+          "id": "4be04c43-e5b6-4401-9c27-cc125264225f",
+          "name": "EntryPoint"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "RgFuxYHwCa6cNZTQ",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/RgFuxYHwCa6cNZTQ",
+              "cachedResultName": "WfD Shared Project — Higgins: _Defaults"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            -256,
+            -624
+          ],
+          "id": "6e1b7021-2521-4aeb-9ecf-bb953ddbf4a2",
+          "name": "Defaults"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "CPMBwF51nRpqmBzc",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/CPMBwF51nRpqmBzc",
+              "cachedResultName": "WfD Shared Project — Higgins: HTML - render for web & email"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            1088,
+            -624
+          ],
+          "id": "ff0aac96-fcc5-4c58-a321-a7f3debbf063",
+          "name": "Call 'Higgins: HTML Render'"
+        },
+        {
+          "parameters": {
+            "toRecipients": "={{ $('Inject recipients').item.json.Notification.To }}",
+            "subject": "=Notification for {{ $('Inject recipients').item.json.job.JobNumber }}: {{ $('Inject recipients').item.json.job.Address }} ({{ ($('Inject recipients').item.json.job.Description || '').substring(0,50) }})",
+            "bodyContent": "={{ $json.emailHtml }}",
+            "additionalFields": {
+              "ccRecipients": "pete@higginslettings.co.uk",
+              "importance": "={{ $('Inject recipients').item.json.Notification.Urgent ? 'High': 'Normal' }}",
+              "bodyContentType": "html",
+              "replyTo": "={{ $('Defaults').item.json.result.note.From }}"
+            }
+          },
+          "type": "n8n-nodes-base.microsoftOutlook",
+          "typeVersion": 2,
+          "position": [
+            1312,
+            -624
+          ],
+          "id": "b6427b1a-5caa-414d-baa8-7adc5e644f12",
+          "name": "Send a message1",
+          "webhookId": "bf9fa304-fcdf-43ee-9eed-b1e81ebc6c1b"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "7GnSWkz7nyJh-HH5OQ_SE",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+              "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "id": "={{ $json.ID }}",
+                "jobNumber": "={{ $json.JobNumber }}"
+              },
+              "matchingColumns": [
+                "jobNumber"
+              ],
+              "schema": [
+                {
+                  "id": "jobNumber",
+                  "displayName": "jobNumber",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "job",
+                  "displayName": "job",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "object",
+                  "removed": true
+                },
+                {
+                  "id": "include",
+                  "displayName": "include",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "id",
+                  "displayName": "id",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            192,
+            -720
+          ],
+          "id": "5f9c4475-8c8a-4292-92d7-1d4d56f019bf",
+          "name": "Call 'Higgins: GetJob'"
+        },
+        {
+          "parameters": {
+            "mode": "combine",
+            "combineBy": "combineByPosition",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.merge",
+          "typeVersion": 3.2,
+          "position": [
+            416,
+            -624
+          ],
+          "id": "1626ba74-73de-4a53-9e92-8a2095522124",
+          "name": "Merge"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "djN6Jk0JiJjeqHZe",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/djN6Jk0JiJjeqHZe",
+              "cachedResultName": "WfD Shared Project — Higgins: Generate job auth"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "baseUrl": "={{ $json.n8n_defaults.job_edit_webhook }}",
+                "number": "={{ $json.JobNumber }}",
+                "ttlSeconds": "={{ 60 * 24 * 60 * 60 // 60 days }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "baseUrl",
+                  "displayName": "baseUrl",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "number",
+                  "displayName": "number",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "ttlSeconds",
+                  "displayName": "ttlSeconds",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "sub",
+                  "displayName": "sub",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": true,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            192,
+            -528
+          ],
+          "id": "aef1114b-efd3-4bf5-a6f3-178f1449a53a",
+          "name": "Call 'Higgins: Generate job auth'"
+        },
+        {
+          "parameters": {
+            "jsCode": "const input = $input.first().json;\n\nlet JobNumber = input.result?.JobNumber || input.result[input.FormType]?.JobNumber;\nlet ID = input.result?.job?.ID || input.result[input.FormType]?.JobLookupId;\n\nreturn [{\n  json: {\n    ID,\n    JobNumber,\n    n8n_defaults: input.n8n_defaults\n  }\n}]"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            -32,
+            -624
+          ],
+          "id": "4c8f71e5-c1bf-49a3-861a-c735c95d1958",
+          "name": "Find JobNumber"
+        },
+        {
+          "parameters": {
+            "jsCode": "const input = $('EntryPoint').first().json;\nconst items = $input.all();\n\nconst objectType = input.FormType.toLowerCase();\nconst formResponse = input.result[objectType] || {};\n\nlet From = formResponse.From;\nlet To = [ formResponse.To ];\nlet Message = \"\";\nlet Urgent = formResponse.Urgent;\nlet Direction = input.Direction || 'outbound';\nlet OutboundNotification = Direction === 'outbound';\nlet Task = '';\n\nlet PropertyManagerEmail = formResponse.PropertyManagerEmail || $input.first().json.job?.PropertyManagerEmail;\n\nif (PropertyManagerEmail && !To.includes(PropertyManagerEmail))\n{\n  To.push(formResponse.PropertyManagerEmail);\n}\n\nswitch (objectType)\n{\n  case 'note':\n    Message = `<dl>\n                  <dt>From:</dt>\n                  <dd>${$('EntryPoint').first().json.result.note.From}</dd>\n                  <dt>Note:</dt>\n                  <dd>${formResponse.Note}</dd>\n                </dl>`;\n    Task = '';\n    break;\n  case 'note':\n    Message = `<dl>\n                  <dt>From:</dt>\n                  <dd>${$('EntryPoint').first().json.result.note.From}</dd>\n                  <dt>Note:</dt>\n                  <dd>${formResponse.Note}</dd>\n                </dl>`;\n    Task = '';\n    break;\n  default:\n    Message = 'Visit the job link to see details';\n}\n\nreturn items.map(item => {\n  return {\n    json: {\n      Notification: {\n        From,\n        To: To.filter(n => n != null),\n        Message,\n        Urgent,\n        Direction,\n        OutboundNotification,\n        Task\n      },\n      Payload: {\n        ...input\n      },\n      ...item.json,\n    },\n    binary: item.binary, // keep this if you want to preserve binary\n  };\n});"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            640,
+            -624
+          ],
+          "id": "252a04a9-e6ab-4fc0-b6df-1dc643dddb3e",
+          "name": "Inject recipients"
+        }
+      ],
+      "connections": {
+        "HTML (Confirm request)": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: HTML Render'",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "EntryPoint": {
+          "main": [
+            [
+              {
+                "node": "Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Defaults": {
+          "main": [
+            [
+              {
+                "node": "Find JobNumber",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: HTML Render'": {
+          "main": [
+            [
+              {
+                "node": "Send a message1",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Send a message1": {
+          "main": [
+            []
+          ]
+        },
+        "Call 'Higgins: GetJob'": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Merge": {
+          "main": [
+            [
+              {
+                "node": "Inject recipients",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: Generate job auth'": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 1
+              }
+            ]
+          ]
+        },
+        "Find JobNumber": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: GetJob'",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "Call 'Higgins: Generate job auth'",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Inject recipients": {
+          "main": [
+            [
+              {
+                "node": "HTML (Confirm request)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

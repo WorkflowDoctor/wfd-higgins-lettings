@@ -1,0 +1,476 @@
+{
+  "workflow": {
+    "id": "hkOcGa9t4l9ewaUJ",
+    "name": "Higgins: SP create/update folder",
+    "active": true,
+    "isArchived": false,
+    "versionId": "d178a1f0-a579-43cd-86f1-b5ef5d52cd7e",
+    "activeVersionId": "d178a1f0-a579-43cd-86f1-b5ef5d52cd7e",
+    "triggerCount": 0,
+    "createdAt": "2026-01-16T15:50:01.229Z",
+    "updatedAt": "2026-04-03T16:22:08.987Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true,
+      "binaryMode": "separate"
+    },
+    "connections": {
+      "Start": {
+        "main": [
+          [
+            {
+              "node": "_SharepointDefaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "PATCH (create folder)": {
+        "main": [
+          [
+            {
+              "node": "Calculate metadata",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "PATCH (folder columns)": {
+        "main": [
+          [
+            {
+              "node": "Return id, webUrl",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Return id, webUrl": {
+        "main": [
+          []
+        ]
+      },
+      "Calculate metadata": {
+        "main": [
+          [
+            {
+              "node": "PATCH (folder columns)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "_SharepointDefaults": {
+        "main": [
+          [
+            {
+              "node": "Customise path",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Customise path": {
+        "main": [
+          [
+            {
+              "node": "PATCH (create folder)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "path"
+              },
+              {
+                "name": "timestamp"
+              },
+              {
+                "name": "metadata",
+                "type": "any"
+              },
+              {
+                "name": "folderType"
+              },
+              {
+                "name": "itemId"
+              }
+            ]
+          }
+        },
+        "id": "22a45b29-6651-4c12-a595-c73d0e7a7216",
+        "typeVersion": 1.1,
+        "name": "Start",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          800,
+          -544
+        ]
+      },
+      {
+        "parameters": {
+          "method": "PATCH",
+          "url": "=https://graph.microsoft.com/v1.0/drives/{{ $json.n8n_sharepoint.drives[\"_default\"].sharepointId }}/root:/LISA%20Repo/{{ encodeURIComponent($json.fullPath || '') }}?$expand=listItem($expand=fields)\n\n",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "microsoftOutlookOAuth2Api",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "{\n  \"folder\": {},\n  \"@microsoft.graph.conflictBehavior\": \"replace\"\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1472,
+          -544
+        ],
+        "id": "d3bd8fce-1860-4eca-b466-e91b1a94693d",
+        "name": "PATCH (create folder)"
+      },
+      {
+        "parameters": {
+          "method": "PATCH",
+          "url": "=https://graph.microsoft.com/v1.0/sites/{{ $json.siteId }}/lists/{{ $json.listId }}/items/{{ $json.listItem.id }}/fields",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "microsoftOutlookOAuth2Api",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ JSON.stringify($json.metadata) }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1920,
+          -544
+        ],
+        "id": "a58733d6-75a7-4aaf-b3ca-cd1c5dc622e0",
+        "name": "PATCH (folder columns)",
+        "onError": "continueRegularOutput"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "return { \n  json: {\n    id: $('PATCH (create folder)').item.json.id,\n    webUrl: $('PATCH (create folder)').item.json.webUrl,\n    n8n_sharepoint: $('_SharepointDefaults').item.json.n8n_sharepoint\n}};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2144,
+          -544
+        ],
+        "id": "03ed51cd-ee4d-437f-878a-330e74420523",
+        "name": "Return id, webUrl"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "const item = $json;\nconst sharepoint = $('_SharepointDefaults').item.json.n8n_sharepoint;\n\n// --- Get SharePoint column configuration ---\nconst spDriveDefaults = sharepoint.drives[\"_default\"];\nconst spListDefaults = sharepoint.lists[\"document\"];\nconst allowedColumns = spListDefaults.fields || [];\n\n// Timestamp internal column name\nconst timestampInternalField = spDriveDefaults.timestampColumn;\n\n// --- Existing + Incoming timestamps ---\nconst existingRaw = item.listItem?.fields?.[timestampInternalField];\nconst newRaw = $('Start').item.json.timestamp;\n\nconst existing = existingRaw ? new Date(existingRaw) : null;\nconst incoming = newRaw ? new Date(newRaw) : null;\n\nlet chosen = null;\n\nif (existing && !isNaN(existing) && incoming && !isNaN(incoming)) {\n  chosen = (existing <= incoming) ? existing : incoming;\n} else if (existing && !isNaN(existing)) {\n  chosen = existing;\n} else if (incoming && !isNaN(incoming)) {\n  chosen = incoming;\n}\n\n// --- Build metadata object ---\nconst startMetadata = $('Start').item.json.metadata || {};\nconst metadataObj =\n  typeof startMetadata === 'string'\n    ? JSON.parse(startMetadata)\n    : startMetadata;\n\n// Inject calculated timestamp BEFORE filtering\nif (chosen) {\n  metadataObj.Timestamp = chosen.toISOString();\n}\n\n// --- Filter metadata to only allowed SharePoint columns ---\nconst filteredMetadata = Object.fromEntries(\n  Object.entries(metadataObj).filter(([key]) =>\n    allowedColumns.includes(key)\n  )\n);\n\n// --- Return result ---\nreturn {\n  siteId: sharepoint.siteId,\n  listId: spListDefaults.sharepointId,\n  listItem: item.listItem,\n  timestamp: chosen ? chosen.toISOString() : null,\n  metadata: filteredMetadata\n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1696,
+          -544
+        ],
+        "id": "31d25bda-b31e-44e7-9161-b9fa42153c19",
+        "name": "Calculate metadata"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "Dkd3fVOs3tYMZHkk",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/Dkd3fVOs3tYMZHkk",
+            "cachedResultName": "WfD Shared Project — Higgins: _Sharepoint Defaults"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1024,
+          -544
+        ],
+        "id": "fe724953-faba-4264-9e9b-a17cfc9e79c0",
+        "name": "_SharepointDefaults"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "const folderType = $json.folderType || '';\nconst rootFolderPath = $json.n8n_sharepoint.drives[\"_default\"].paths[folderType];\n\nconst paddedId = $json.itemId ? `.${$json.itemId.padStart(6,'0')}` : '';\nconst relativePath = (folderType.toLowerCase() === 'root') ? $json.path : `${$json.path || ''}/${folderType || ''}${paddedId}`;\n\n// Path should be constructed unless folderType is root\nconst fullPath = `${rootFolderPath}/${relativePath}`;\n\nreturn {\n  json: {\n    fullPath,\n    ...$json,\n    ...$json.n8n_sharepoint\n  }\n}"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1248,
+          -544
+        ],
+        "id": "d6218c6d-8e0a-4435-be02-6ae4781af801",
+        "name": "Customise path"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "workflowInputs": {
+              "values": [
+                {
+                  "name": "path"
+                },
+                {
+                  "name": "timestamp"
+                },
+                {
+                  "name": "metadata",
+                  "type": "any"
+                },
+                {
+                  "name": "folderType"
+                },
+                {
+                  "name": "itemId"
+                }
+              ]
+            }
+          },
+          "id": "22a45b29-6651-4c12-a595-c73d0e7a7216",
+          "typeVersion": 1.1,
+          "name": "Start",
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "position": [
+            800,
+            -544
+          ]
+        },
+        {
+          "parameters": {
+            "method": "PATCH",
+            "url": "=https://graph.microsoft.com/v1.0/drives/{{ $json.n8n_sharepoint.drives[\"_default\"].sharepointId }}/root:/LISA%20Repo/{{ encodeURIComponent($json.fullPath || '') }}?$expand=listItem($expand=fields)\n\n",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "microsoftOutlookOAuth2Api",
+            "sendBody": true,
+            "specifyBody": "json",
+            "jsonBody": "{\n  \"folder\": {},\n  \"@microsoft.graph.conflictBehavior\": \"replace\"\n}",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1472,
+            -544
+          ],
+          "id": "d3bd8fce-1860-4eca-b466-e91b1a94693d",
+          "name": "PATCH (create folder)"
+        },
+        {
+          "parameters": {
+            "method": "PATCH",
+            "url": "=https://graph.microsoft.com/v1.0/sites/{{ $json.siteId }}/lists/{{ $json.listId }}/items/{{ $json.listItem.id }}/fields",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "microsoftOutlookOAuth2Api",
+            "sendBody": true,
+            "specifyBody": "json",
+            "jsonBody": "={{ JSON.stringify($json.metadata) }}",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1920,
+            -544
+          ],
+          "id": "a58733d6-75a7-4aaf-b3ca-cd1c5dc622e0",
+          "name": "PATCH (folder columns)",
+          "onError": "continueRegularOutput"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "return { \n  json: {\n    id: $('PATCH (create folder)').item.json.id,\n    webUrl: $('PATCH (create folder)').item.json.webUrl,\n    n8n_sharepoint: $('_SharepointDefaults').item.json.n8n_sharepoint\n}};"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2144,
+            -544
+          ],
+          "id": "03ed51cd-ee4d-437f-878a-330e74420523",
+          "name": "Return id, webUrl"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "const item = $json;\nconst sharepoint = $('_SharepointDefaults').item.json.n8n_sharepoint;\n\n// --- Get SharePoint column configuration ---\nconst spDriveDefaults = sharepoint.drives[\"_default\"];\nconst spListDefaults = sharepoint.lists[\"document\"];\nconst allowedColumns = spListDefaults.fields || [];\n\n// Timestamp internal column name\nconst timestampInternalField = spDriveDefaults.timestampColumn;\n\n// --- Existing + Incoming timestamps ---\nconst existingRaw = item.listItem?.fields?.[timestampInternalField];\nconst newRaw = $('Start').item.json.timestamp;\n\nconst existing = existingRaw ? new Date(existingRaw) : null;\nconst incoming = newRaw ? new Date(newRaw) : null;\n\nlet chosen = null;\n\nif (existing && !isNaN(existing) && incoming && !isNaN(incoming)) {\n  chosen = (existing <= incoming) ? existing : incoming;\n} else if (existing && !isNaN(existing)) {\n  chosen = existing;\n} else if (incoming && !isNaN(incoming)) {\n  chosen = incoming;\n}\n\n// --- Build metadata object ---\nconst startMetadata = $('Start').item.json.metadata || {};\nconst metadataObj =\n  typeof startMetadata === 'string'\n    ? JSON.parse(startMetadata)\n    : startMetadata;\n\n// Inject calculated timestamp BEFORE filtering\nif (chosen) {\n  metadataObj.Timestamp = chosen.toISOString();\n}\n\n// --- Filter metadata to only allowed SharePoint columns ---\nconst filteredMetadata = Object.fromEntries(\n  Object.entries(metadataObj).filter(([key]) =>\n    allowedColumns.includes(key)\n  )\n);\n\n// --- Return result ---\nreturn {\n  siteId: sharepoint.siteId,\n  listId: spListDefaults.sharepointId,\n  listItem: item.listItem,\n  timestamp: chosen ? chosen.toISOString() : null,\n  metadata: filteredMetadata\n};"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1696,
+            -544
+          ],
+          "id": "31d25bda-b31e-44e7-9161-b9fa42153c19",
+          "name": "Calculate metadata"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "Dkd3fVOs3tYMZHkk",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/Dkd3fVOs3tYMZHkk",
+              "cachedResultName": "WfD Shared Project — Higgins: _Sharepoint Defaults"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            1024,
+            -544
+          ],
+          "id": "fe724953-faba-4264-9e9b-a17cfc9e79c0",
+          "name": "_SharepointDefaults"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "const folderType = $json.folderType || '';\nconst rootFolderPath = $json.n8n_sharepoint.drives[\"_default\"].paths[folderType];\n\nconst paddedId = $json.itemId ? `.${$json.itemId.padStart(6,'0')}` : '';\nconst relativePath = (folderType.toLowerCase() === 'root') ? $json.path : `${$json.path || ''}/${folderType || ''}${paddedId}`;\n\n// Path should be constructed unless folderType is root\nconst fullPath = `${rootFolderPath}/${relativePath}`;\n\nreturn {\n  json: {\n    fullPath,\n    ...$json,\n    ...$json.n8n_sharepoint\n  }\n}"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1248,
+            -544
+          ],
+          "id": "d6218c6d-8e0a-4435-be02-6ae4781af801",
+          "name": "Customise path"
+        }
+      ],
+      "connections": {
+        "Start": {
+          "main": [
+            [
+              {
+                "node": "_SharepointDefaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "PATCH (create folder)": {
+          "main": [
+            [
+              {
+                "node": "Calculate metadata",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "PATCH (folder columns)": {
+          "main": [
+            [
+              {
+                "node": "Return id, webUrl",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Return id, webUrl": {
+          "main": [
+            []
+          ]
+        },
+        "Calculate metadata": {
+          "main": [
+            [
+              {
+                "node": "PATCH (folder columns)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "_SharepointDefaults": {
+          "main": [
+            [
+              {
+                "node": "Customise path",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Customise path": {
+          "main": [
+            [
+              {
+                "node": "PATCH (create folder)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

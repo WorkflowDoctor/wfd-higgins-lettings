@@ -1,0 +1,486 @@
+{
+  "workflow": {
+    "id": "xrnZPsybPvlsfnrH",
+    "name": "Higgins: Notes update",
+    "active": true,
+    "isArchived": false,
+    "versionId": "a22a3751-86b8-438f-82c2-d173289837fd",
+    "activeVersionId": "a22a3751-86b8-438f-82c2-d173289837fd",
+    "triggerCount": 0,
+    "createdAt": "2026-03-19T17:54:49.193Z",
+    "updatedAt": "2026-04-03T16:22:34.96Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true,
+      "binaryMode": "separate"
+    },
+    "connections": {
+      "_Sharepoint Defaults": {
+        "main": [
+          [
+            {
+              "node": "Wrap object",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Start": {
+        "main": [
+          [
+            {
+              "node": "_Sharepoint Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap object": {
+        "main": [
+          [
+            {
+              "node": "If",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Patch": {
+        "main": [
+          [
+            {
+              "node": "Return",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If": {
+        "main": [
+          [
+            {
+              "node": "HTTP Post",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "HTTP Patch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Post": {
+        "main": [
+          [
+            {
+              "node": "Return",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "Dkd3fVOs3tYMZHkk",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/Dkd3fVOs3tYMZHkk",
+            "cachedResultName": "WfD Shared Project — Higgins: _Sharepoint Defaults"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          464,
+          -1776
+        ],
+        "id": "756d5025-3c15-42b9-b7a7-2b94309fe973",
+        "name": "_Sharepoint Defaults"
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "id": "ac27e85f-b639-40a8-92d1-d4f86743ab56",
+        "typeVersion": 1.1,
+        "name": "Start",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          240,
+          -1776
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "const objectType = \"note\";\nconst item = $input.first().json;\nconst keepFields = item.n8n_sharepoint.lists[objectType].fields || [];\n\n// Pull out JobNumber, ID, and the dynamic object block if it exists\nlet { JobNumber, jobNumber, ID, [objectType]: objectData = {}, ...fields } = item;\n\n// Choose the source of truth\nconst source = Object.keys(objectData).length > 0 ? objectData : fields;\n\n// Get the ID if missing\nID = ID || source.ID || source.id;\nJobNumber = JobNumber || jobNumber || source.JobNumber || source.Title;\n\nconst fieldsToUpdate = { Title: JobNumber };\n\nfor (const [key, value] of Object.entries(source)) {\n  if (!keepFields.includes(key)) continue;\n\n  if (\n    value === undefined ||\n    value === null ||\n    value === '' ||\n    (Array.isArray(value) && value.length === 0)\n  ) continue;\n\n  fieldsToUpdate[key] = Array.isArray(value) ? value.join(',') : value;\n}\n\nreturn [{\n  json: {\n    objectType,\n    ID,\n    JobNumber,\n    [objectType]: objectData,\n    fields: fieldsToUpdate,\n    n8n_sharepoint: item.n8n_sharepoint\n  }\n}];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          688,
+          -1776
+        ],
+        "id": "f8b22499-7873-4092-8d9d-7dec3c199e68",
+        "name": "Wrap object"
+      },
+      {
+        "parameters": {
+          "method": "PATCH",
+          "url": "=https://graph.microsoft.com/v1.0/sites/{{ $json.n8n_sharepoint.siteId }}/lists/{{ $json.n8n_sharepoint.lists[$json.objectType].sharepointId }}/items/{{ $json.ID }}/fields",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "microsoftOutlookOAuth2Api",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "={{ JSON.stringify($json.fields) }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1136,
+          -1680
+        ],
+        "id": "c9c97f30-4b8d-4f3f-b5cd-00f359bdaff2",
+        "name": "HTTP Patch",
+        "notesInFlow": true,
+        "notes": "Patching this way means the field list is dynamic. Any matching column will be saved."
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://graph.microsoft.com/v1.0/sites/{{ $json.n8n_sharepoint.siteId }}/lists/{{ $json.n8n_sharepoint.lists[$json.objectType].sharepointId }}/items",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "microsoftOutlookOAuth2Api",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "={{ JSON.stringify({fields: $json.fields}) }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1136,
+          -1872
+        ],
+        "id": "f50e7376-afe8-45c8-a88a-7eb5aca87dee",
+        "name": "HTTP Post",
+        "notesInFlow": true,
+        "notes": "Posting this way means the field list is dynamic. Any matching column will be saved."
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "f989cc58-2adc-46db-841d-122f9940d0e4",
+                "leftValue": "={{ $json.fields.ID || $json.ID }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notExists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          912,
+          -1776
+        ],
+        "id": "27e88b3d-43df-4f2c-b4eb-0846b1fb63eb",
+        "name": "If"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1360,
+          -1776
+        ],
+        "id": "6b44e353-526c-4f16-bce5-3e1617578b6d",
+        "name": "Return"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "Dkd3fVOs3tYMZHkk",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/Dkd3fVOs3tYMZHkk",
+              "cachedResultName": "WfD Shared Project — Higgins: _Sharepoint Defaults"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            464,
+            -1776
+          ],
+          "id": "756d5025-3c15-42b9-b7a7-2b94309fe973",
+          "name": "_Sharepoint Defaults"
+        },
+        {
+          "parameters": {
+            "inputSource": "passthrough"
+          },
+          "id": "ac27e85f-b639-40a8-92d1-d4f86743ab56",
+          "typeVersion": 1.1,
+          "name": "Start",
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "position": [
+            240,
+            -1776
+          ]
+        },
+        {
+          "parameters": {
+            "jsCode": "const objectType = \"note\";\nconst item = $input.first().json;\nconst keepFields = item.n8n_sharepoint.lists[objectType].fields || [];\n\n// Pull out JobNumber, ID, and the dynamic object block if it exists\nlet { JobNumber, jobNumber, ID, [objectType]: objectData = {}, ...fields } = item;\n\n// Choose the source of truth\nconst source = Object.keys(objectData).length > 0 ? objectData : fields;\n\n// Get the ID if missing\nID = ID || source.ID || source.id;\nJobNumber = JobNumber || jobNumber || source.JobNumber || source.Title;\n\nconst fieldsToUpdate = { Title: JobNumber };\n\nfor (const [key, value] of Object.entries(source)) {\n  if (!keepFields.includes(key)) continue;\n\n  if (\n    value === undefined ||\n    value === null ||\n    value === '' ||\n    (Array.isArray(value) && value.length === 0)\n  ) continue;\n\n  fieldsToUpdate[key] = Array.isArray(value) ? value.join(',') : value;\n}\n\nreturn [{\n  json: {\n    objectType,\n    ID,\n    JobNumber,\n    [objectType]: objectData,\n    fields: fieldsToUpdate,\n    n8n_sharepoint: item.n8n_sharepoint\n  }\n}];"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            688,
+            -1776
+          ],
+          "id": "f8b22499-7873-4092-8d9d-7dec3c199e68",
+          "name": "Wrap object"
+        },
+        {
+          "parameters": {
+            "method": "PATCH",
+            "url": "=https://graph.microsoft.com/v1.0/sites/{{ $json.n8n_sharepoint.siteId }}/lists/{{ $json.n8n_sharepoint.lists[$json.objectType].sharepointId }}/items/{{ $json.ID }}/fields",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "microsoftOutlookOAuth2Api",
+            "sendBody": true,
+            "contentType": "raw",
+            "rawContentType": "application/json",
+            "body": "={{ JSON.stringify($json.fields) }}",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1136,
+            -1680
+          ],
+          "id": "c9c97f30-4b8d-4f3f-b5cd-00f359bdaff2",
+          "name": "HTTP Patch",
+          "notesInFlow": true,
+          "notes": "Patching this way means the field list is dynamic. Any matching column will be saved."
+        },
+        {
+          "parameters": {
+            "method": "POST",
+            "url": "=https://graph.microsoft.com/v1.0/sites/{{ $json.n8n_sharepoint.siteId }}/lists/{{ $json.n8n_sharepoint.lists[$json.objectType].sharepointId }}/items",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "microsoftOutlookOAuth2Api",
+            "sendBody": true,
+            "contentType": "raw",
+            "rawContentType": "application/json",
+            "body": "={{ JSON.stringify({fields: $json.fields}) }}",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1136,
+            -1872
+          ],
+          "id": "f50e7376-afe8-45c8-a88a-7eb5aca87dee",
+          "name": "HTTP Post",
+          "notesInFlow": true,
+          "notes": "Posting this way means the field list is dynamic. Any matching column will be saved."
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "f989cc58-2adc-46db-841d-122f9940d0e4",
+                  "leftValue": "={{ $json.fields.ID || $json.ID }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "string",
+                    "operation": "notExists",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            912,
+            -1776
+          ],
+          "id": "27e88b3d-43df-4f2c-b4eb-0846b1fb63eb",
+          "name": "If"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            1360,
+            -1776
+          ],
+          "id": "6b44e353-526c-4f16-bce5-3e1617578b6d",
+          "name": "Return"
+        }
+      ],
+      "connections": {
+        "_Sharepoint Defaults": {
+          "main": [
+            [
+              {
+                "node": "Wrap object",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Start": {
+          "main": [
+            [
+              {
+                "node": "_Sharepoint Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap object": {
+          "main": [
+            [
+              {
+                "node": "If",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "HTTP Patch": {
+          "main": [
+            [
+              {
+                "node": "Return",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If": {
+          "main": [
+            [
+              {
+                "node": "HTTP Post",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "HTTP Patch",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "HTTP Post": {
+          "main": [
+            [
+              {
+                "node": "Return",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

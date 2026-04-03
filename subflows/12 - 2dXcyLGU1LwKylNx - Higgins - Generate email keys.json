@@ -1,0 +1,131 @@
+{
+  "workflow": {
+    "id": "2dXcyLGU1LwKylNx",
+    "name": "Higgins: Generate email keys",
+    "active": true,
+    "isArchived": false,
+    "versionId": "38a29667-c47b-41dd-bf70-c5f2a3645e7e",
+    "activeVersionId": "38a29667-c47b-41dd-bf70-c5f2a3645e7e",
+    "triggerCount": 0,
+    "createdAt": "2026-02-13T17:31:11.277Z",
+    "updatedAt": "2026-04-03T16:11:58.947Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true
+    },
+    "connections": {
+      "Start": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "type": "n8n-nodes-base.code",
+        "parameters": {
+          "mode": "runOnceForAllItems",
+          "language": "javaScript",
+          "jsCode": "const crypto = require('crypto');\n\nfunction sha256Hex(s) {\n  return crypto.createHash('sha256').update(String(s ?? ''), 'utf8').digest('hex');\n}\n\nfunction stripReplyPrefixes(subject) {\n  // remove repeated RE:/FW:/FWD: etc at the start\n  return String(subject ?? '')\n    .replace(/^(\\s*(re|fw|fwd)\\s*:\\s*)+/i, '')\n    .trim();\n}\n\nfunction safeName(s, maxLen = 80) {\n  // Windows/SharePoint friendly-ish filename component\n  const cleaned = String(s ?? '')\n    .replace(/[<>:\"/\\\\|?*\\x00-\\x1F]/g, '') // illegal\n    .replace(/\\s+/g, ' ')\n    .trim()\n    .replace(/\\.$/, ''); // no trailing dot\n  return cleaned.length > maxLen ? cleaned.slice(0, maxLen).trim() : cleaned;\n}\n\nfunction toUtcStamp(dt) {\n  const d = new Date(dt);\n  // guard: if invalid date, fall back to now\n  const x = isNaN(d.getTime()) ? new Date() : d;\n  const pad = (n) => String(n).padStart(2, '0');\n  return `${x.getUTCFullYear()}${pad(x.getUTCMonth()+1)}${pad(x.getUTCDate())}-${pad(x.getUTCHours())}${pad(x.getUTCMinutes())}${pad(x.getUTCSeconds())}Z`;\n}\n\nreturn $input.all().map(item => {\n  const j = item.json;\n\n  const conversationId = j.conversationId ?? '';\n  const internetMessageIdRaw = j.internetMessageId ?? '';\n  const internetMessageIdClean = String(internetMessageIdRaw).trim().replace(/^<|>$/g, '');\n\n  const convKey = sha256Hex(conversationId);\n  const msgKey = sha256Hex(internetMessageIdClean);\n\n  const conv8 = convKey.slice(0, 8);\n  const msg8  = msgKey.slice(0, 8);\n\n  const subjectClean = safeName(stripReplyPrefixes(j.subject ?? ''), 80);\n  const threadFolderName = safeName(`${subjectClean} (c_${conv8})`, 120);\n\n  const stamp = toUtcStamp(j.receivedDateTime ?? j.sentDateTime);\n  const filePrefix = `${stamp}__m_${msg8}__`;\n\n  return {\n    json: {\n      ...j,\n      keyFields: {\n        // stable keys\n        conversationKey: convKey,\n        messageKey: msgKey,\n        // human + storage helpers\n        subjectClean,\n        threadFolderName,\n        filePrefix,\n        // keep originals for debugging/search\n        internetMessageId: internetMessageIdRaw,\n        internetMessageIdClean\n      }\n    }\n  };\n});",
+          "notice": ""
+        },
+        "typeVersion": 2,
+        "position": [
+          784,
+          -48
+        ],
+        "id": "9eedf1ca-5037-4c44-8b59-8d47984dbd2d",
+        "name": "Code in JavaScript",
+        "disabled": false,
+        "issues": {}
+      },
+      {
+        "id": "0b162e8f-43a9-4dc5-b7ba-b3d9972dcca5",
+        "typeVersion": 1.1,
+        "name": "Start",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          576,
+          -48
+        ],
+        "parameters": {
+          "inputSource": "passthrough"
+        }
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "type": "n8n-nodes-base.code",
+          "parameters": {
+            "mode": "runOnceForAllItems",
+            "language": "javaScript",
+            "jsCode": "const crypto = require('crypto');\n\nfunction sha256Hex(s) {\n  return crypto.createHash('sha256').update(String(s ?? ''), 'utf8').digest('hex');\n}\n\nfunction stripReplyPrefixes(subject) {\n  // remove repeated RE:/FW:/FWD: etc at the start\n  return String(subject ?? '')\n    .replace(/^(\\s*(re|fw|fwd)\\s*:\\s*)+/i, '')\n    .trim();\n}\n\nfunction safeName(s, maxLen = 80) {\n  // Windows/SharePoint friendly-ish filename component\n  const cleaned = String(s ?? '')\n    .replace(/[<>:\"/\\\\|?*\\x00-\\x1F]/g, '') // illegal\n    .replace(/\\s+/g, ' ')\n    .trim()\n    .replace(/\\.$/, ''); // no trailing dot\n  return cleaned.length > maxLen ? cleaned.slice(0, maxLen).trim() : cleaned;\n}\n\nfunction toUtcStamp(dt) {\n  const d = new Date(dt);\n  // guard: if invalid date, fall back to now\n  const x = isNaN(d.getTime()) ? new Date() : d;\n  const pad = (n) => String(n).padStart(2, '0');\n  return `${x.getUTCFullYear()}${pad(x.getUTCMonth()+1)}${pad(x.getUTCDate())}-${pad(x.getUTCHours())}${pad(x.getUTCMinutes())}${pad(x.getUTCSeconds())}Z`;\n}\n\nreturn $input.all().map(item => {\n  const j = item.json;\n\n  const conversationId = j.conversationId ?? '';\n  const internetMessageIdRaw = j.internetMessageId ?? '';\n  const internetMessageIdClean = String(internetMessageIdRaw).trim().replace(/^<|>$/g, '');\n\n  const convKey = sha256Hex(conversationId);\n  const msgKey = sha256Hex(internetMessageIdClean);\n\n  const conv8 = convKey.slice(0, 8);\n  const msg8  = msgKey.slice(0, 8);\n\n  const subjectClean = safeName(stripReplyPrefixes(j.subject ?? ''), 80);\n  const threadFolderName = safeName(`${subjectClean} (c_${conv8})`, 120);\n\n  const stamp = toUtcStamp(j.receivedDateTime ?? j.sentDateTime);\n  const filePrefix = `${stamp}__m_${msg8}__`;\n\n  return {\n    json: {\n      ...j,\n      keyFields: {\n        // stable keys\n        conversationKey: convKey,\n        messageKey: msgKey,\n        // human + storage helpers\n        subjectClean,\n        threadFolderName,\n        filePrefix,\n        // keep originals for debugging/search\n        internetMessageId: internetMessageIdRaw,\n        internetMessageIdClean\n      }\n    }\n  };\n});",
+            "notice": ""
+          },
+          "typeVersion": 2,
+          "position": [
+            784,
+            -48
+          ],
+          "id": "9eedf1ca-5037-4c44-8b59-8d47984dbd2d",
+          "name": "Code in JavaScript",
+          "disabled": false,
+          "issues": {}
+        },
+        {
+          "id": "0b162e8f-43a9-4dc5-b7ba-b3d9972dcca5",
+          "typeVersion": 1.1,
+          "name": "Start",
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "position": [
+            576,
+            -48
+          ],
+          "parameters": {
+            "inputSource": "passthrough"
+          }
+        }
+      ],
+      "connections": {
+        "Start": {
+          "main": [
+            [
+              {
+                "node": "Code in JavaScript",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

@@ -1,0 +1,3024 @@
+{
+  "workflow": {
+    "id": "4FUBRJxX8kq8CAIQ",
+    "name": "Higgins: AI Data extract",
+    "active": true,
+    "isArchived": false,
+    "versionId": "a3f84523-b742-4bb8-8430-2ea7cc3533f8",
+    "activeVersionId": "a3f84523-b742-4bb8-8430-2ea7cc3533f8",
+    "triggerCount": 0,
+    "createdAt": "2025-11-19T13:50:55.488Z",
+    "updatedAt": "2026-04-03T16:21:06.96Z",
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": true
+    },
+    "connections": {
+      "Google Vertex Chat Model": {
+        "ai_languageModel": [
+          [
+            {
+              "node": "Information Extractor",
+              "type": "ai_languageModel",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Information Extractor": {
+        "main": [
+          [
+            {
+              "node": "If POSTCODE",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "EntryPoint": {
+        "main": [
+          [
+            {
+              "node": "Wrap input",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: Suggest address from postcode'": {
+        "main": [
+          []
+        ]
+      },
+      "Create or update job record": {
+        "main": [
+          [
+            {
+              "node": "Wrap job1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If AiDone": {
+        "main": [
+          [
+            {
+              "node": "If JOBNUMBER",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Information Extractor",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If JOBNUMBER missing": {
+        "main": [
+          [
+            {
+              "node": "Skip updates",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create or update email record": {
+        "main": [
+          [
+            {
+              "node": "Wrap email1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Find emails": {
+        "main": [
+          [
+            {
+              "node": "Wrap email",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap input": {
+        "main": [
+          [
+            {
+              "node": "Find emails",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap email": {
+        "main": [
+          [
+            {
+              "node": "If AiDone",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap job": {
+        "main": [
+          [
+            {
+              "node": "If JOBNUMBER missing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If POSTCODE": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: Suggest address from postcode'",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Wrap job",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Wrap job",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Skip updates": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If JOBNUMBER": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: Job repo'",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "If POSTCODE",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: Job repo'": {
+        "main": [
+          [
+            {
+              "node": "If POSTCODE",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "Return",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Create or update job record",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Create or update email record",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "TODO: Update email attachments folder",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap email1": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Wrap job1": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items1": {
+        "main": [
+          [
+            {
+              "node": "Replace Me",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Replace Me": {
+        "main": [
+          []
+        ]
+      },
+      "HTTP Request": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "text": "=From: {{ $json.email.From }}\nSubject: {{ $json.email.Subject ?? $json.email.subject }}\n{{  $json.email.Body ?? $json.email.body }}",
+          "schemaType": "manual",
+          "inputSchema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"title\": \"JobExtraction\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"properties\": {\n    \"JobNumber\": { \"anyOf\": [ { \"type\": \"string\", \"pattern\": \"^[0-9]{5}$\" }, { \"type\": \"null\" } ] },\n    \"Address\": { \"anyOf\": [ { \"type\": \"string\", \"minLength\": 1 }, { \"type\": \"null\" } ] },\n    \"AddressLine1\": { \"anyOf\": [ { \"type\": \"string\", \"minLength\": 1 }, { \"type\": \"null\" } ] },\n    \"Postcode\": { \"anyOf\": [ { \"type\": \"string\", \"pattern\": \"^(GIR ?0AA|(?:(?:[A-PR-UWYZ][0-9][0-9]?|[A-PR-UWYZ][A-HK-Y][0-9][0-9]?|[A-PR-UWYZ][0-9][A-HJKSTUW]?|[A-PR-UWYZ][A-HK-Y][0-9][ABEHMNPRV-Y])) ?[0-9][ABD-HJLNP-UW-Z]{2})$\" }, { \"type\": \"null\" } ] },\n    \"ContactForAccess\": { \"anyOf\": [ { \"type\": \"string\", \"minLength\": 1 }, { \"type\": \"null\" } ] },\n    \"Description\": { \"anyOf\": [ { \"type\": \"string\", \"minLength\": 1 }, { \"type\": \"null\" } ] },\n    \"Tags\": { \"type\": \"array\", \"items\": { \"type\": \"string\", \"enum\": [\"Electrical\", \"EICR\", \"Plumbing\", \"Glazing\", \"Building\", \"Gas\", \"Decorating\"] }, \"uniqueItems\": true },\n    \"Importance\": { \"anyOf\": [ { \"type\": \"string\", \"enum\": [\"Low\", \"Medium\", \"High\"] }, { \"type\": \"null\" } ] },\n    \"Action\": { \"type\": \"array\", \"items\": { \"type\": \"string\", \"enum\": [\"Quote\", \"Todo\", \"Proceed\"] }, \"uniqueItems\": true },\n    \"ThreadSummary\": { \"anyOf\": [ { \"type\": \"string\", \"minLength\": 1 }, { \"type\": \"null\" } ] },\n    \"confidence\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n    \"evidence\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"properties\": {\n        \"JobNumber\": { \"type\": [\"string\", \"null\"] },\n        \"Address\": { \"type\": [\"string\", \"null\"] },\n        \"AddressLine1\": { \"type\": [\"string\", \"null\"] },\n        \"Postcode\": { \"type\": [\"string\", \"null\"] },\n        \"ContactForAccess\": { \"type\": [\"string\", \"null\"] },\n        \"Description\": { \"type\": [\"string\", \"null\"] },\n        \"Tags\": { \"type\": \"array\", \"items\": { \"type\": \"string\", \"enum\": [\"Electrical\", \"EICR\", \"Plumbing\", \"Glazing\", \"Building\", \"Gas\"] }, \"uniqueItems\": true },\n        \"Importance\": { \"type\": [\"string\", \"null\"] },\n        \"Action\": { \"type\": \"array\", \"items\": { \"type\": \"string\", \"enum\": [\"Quote\", \"Todo\", \"Proceed\"] }, \"uniqueItems\": true }\n      },\n      \"required\": [\"JobNumber\", \"Address\", \"Postcode\", \"Description\", \"Tags\"]\n    }\n  },\n  \"required\": [\"JobNumber\", \"Address\", \"Postcode\", \"Description\", \"Tags\", \"Importance\", \"confidence\", \"evidence\"]\n}",
+          "options": {
+            "systemPromptTemplate": "Extract structured job details from the email text. Return valid application/json conforming exactly to the given schema. Do not use Markdown-wrapped JSON.\nExtraction Rules\n\nUse only information explicitly present in the email.\n\nIf a field is missing or uncertain, return null (or [] for lists).\n\nPreserve relevant original wording and capitalisation.\n\nIf several candidates exist, choose the one most clearly linked to the described work.\n\nDo not fabricate postcodes or job numbers.\n\nReturn only JSON.\n\nField Guidance\n\nJobNumber\nExtract a 5-digit reference number (regex-validated).\nMatches patterns like “Ref No: 23456”, “Ref: 23456”, “ref no 23456”, “job ref 23456”, etc.\nExtract the digits only.\n\nAddress\nFull address excluding postcode, one line.\n\nAddressLine1\nStreet/house/flat line only.\n\nPostcode\nExtract only explicit UK postcodes. Split postcode out if embedded in address.\n\nDescription\n1–2 sentence natural-language summary of the task, using sender’s own wording.\n\nTags\nChoose from: Electrical, EICR, Plumbing, Glazing, Building, Gas, Decorating\nCues:\n\nElectrical: socket, fuse, RCD, lighting, wiring\n\nEICR: testing, certificate, EICR, safety check, inspection, report\n\nPlumbing: leak, tap, toilet, boiler, water\n\nGlazing: window, pane, glass, unit\n\nBuilding: door, frame, plaster, damage\n\nGas: gas leak, boiler, combustion, safety\n\nDecorating: paint, touch up\n\nImportance\nChoose one of: Low, Medium, High\nCues:\n\nHigh: leak, no hot water, only toilet, tripping, scorching/scorched, expired, urgent, “attend today”, “attend this week”\n\nLow: cosmetic only, decorating, aesthetic concerns\n\nMedium: all other jobs not clearly high or low\n\nContactForAccess\nPerson and contact details for access.\n\nAction\nExtract intent: Quote, Todo, Proceed (one or more).\n\nThreadSummary\nSummarise thread chronologically if present; else null.\n\nevidence\nProvide minimal verbatim snippets used for each populated field.\n\nReturn: Only the JSON result.",
+            "batching": {
+              "batchSize": 10
+            }
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+        "typeVersion": 1.2,
+        "position": [
+          800,
+          -576
+        ],
+        "id": "5b9b0041-3e4b-4a77-aea3-74fd1960e09b",
+        "name": "Information Extractor"
+      },
+      {
+        "parameters": {
+          "projectId": {
+            "__rl": true,
+            "value": "gemini-api-473916",
+            "mode": "list",
+            "cachedResultName": "Gemini API"
+          },
+          "options": {
+            "temperature": 0.1
+          }
+        },
+        "type": "@n8n/n8n-nodes-langchain.lmChatGoogleVertex",
+        "typeVersion": 1,
+        "position": [
+          880,
+          -352
+        ],
+        "id": "a65bf9ee-ecf2-4f65-91f5-ea30bbf76896",
+        "name": "Google Vertex Chat Model"
+      },
+      {
+        "parameters": {
+          "inputSource": "jsonExample",
+          "jsonExample": "{\n  \"id\": \"xxx\",\n  \"conversationId\": \"yyy\",\n  \"importance\": \"normal\",\n  \"from\": \"sender@domain.com\",\n  \"subject\": \"TO DO Works Order for 12 Hansford Close, BA2 5LW: Leak flat roof\",\n  \"body\": \"Full Address: 12 Hansford Close, Bath, BA2 5LW\\nContact for Access: Lead Tenant: Mr Jeremy Burgess, Miss Rachel Burgess (07533 388961)\\nRef No: 22551\\nDescription of works required: Please quote find and repair the leak on flat foor. Suspect water ingress via damaged flashing. QUOTE!!\\nDisclaimer: The works will only be paid upon receipt of an invoice addressed to the landlord in person with a full description of works carried out and the landlord must be satisfied the works have been completed.\\nThe responsibility to settle the invoice rests with the landlord and is not the responsibility of the agent.\"\n}"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -544,
+          -768
+        ],
+        "id": "05c4d049-0f5e-41a9-9061-bd8257ea5ded",
+        "name": "EntryPoint"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "r9O1tzOL1ON1rxGD",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/r9O1tzOL1ON1rxGD",
+            "cachedResultName": "WfD Shared Project — Higgins: Postcode lookup"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "postcode": "={{ $json.output?.Postcode ?? $json.job?.Postcode }}"
+            },
+            "matchingColumns": [
+              "postcode"
+            ],
+            "schema": [
+              {
+                "id": "postcode",
+                "displayName": "postcode",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1376,
+          -784
+        ],
+        "id": "fd723e85-335c-4ce4-913d-6edc3c53ffe4",
+        "name": "Call 'Higgins: Suggest address from postcode'"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "operation": "upsert",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "a68024e7-1ff9-4e0d-a523-f709da9cca8f",
+            "mode": "list",
+            "cachedResultName": "LISA - Jobs"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Title": "={{ $json.job?.JobNumber }}",
+              "Subject": "={{ $json.email?.Subject }}",
+              "Postcode": "={{ $json.job?.Postcode }}",
+              "Address": "={{ $json.job?.Address }}",
+              "PropertyManagerEmail": "={{ $json.email?.From }}",
+              "AddressLine1": "={{ $json.job?.AddressLine1 }}",
+              "ConversationId": "={{ $json.email?.ConversationId }}",
+              "MessageId": "={{ $json.email?.MessageId }}",
+              "Priority": "={{ $json.job?.Importance }}",
+              "Tags": "={{ $json.job?.Tags.join(',') }}",
+              "ThreadSummary": "={{ $json.job?.ThreadSummary }}",
+              "Action": "={{ $json.job?.Action.join(',') }}",
+              "ContactForAccess": "={{ $json.job?.ContactForAccess }}",
+              "Description": "={{ $json.job?.Description }}",
+              "Thread": "={{ $json.email.Thread }}",
+              "SpThreadId": "={{ $json.email.SpThreadId }}"
+            },
+            "matchingColumns": [
+              "Title"
+            ],
+            "schema": [
+              {
+                "id": "Title",
+                "canBeUsedToMatch": true,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Job Number",
+                "readOnly": false,
+                "required": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Subject",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Subject",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Postcode",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Postcode",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Address",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Address",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Description",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Description",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Status",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Status",
+                "readOnly": false,
+                "required": false,
+                "type": "options",
+                "options": [
+                  {
+                    "name": "New",
+                    "value": "New"
+                  }
+                ],
+                "removed": true
+              },
+              {
+                "id": "ContactForAccess",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ContactForAccess",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Action",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Action",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "ThreadSummary",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ThreadSummary",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Tags",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Tags",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Priority",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Priority",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "MessageId",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "MessageId",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "ConversationId",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ConversationId",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "AddressLine1",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "AddressLine1",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "PropertyManagerEmail",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "PropertyManagerEmail",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "JobDateTime",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "JobDateTime",
+                "readOnly": false,
+                "required": false,
+                "type": "dateTime",
+                "removed": true
+              },
+              {
+                "id": "JobDurationHours",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "JobDurationHours",
+                "readOnly": false,
+                "required": false,
+                "type": "number",
+                "removed": true
+              },
+              {
+                "id": "Toggl",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Toggl",
+                "readOnly": false,
+                "required": false,
+                "type": "number",
+                "removed": true
+              },
+              {
+                "id": "PreApproved",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "PreApproved",
+                "readOnly": false,
+                "required": false,
+                "type": "boolean",
+                "removed": true
+              },
+              {
+                "id": "ContactNumber",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ContactNumber",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "AddressPaf",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "AddressPaf",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "AddressLatLong",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "AddressLatLong",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "Thread",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Thread",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "SpThreadId",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "SpThreadId",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          2048,
+          -672
+        ],
+        "id": "b40588ac-3927-4c9f-890d-0c859fa2c262",
+        "name": "Create or update job record"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "operation": "update",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "be45f44d-50b0-41cd-82ee-7ad2f30a0e94",
+            "mode": "list",
+            "cachedResultName": "LISA - Email"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "MessageId": "={{ $json.email.MessageId }}",
+              "ThreadSummary": "={{ $json.job?.ThreadSummary }}",
+              "JobNumber": "={{ $json.job.JobNumber }}",
+              "AiDone": "={{ true }}"
+            },
+            "matchingColumns": [
+              "MessageId"
+            ],
+            "schema": [
+              {
+                "id": "Title",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Title",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "MessageId",
+                "canBeUsedToMatch": true,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "MessageId",
+                "readOnly": false,
+                "required": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "ConversationId",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ConversationId",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "ReceivedDate",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ReceivedDate",
+                "readOnly": false,
+                "required": false,
+                "type": "dateTime",
+                "removed": true
+              },
+              {
+                "id": "OutlookUrl",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "OutlookUrl",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "JobNumber",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "JobNumber",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Status",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Status",
+                "readOnly": false,
+                "required": false,
+                "type": "options",
+                "options": [
+                  {
+                    "name": "New",
+                    "value": "New"
+                  },
+                  {
+                    "name": "Quoted",
+                    "value": "Quoted"
+                  },
+                  {
+                    "name": "Approved",
+                    "value": "Approved"
+                  },
+                  {
+                    "name": "Complete",
+                    "value": "Complete"
+                  }
+                ],
+                "removed": true
+              },
+              {
+                "id": "Thread",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Thread",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "SpThreadId",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "SpThreadId",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "AiDone",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "AiDone",
+                "readOnly": false,
+                "required": false,
+                "type": "boolean",
+                "removed": false
+              },
+              {
+                "id": "Body",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Body",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "From",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "From",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "Importance",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Importance",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "Subject",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Subject",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "ThreadSummary",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ThreadSummary",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "To",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "To",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "id",
+                "canBeUsedToMatch": true,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ID",
+                "readOnly": true,
+                "required": true,
+                "type": "string",
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          2048,
+          -480
+        ],
+        "id": "092b654c-64c6-46e7-83d8-69154c995fbc",
+        "name": "Create or update email record"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "9f90b675-5fa8-4e2c-954b-a6edfac9e783",
+                "leftValue": "={{ $json.email?.AiDone ?? $json.email?.aiDone }}",
+                "rightValue": true,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          352,
+          -768
+        ],
+        "id": "43a77454-4e28-46e2-8ead-1ce2ac834061",
+        "name": "If AiDone"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": false,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "fefaaa0e-3c4c-4032-a1c7-db8159a9648f",
+                "leftValue": "={{ $json.job?.JobNumber }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "empty",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "330ac02e-a046-4f84-bb00-82ea644f71c9",
+                "leftValue": "={{ $json.job?.JobNumber }}",
+                "rightValue": "Unknown",
+                "operator": {
+                  "type": "string",
+                  "operation": "equals",
+                  "name": "filter.operator.equals"
+                }
+              }
+            ],
+            "combinator": "or"
+          },
+          "options": {
+            "ignoreCase": true
+          }
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1600,
+          -592
+        ],
+        "id": "01fe8e0d-2ada-447d-9e42-de92a330513d",
+        "name": "If JOBNUMBER missing"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "be45f44d-50b0-41cd-82ee-7ad2f30a0e94",
+            "mode": "list",
+            "cachedResultName": "LISA - Email"
+          },
+          "filter": "=fields/MessageId eq '{{ $json.id }}'",
+          "limit": 1,
+          "options": {
+            "fields": [
+              "fields"
+            ]
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          -96,
+          -768
+        ],
+        "id": "ab6e2d7b-b68a-4400-8ab0-50d926cf99b4",
+        "name": "Find emails",
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "jsCode": "return $input.all().map(item => ({\n  json: {\n    id: item.json.id, \n    email: item.json\n  }\n}));"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          -320,
+          -768
+        ],
+        "id": "016e060c-7980-4083-b9ad-9af90f0aa334",
+        "name": "Wrap input"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "const toCamelCase = (str) =>\n  str\n    .replace(/[-_\\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : '')\n    .replace(/^(.)/, (m) => m.toLowerCase());\n\nconst camelCaseKeys = (obj = {}) =>\n  Object.fromEntries(\n    Object.entries(obj).map(([key, value]) => [\n      toCamelCase(key),\n      value\n    ])\n  );\n\nconst item = {\n    id: $json.fields ? $json.fields?.MessageId : $('Wrap input').item.json.id,\n    email: $json.fields ?? $('Wrap input').item.json.email,\n    output: {\n      jobNumber: $json.fields?.JobNumber\n    }\n  };\n\nitem.email.Subject = $json.fields ? $json.fields.Title : $('Wrap input').item.json.email.Subject;\n\nreturn { json: item };"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          128,
+          -768
+        ],
+        "id": "3aef9d45-084a-4ab6-9878-50a0e43ad59f",
+        "name": "Wrap email",
+        "notes": "Was using camelCaseKeys\nemail: $json.fields ? camelCaseKeys($json.fields) : $('Wrap input').item.json.email"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "return {\n  json: {\n    id: $('Wrap email').item.json.id,\n    email: $('Wrap email').item.json.email,\n    job: $json.output ?? $json.job\n  }\n}"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1376,
+          -592
+        ],
+        "id": "4dcbae54-9c3b-4750-ba12-6c9e502c2693",
+        "name": "Wrap job"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "a0783962-abc3-486a-aa97-1fe9378032be",
+                "leftValue": "={{ $json.output?.Postcode ?? $json.job?.Postcode }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1152,
+          -688
+        ],
+        "id": "3e8e5af9-3e91-46de-a424-e6e696e1fa69",
+        "name": "If POSTCODE"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1824,
+          -912
+        ],
+        "id": "07ccb436-c426-493a-bc4b-6ad3c1c2e634",
+        "name": "Skip updates",
+        "notesInFlow": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "930bace7-8024-4ffc-bf9c-8c6f679dead0",
+                "leftValue": "={{ $json.output.jobNumber }}",
+                "rightValue": "\\d+",
+                "operator": {
+                  "type": "string",
+                  "operation": "regex"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          576,
+          -896
+        ],
+        "id": "6afdfd00-c245-4445-a5a9-c9cfc2160a03",
+        "name": "If JOBNUMBER"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "7GnSWkz7nyJh-HH5OQ_SE",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+            "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "jobNumber": "={{ $json.output.jobNumber }}",
+              "id": "="
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "jobNumber",
+                "displayName": "jobNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "job",
+                "displayName": "job",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "object",
+                "removed": true
+              },
+              {
+                "id": "include",
+                "displayName": "include",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          864,
+          -960
+        ],
+        "id": "2c0255b3-ae00-4964-8976-4da042a4f62d",
+        "name": "Call 'Higgins: Job repo'"
+      },
+      {
+        "parameters": {
+          "jsCode": "return $input.all().map(item => ({ \n  json: {\n    job: item.json.job, \n    email: item.json.email \n  } \n}));"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2048,
+          -864
+        ],
+        "id": "2ebc08a8-e928-4a0d-8303-57964b37ec53",
+        "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          1824,
+          -464
+        ],
+        "id": "0feba509-8975-462e-aa2b-06ff525c34be",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "fieldsToMatchString": "id",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          2496,
+          -400
+        ],
+        "id": "9c6d632f-2a1a-47a8-b9cc-aa3d474338bf",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "const toCamelCase = (str) =>\n  str\n    .replace(/[-_\\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : '')\n    .replace(/^(.)/, (m) => m.toLowerCase());\n\nconst camelCaseKeys = (obj = {}) =>\n  Object.fromEntries(\n    Object.entries(obj).map(([key, value]) => [\n      toCamelCase(key),\n      value\n    ])\n  );\n\nconst item = {\n    id: $json.fields?.MessageId,\n    email: $json.fields,\n    output: {\n      jobNumber: $json.fields?.JobNumber\n    }\n  };\n\nitem.email.Subject = $json.fields.Title;\n\nreturn { json: item };"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2272,
+          -480
+        ],
+        "id": "e8a3448d-7693-4934-aaba-38e81eba8828",
+        "name": "Wrap email1",
+        "notes": "Was using camelCaseKeys\nemail: $json.fields ? camelCaseKeys($json.fields) : $('Wrap input').item.json.email"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "const job = $json.fields;\njob.JobNumber = job.Title;\njob.Title = undefined;\n\nreturn {\n  json: {\n    id: $json.fields.MessageId,\n    job\n  }\n}"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2272,
+          -672
+        ],
+        "id": "90c4c26a-fe95-44af-9348-89f4662d5ab3",
+        "name": "Wrap job1"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://europe-west2-aiplatform.googleapis.com/v1/projects/gemini-api-473916/locations/europe-west2/publishers/google/models/gemini-2.5-flash:generateContent",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        {\n          \"text\": {{ JSON.stringify($json.prompt + $json.emailText) }}\n        }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"temperature\": 0,\n    \"maxOutputTokens\": 2048,\n    \"responseMimeType\": \"application/json\",\n    \"responseSchema\": {\n      \"type\": \"OBJECT\",\n      \"properties\": {\n        \"JobNumber\": { \"type\": \"STRING\", \"nullable\": true, \"pattern\": \"^[0-9]{5}$\" },\n        \"Address\": { \"type\": \"STRING\", \"nullable\": true },\n        \"AddressLine1\": { \"type\": \"STRING\", \"nullable\": true },\n        \"Postcode\": { \"type\": \"STRING\", \"nullable\": true },\n        \"ContactForAccess\": { \"type\": \"STRING\", \"nullable\": true },\n        \"Description\": { \"type\": \"STRING\", \"nullable\": true },\n        \"Tags\": {\n          \"type\": \"ARRAY\",\n          \"items\": { \"type\": \"STRING\", \"enum\": [\"Electrical\",\"EICR\",\"Plumbing\",\"Glazing\",\"Building\",\"Gas\",\"Decorating\"] }\n        },\n        \"Importance\": { \"type\": \"STRING\", \"nullable\": true, \"enum\": [\"Low\",\"Medium\",\"High\"] },\n        \"Action\": {\n          \"type\": \"ARRAY\",\n          \"items\": { \"type\": \"STRING\", \"enum\": [\"Quote\",\"Todo\",\"Proceed\"] }\n        },\n        \"ThreadSummary\": { \"type\": \"STRING\", \"nullable\": true },\n        \"confidence\": { \"type\": \"NUMBER\" },\n        \"evidence\": {\n          \"type\": \"OBJECT\",\n          \"properties\": {\n            \"JobNumber\": { \"type\": \"STRING\", \"nullable\": true },\n            \"Address\": { \"type\": \"STRING\", \"nullable\": true },\n            \"AddressLine1\": { \"type\": \"STRING\", \"nullable\": true },\n            \"Postcode\": { \"type\": \"STRING\", \"nullable\": true },\n            \"ContactForAccess\": { \"type\": \"STRING\", \"nullable\": true },\n            \"Description\": { \"type\": \"STRING\", \"nullable\": true },\n            \"Tags\": {\n              \"type\": \"ARRAY\",\n              \"items\": { \"type\": \"STRING\", \"enum\": [\"Electrical\",\"EICR\",\"Plumbing\",\"Glazing\",\"Building\",\"Gas\",\"Decorating\"] }\n            },\n            \"Importance\": { \"type\": \"STRING\", \"nullable\": true },\n            \"Action\": {\n              \"type\": \"ARRAY\",\n              \"items\": { \"type\": \"STRING\", \"enum\": [\"Quote\",\"Todo\",\"Proceed\"] }\n            },\n            \"ThreadSummary\": { \"type\": \"STRING\", \"nullable\": true }\n          }\n        }\n      },\n      \"required\": [\"JobNumber\",\"Address\",\"Postcode\",\"Description\",\"Tags\",\"Importance\",\"confidence\",\"evidence\"]\n    }\n  }\n}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          -96,
+          208
+        ],
+        "id": "a2973210-98f9-4d22-b8c6-fa3ea29fb465",
+        "name": "HTTP Request"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "81d8d548-38f9-4e5c-9cc4-a961c2fa747c",
+                "name": "prompt",
+                "value": "Extract structured job details from the EMAILTEXT.\n\nExtraction Rules\n\nUse only information explicitly present in the email.\nIf a field is missing or uncertain, return null (or [] for lists).\nPreserve relevant original wording and capitalisation.\nIf several candidates exist, choose the one most clearly linked to the described work.\nDo not fabricate postcodes or job numbers.\n\nField Guidance\n\nJobNumber\nExtract a 5-digit reference number (regex-validated).\nMatches patterns like “Ref No: 23456”, “Ref: 23456”, “ref no 23456”, “job ref 23456”, etc.\nExtract the digits only.\n\nAddress\nFull address excluding postcode, one line.\n\nAddressLine1\nStreet/house/flat line only.\n\nPostcode\nExtract only explicit UK postcodes. Split postcode out if embedded in address.\n\nDescription\n1–2 sentence natural-language summary of the task, using sender’s own wording.\n\nTags\nChoose from: Electrical, EICR, Plumbing, Glazing, Building, Gas, Decorating\nCues:\n\nElectrical: socket, fuse, RCD, lighting, wiring\n\nEICR: testing, certificate, EICR, safety check, inspection, report\n\nPlumbing: leak, tap, toilet, boiler, water\n\nGlazing: window, pane, glass, unit\n\nBuilding: door, frame, plaster, damage\n\nGas: gas leak, boiler, combustion, safety\n\nDecorating: paint, touch up\n\nImportance\nChoose one of: Low, Medium, High\nCues:\n\nHigh: leak, no hot water, only toilet, tripping, scorching/scorched, expired, urgent, “attend today”, “attend this week”\n\nLow: cosmetic only, decorating, aesthetic concerns\n\nMedium: all other jobs not clearly high or low\n\nContactForAccess\nPerson and contact details for access.\n\nAction\nExtract intent: Quote, Todo, Proceed (one or more).\n\nThreadSummary\nSummarise thread chronologically if present; else null.\n\nevidence\nProvide minimal verbatim snippets used for each populated field.\n====\nEMAILTEXT:\n",
+                "type": "string"
+              },
+              {
+                "id": "07fa0abc-de2b-4b9a-90b5-8379888f0252",
+                "name": "emailText",
+                "value": "=Date: {{ $json.email.ReceivedDate }}\nFrom: {{ $json.email.From }}\nTo: {{ $json.email.To }}\nSubject: {{ $json.email.Subject }}\nImportance: {{ $json.email.Importance }}\n====\n{{ $json.email.Body }}",
+                "type": "string"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          -320,
+          144
+        ],
+        "id": "116b0cdf-2547-41f4-b98e-99f53a4ec171",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          -544,
+          144
+        ],
+        "id": "3fad4dfc-d717-4b03-b7fa-4f51589a2b80",
+        "name": "Loop Over Items1"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "name": "Replace Me",
+        "typeVersion": 1,
+        "position": [
+          -320,
+          -64
+        ],
+        "id": "9796074c-7262-4890-aa4f-c023fef02577"
+      },
+      {
+        "parameters": {
+          "content": "## This is an experiment\nUsing HTTP request can give us more control over LLM use / output but need to sort authentication.",
+          "height": 576,
+          "width": 768
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -656,
+          -208
+        ],
+        "id": "04c6a459-2b42-4c28-80ce-93ee519e6932",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2048,
+          -288
+        ],
+        "id": "811a67dc-5538-463a-8c26-33c1d3ffaa48",
+        "name": "TODO: Update email attachments folder"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2256,
+          -864
+        ],
+        "id": "09d4745d-9cd0-49c8-ba56-edbae524ddd8",
+        "name": "Return"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "text": "=From: {{ $json.email.From }}\nSubject: {{ $json.email.Subject ?? $json.email.subject }}\n{{  $json.email.Body ?? $json.email.body }}",
+            "schemaType": "manual",
+            "inputSchema": "{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"title\": \"JobExtraction\",\n  \"type\": \"object\",\n  \"additionalProperties\": false,\n  \"properties\": {\n    \"JobNumber\": { \"anyOf\": [ { \"type\": \"string\", \"pattern\": \"^[0-9]{5}$\" }, { \"type\": \"null\" } ] },\n    \"Address\": { \"anyOf\": [ { \"type\": \"string\", \"minLength\": 1 }, { \"type\": \"null\" } ] },\n    \"AddressLine1\": { \"anyOf\": [ { \"type\": \"string\", \"minLength\": 1 }, { \"type\": \"null\" } ] },\n    \"Postcode\": { \"anyOf\": [ { \"type\": \"string\", \"pattern\": \"^(GIR ?0AA|(?:(?:[A-PR-UWYZ][0-9][0-9]?|[A-PR-UWYZ][A-HK-Y][0-9][0-9]?|[A-PR-UWYZ][0-9][A-HJKSTUW]?|[A-PR-UWYZ][A-HK-Y][0-9][ABEHMNPRV-Y])) ?[0-9][ABD-HJLNP-UW-Z]{2})$\" }, { \"type\": \"null\" } ] },\n    \"ContactForAccess\": { \"anyOf\": [ { \"type\": \"string\", \"minLength\": 1 }, { \"type\": \"null\" } ] },\n    \"Description\": { \"anyOf\": [ { \"type\": \"string\", \"minLength\": 1 }, { \"type\": \"null\" } ] },\n    \"Tags\": { \"type\": \"array\", \"items\": { \"type\": \"string\", \"enum\": [\"Electrical\", \"EICR\", \"Plumbing\", \"Glazing\", \"Building\", \"Gas\", \"Decorating\"] }, \"uniqueItems\": true },\n    \"Importance\": { \"anyOf\": [ { \"type\": \"string\", \"enum\": [\"Low\", \"Medium\", \"High\"] }, { \"type\": \"null\" } ] },\n    \"Action\": { \"type\": \"array\", \"items\": { \"type\": \"string\", \"enum\": [\"Quote\", \"Todo\", \"Proceed\"] }, \"uniqueItems\": true },\n    \"ThreadSummary\": { \"anyOf\": [ { \"type\": \"string\", \"minLength\": 1 }, { \"type\": \"null\" } ] },\n    \"confidence\": { \"type\": \"number\", \"minimum\": 0, \"maximum\": 1 },\n    \"evidence\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"properties\": {\n        \"JobNumber\": { \"type\": [\"string\", \"null\"] },\n        \"Address\": { \"type\": [\"string\", \"null\"] },\n        \"AddressLine1\": { \"type\": [\"string\", \"null\"] },\n        \"Postcode\": { \"type\": [\"string\", \"null\"] },\n        \"ContactForAccess\": { \"type\": [\"string\", \"null\"] },\n        \"Description\": { \"type\": [\"string\", \"null\"] },\n        \"Tags\": { \"type\": \"array\", \"items\": { \"type\": \"string\", \"enum\": [\"Electrical\", \"EICR\", \"Plumbing\", \"Glazing\", \"Building\", \"Gas\"] }, \"uniqueItems\": true },\n        \"Importance\": { \"type\": [\"string\", \"null\"] },\n        \"Action\": { \"type\": \"array\", \"items\": { \"type\": \"string\", \"enum\": [\"Quote\", \"Todo\", \"Proceed\"] }, \"uniqueItems\": true }\n      },\n      \"required\": [\"JobNumber\", \"Address\", \"Postcode\", \"Description\", \"Tags\"]\n    }\n  },\n  \"required\": [\"JobNumber\", \"Address\", \"Postcode\", \"Description\", \"Tags\", \"Importance\", \"confidence\", \"evidence\"]\n}",
+            "options": {
+              "systemPromptTemplate": "Extract structured job details from the email text. Return valid application/json conforming exactly to the given schema. Do not use Markdown-wrapped JSON.\nExtraction Rules\n\nUse only information explicitly present in the email.\n\nIf a field is missing or uncertain, return null (or [] for lists).\n\nPreserve relevant original wording and capitalisation.\n\nIf several candidates exist, choose the one most clearly linked to the described work.\n\nDo not fabricate postcodes or job numbers.\n\nReturn only JSON.\n\nField Guidance\n\nJobNumber\nExtract a 5-digit reference number (regex-validated).\nMatches patterns like “Ref No: 23456”, “Ref: 23456”, “ref no 23456”, “job ref 23456”, etc.\nExtract the digits only.\n\nAddress\nFull address excluding postcode, one line.\n\nAddressLine1\nStreet/house/flat line only.\n\nPostcode\nExtract only explicit UK postcodes. Split postcode out if embedded in address.\n\nDescription\n1–2 sentence natural-language summary of the task, using sender’s own wording.\n\nTags\nChoose from: Electrical, EICR, Plumbing, Glazing, Building, Gas, Decorating\nCues:\n\nElectrical: socket, fuse, RCD, lighting, wiring\n\nEICR: testing, certificate, EICR, safety check, inspection, report\n\nPlumbing: leak, tap, toilet, boiler, water\n\nGlazing: window, pane, glass, unit\n\nBuilding: door, frame, plaster, damage\n\nGas: gas leak, boiler, combustion, safety\n\nDecorating: paint, touch up\n\nImportance\nChoose one of: Low, Medium, High\nCues:\n\nHigh: leak, no hot water, only toilet, tripping, scorching/scorched, expired, urgent, “attend today”, “attend this week”\n\nLow: cosmetic only, decorating, aesthetic concerns\n\nMedium: all other jobs not clearly high or low\n\nContactForAccess\nPerson and contact details for access.\n\nAction\nExtract intent: Quote, Todo, Proceed (one or more).\n\nThreadSummary\nSummarise thread chronologically if present; else null.\n\nevidence\nProvide minimal verbatim snippets used for each populated field.\n\nReturn: Only the JSON result.",
+              "batching": {
+                "batchSize": 10
+              }
+            }
+          },
+          "type": "@n8n/n8n-nodes-langchain.informationExtractor",
+          "typeVersion": 1.2,
+          "position": [
+            800,
+            -576
+          ],
+          "id": "5b9b0041-3e4b-4a77-aea3-74fd1960e09b",
+          "name": "Information Extractor"
+        },
+        {
+          "parameters": {
+            "projectId": {
+              "__rl": true,
+              "value": "gemini-api-473916",
+              "mode": "list",
+              "cachedResultName": "Gemini API"
+            },
+            "options": {
+              "temperature": 0.1
+            }
+          },
+          "type": "@n8n/n8n-nodes-langchain.lmChatGoogleVertex",
+          "typeVersion": 1,
+          "position": [
+            880,
+            -352
+          ],
+          "id": "a65bf9ee-ecf2-4f65-91f5-ea30bbf76896",
+          "name": "Google Vertex Chat Model"
+        },
+        {
+          "parameters": {
+            "inputSource": "jsonExample",
+            "jsonExample": "{\n  \"id\": \"xxx\",\n  \"conversationId\": \"yyy\",\n  \"importance\": \"normal\",\n  \"from\": \"sender@domain.com\",\n  \"subject\": \"TO DO Works Order for 12 Hansford Close, BA2 5LW: Leak flat roof\",\n  \"body\": \"Full Address: 12 Hansford Close, Bath, BA2 5LW\\nContact for Access: Lead Tenant: Mr Jeremy Burgess, Miss Rachel Burgess (07533 388961)\\nRef No: 22551\\nDescription of works required: Please quote find and repair the leak on flat foor. Suspect water ingress via damaged flashing. QUOTE!!\\nDisclaimer: The works will only be paid upon receipt of an invoice addressed to the landlord in person with a full description of works carried out and the landlord must be satisfied the works have been completed.\\nThe responsibility to settle the invoice rests with the landlord and is not the responsibility of the agent.\"\n}"
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            -544,
+            -768
+          ],
+          "id": "05c4d049-0f5e-41a9-9061-bd8257ea5ded",
+          "name": "EntryPoint"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "r9O1tzOL1ON1rxGD",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/r9O1tzOL1ON1rxGD",
+              "cachedResultName": "WfD Shared Project — Higgins: Postcode lookup"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "postcode": "={{ $json.output?.Postcode ?? $json.job?.Postcode }}"
+              },
+              "matchingColumns": [
+                "postcode"
+              ],
+              "schema": [
+                {
+                  "id": "postcode",
+                  "displayName": "postcode",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            1376,
+            -784
+          ],
+          "id": "fd723e85-335c-4ce4-913d-6edc3c53ffe4",
+          "name": "Call 'Higgins: Suggest address from postcode'"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "operation": "upsert",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "a68024e7-1ff9-4e0d-a523-f709da9cca8f",
+              "mode": "list",
+              "cachedResultName": "LISA - Jobs"
+            },
+            "columns": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "Title": "={{ $json.job?.JobNumber }}",
+                "Subject": "={{ $json.email?.Subject }}",
+                "Postcode": "={{ $json.job?.Postcode }}",
+                "Address": "={{ $json.job?.Address }}",
+                "PropertyManagerEmail": "={{ $json.email?.From }}",
+                "AddressLine1": "={{ $json.job?.AddressLine1 }}",
+                "ConversationId": "={{ $json.email?.ConversationId }}",
+                "MessageId": "={{ $json.email?.MessageId }}",
+                "Priority": "={{ $json.job?.Importance }}",
+                "Tags": "={{ $json.job?.Tags.join(',') }}",
+                "ThreadSummary": "={{ $json.job?.ThreadSummary }}",
+                "Action": "={{ $json.job?.Action.join(',') }}",
+                "ContactForAccess": "={{ $json.job?.ContactForAccess }}",
+                "Description": "={{ $json.job?.Description }}",
+                "Thread": "={{ $json.email.Thread }}",
+                "SpThreadId": "={{ $json.email.SpThreadId }}"
+              },
+              "matchingColumns": [
+                "Title"
+              ],
+              "schema": [
+                {
+                  "id": "Title",
+                  "canBeUsedToMatch": true,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Job Number",
+                  "readOnly": false,
+                  "required": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "Subject",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Subject",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "Postcode",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Postcode",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "Address",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Address",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "Description",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Description",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "Status",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Status",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "options",
+                  "options": [
+                    {
+                      "name": "New",
+                      "value": "New"
+                    }
+                  ],
+                  "removed": true
+                },
+                {
+                  "id": "ContactForAccess",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ContactForAccess",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "Action",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Action",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "ThreadSummary",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ThreadSummary",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "Tags",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Tags",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "Priority",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Priority",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "MessageId",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "MessageId",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "ConversationId",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ConversationId",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "AddressLine1",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "AddressLine1",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "PropertyManagerEmail",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "PropertyManagerEmail",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "JobDateTime",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "JobDateTime",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "dateTime",
+                  "removed": true
+                },
+                {
+                  "id": "JobDurationHours",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "JobDurationHours",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "number",
+                  "removed": true
+                },
+                {
+                  "id": "Toggl",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Toggl",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "number",
+                  "removed": true
+                },
+                {
+                  "id": "PreApproved",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "PreApproved",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "boolean",
+                  "removed": true
+                },
+                {
+                  "id": "ContactNumber",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ContactNumber",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "AddressPaf",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "AddressPaf",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "AddressLatLong",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "AddressLatLong",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "Thread",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Thread",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "SpThreadId",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "SpThreadId",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": false
+            },
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            2048,
+            -672
+          ],
+          "id": "b40588ac-3927-4c9f-890d-0c859fa2c262",
+          "name": "Create or update job record"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "operation": "update",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "be45f44d-50b0-41cd-82ee-7ad2f30a0e94",
+              "mode": "list",
+              "cachedResultName": "LISA - Email"
+            },
+            "columns": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "MessageId": "={{ $json.email.MessageId }}",
+                "ThreadSummary": "={{ $json.job?.ThreadSummary }}",
+                "JobNumber": "={{ $json.job.JobNumber }}",
+                "AiDone": "={{ true }}"
+              },
+              "matchingColumns": [
+                "MessageId"
+              ],
+              "schema": [
+                {
+                  "id": "Title",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Title",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "MessageId",
+                  "canBeUsedToMatch": true,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "MessageId",
+                  "readOnly": false,
+                  "required": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "ConversationId",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ConversationId",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "ReceivedDate",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ReceivedDate",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "dateTime",
+                  "removed": true
+                },
+                {
+                  "id": "OutlookUrl",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "OutlookUrl",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "JobNumber",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "JobNumber",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "Status",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Status",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "options",
+                  "options": [
+                    {
+                      "name": "New",
+                      "value": "New"
+                    },
+                    {
+                      "name": "Quoted",
+                      "value": "Quoted"
+                    },
+                    {
+                      "name": "Approved",
+                      "value": "Approved"
+                    },
+                    {
+                      "name": "Complete",
+                      "value": "Complete"
+                    }
+                  ],
+                  "removed": true
+                },
+                {
+                  "id": "Thread",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Thread",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "SpThreadId",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "SpThreadId",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "AiDone",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "AiDone",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "boolean",
+                  "removed": false
+                },
+                {
+                  "id": "Body",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Body",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "From",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "From",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "Importance",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Importance",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "Subject",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Subject",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "ThreadSummary",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ThreadSummary",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "To",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "To",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "id",
+                  "canBeUsedToMatch": true,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ID",
+                  "readOnly": true,
+                  "required": true,
+                  "type": "string",
+                  "removed": true
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": false
+            },
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            2048,
+            -480
+          ],
+          "id": "092b654c-64c6-46e7-83d8-69154c995fbc",
+          "name": "Create or update email record"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "9f90b675-5fa8-4e2c-954b-a6edfac9e783",
+                  "leftValue": "={{ $json.email?.AiDone ?? $json.email?.aiDone }}",
+                  "rightValue": true,
+                  "operator": {
+                    "type": "boolean",
+                    "operation": "true",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            352,
+            -768
+          ],
+          "id": "43a77454-4e28-46e2-8ead-1ce2ac834061",
+          "name": "If AiDone"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": false,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "fefaaa0e-3c4c-4032-a1c7-db8159a9648f",
+                  "leftValue": "={{ $json.job?.JobNumber }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "string",
+                    "operation": "empty",
+                    "singleValue": true
+                  }
+                },
+                {
+                  "id": "330ac02e-a046-4f84-bb00-82ea644f71c9",
+                  "leftValue": "={{ $json.job?.JobNumber }}",
+                  "rightValue": "Unknown",
+                  "operator": {
+                    "type": "string",
+                    "operation": "equals",
+                    "name": "filter.operator.equals"
+                  }
+                }
+              ],
+              "combinator": "or"
+            },
+            "options": {
+              "ignoreCase": true
+            }
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1600,
+            -592
+          ],
+          "id": "01fe8e0d-2ada-447d-9e42-de92a330513d",
+          "name": "If JOBNUMBER missing"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "be45f44d-50b0-41cd-82ee-7ad2f30a0e94",
+              "mode": "list",
+              "cachedResultName": "LISA - Email"
+            },
+            "filter": "=fields/MessageId eq '{{ $json.id }}'",
+            "limit": 1,
+            "options": {
+              "fields": [
+                "fields"
+              ]
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            -96,
+            -768
+          ],
+          "id": "ab6e2d7b-b68a-4400-8ab0-50d926cf99b4",
+          "name": "Find emails",
+          "alwaysOutputData": true
+        },
+        {
+          "parameters": {
+            "jsCode": "return $input.all().map(item => ({\n  json: {\n    id: item.json.id, \n    email: item.json\n  }\n}));"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            -320,
+            -768
+          ],
+          "id": "016e060c-7980-4083-b9ad-9af90f0aa334",
+          "name": "Wrap input"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "const toCamelCase = (str) =>\n  str\n    .replace(/[-_\\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : '')\n    .replace(/^(.)/, (m) => m.toLowerCase());\n\nconst camelCaseKeys = (obj = {}) =>\n  Object.fromEntries(\n    Object.entries(obj).map(([key, value]) => [\n      toCamelCase(key),\n      value\n    ])\n  );\n\nconst item = {\n    id: $json.fields ? $json.fields?.MessageId : $('Wrap input').item.json.id,\n    email: $json.fields ?? $('Wrap input').item.json.email,\n    output: {\n      jobNumber: $json.fields?.JobNumber\n    }\n  };\n\nitem.email.Subject = $json.fields ? $json.fields.Title : $('Wrap input').item.json.email.Subject;\n\nreturn { json: item };"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            128,
+            -768
+          ],
+          "id": "3aef9d45-084a-4ab6-9878-50a0e43ad59f",
+          "name": "Wrap email",
+          "notes": "Was using camelCaseKeys\nemail: $json.fields ? camelCaseKeys($json.fields) : $('Wrap input').item.json.email"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "return {\n  json: {\n    id: $('Wrap email').item.json.id,\n    email: $('Wrap email').item.json.email,\n    job: $json.output ?? $json.job\n  }\n}"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1376,
+            -592
+          ],
+          "id": "4dcbae54-9c3b-4750-ba12-6c9e502c2693",
+          "name": "Wrap job"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "a0783962-abc3-486a-aa97-1fe9378032be",
+                  "leftValue": "={{ $json.output?.Postcode ?? $json.job?.Postcode }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "string",
+                    "operation": "notEmpty",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1152,
+            -688
+          ],
+          "id": "3e8e5af9-3e91-46de-a424-e6e696e1fa69",
+          "name": "If POSTCODE"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            1824,
+            -912
+          ],
+          "id": "07ccb436-c426-493a-bc4b-6ad3c1c2e634",
+          "name": "Skip updates",
+          "notesInFlow": true
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "930bace7-8024-4ffc-bf9c-8c6f679dead0",
+                  "leftValue": "={{ $json.output.jobNumber }}",
+                  "rightValue": "\\d+",
+                  "operator": {
+                    "type": "string",
+                    "operation": "regex"
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            576,
+            -896
+          ],
+          "id": "6afdfd00-c245-4445-a5a9-c9cfc2160a03",
+          "name": "If JOBNUMBER"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "7GnSWkz7nyJh-HH5OQ_SE",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+              "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "jobNumber": "={{ $json.output.jobNumber }}",
+                "id": "="
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "jobNumber",
+                  "displayName": "jobNumber",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "job",
+                  "displayName": "job",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "object",
+                  "removed": true
+                },
+                {
+                  "id": "include",
+                  "displayName": "include",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "id",
+                  "displayName": "id",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            864,
+            -960
+          ],
+          "id": "2c0255b3-ae00-4964-8976-4da042a4f62d",
+          "name": "Call 'Higgins: Job repo'"
+        },
+        {
+          "parameters": {
+            "jsCode": "return $input.all().map(item => ({ \n  json: {\n    job: item.json.job, \n    email: item.json.email \n  } \n}));"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2048,
+            -864
+          ],
+          "id": "2ebc08a8-e928-4a0d-8303-57964b37ec53",
+          "name": "Code in JavaScript"
+        },
+        {
+          "parameters": {
+            "options": {}
+          },
+          "type": "n8n-nodes-base.splitInBatches",
+          "typeVersion": 3,
+          "position": [
+            1824,
+            -464
+          ],
+          "id": "0feba509-8975-462e-aa2b-06ff525c34be",
+          "name": "Loop Over Items"
+        },
+        {
+          "parameters": {
+            "mode": "combine",
+            "fieldsToMatchString": "id",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.merge",
+          "typeVersion": 3.2,
+          "position": [
+            2496,
+            -400
+          ],
+          "id": "9c6d632f-2a1a-47a8-b9cc-aa3d474338bf",
+          "name": "Merge"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "const toCamelCase = (str) =>\n  str\n    .replace(/[-_\\s]+(.)?/g, (_, c) => c ? c.toUpperCase() : '')\n    .replace(/^(.)/, (m) => m.toLowerCase());\n\nconst camelCaseKeys = (obj = {}) =>\n  Object.fromEntries(\n    Object.entries(obj).map(([key, value]) => [\n      toCamelCase(key),\n      value\n    ])\n  );\n\nconst item = {\n    id: $json.fields?.MessageId,\n    email: $json.fields,\n    output: {\n      jobNumber: $json.fields?.JobNumber\n    }\n  };\n\nitem.email.Subject = $json.fields.Title;\n\nreturn { json: item };"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2272,
+            -480
+          ],
+          "id": "e8a3448d-7693-4934-aaba-38e81eba8828",
+          "name": "Wrap email1",
+          "notes": "Was using camelCaseKeys\nemail: $json.fields ? camelCaseKeys($json.fields) : $('Wrap input').item.json.email"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "const job = $json.fields;\njob.JobNumber = job.Title;\njob.Title = undefined;\n\nreturn {\n  json: {\n    id: $json.fields.MessageId,\n    job\n  }\n}"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2272,
+            -672
+          ],
+          "id": "90c4c26a-fe95-44af-9348-89f4662d5ab3",
+          "name": "Wrap job1"
+        },
+        {
+          "parameters": {
+            "method": "POST",
+            "url": "https://europe-west2-aiplatform.googleapis.com/v1/projects/gemini-api-473916/locations/europe-west2/publishers/google/models/gemini-2.5-flash:generateContent",
+            "sendHeaders": true,
+            "headerParameters": {
+              "parameters": [
+                {
+                  "name": "Content-Type",
+                  "value": "application/json"
+                }
+              ]
+            },
+            "sendBody": true,
+            "specifyBody": "json",
+            "jsonBody": "={\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        {\n          \"text\": {{ JSON.stringify($json.prompt + $json.emailText) }}\n        }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"temperature\": 0,\n    \"maxOutputTokens\": 2048,\n    \"responseMimeType\": \"application/json\",\n    \"responseSchema\": {\n      \"type\": \"OBJECT\",\n      \"properties\": {\n        \"JobNumber\": { \"type\": \"STRING\", \"nullable\": true, \"pattern\": \"^[0-9]{5}$\" },\n        \"Address\": { \"type\": \"STRING\", \"nullable\": true },\n        \"AddressLine1\": { \"type\": \"STRING\", \"nullable\": true },\n        \"Postcode\": { \"type\": \"STRING\", \"nullable\": true },\n        \"ContactForAccess\": { \"type\": \"STRING\", \"nullable\": true },\n        \"Description\": { \"type\": \"STRING\", \"nullable\": true },\n        \"Tags\": {\n          \"type\": \"ARRAY\",\n          \"items\": { \"type\": \"STRING\", \"enum\": [\"Electrical\",\"EICR\",\"Plumbing\",\"Glazing\",\"Building\",\"Gas\",\"Decorating\"] }\n        },\n        \"Importance\": { \"type\": \"STRING\", \"nullable\": true, \"enum\": [\"Low\",\"Medium\",\"High\"] },\n        \"Action\": {\n          \"type\": \"ARRAY\",\n          \"items\": { \"type\": \"STRING\", \"enum\": [\"Quote\",\"Todo\",\"Proceed\"] }\n        },\n        \"ThreadSummary\": { \"type\": \"STRING\", \"nullable\": true },\n        \"confidence\": { \"type\": \"NUMBER\" },\n        \"evidence\": {\n          \"type\": \"OBJECT\",\n          \"properties\": {\n            \"JobNumber\": { \"type\": \"STRING\", \"nullable\": true },\n            \"Address\": { \"type\": \"STRING\", \"nullable\": true },\n            \"AddressLine1\": { \"type\": \"STRING\", \"nullable\": true },\n            \"Postcode\": { \"type\": \"STRING\", \"nullable\": true },\n            \"ContactForAccess\": { \"type\": \"STRING\", \"nullable\": true },\n            \"Description\": { \"type\": \"STRING\", \"nullable\": true },\n            \"Tags\": {\n              \"type\": \"ARRAY\",\n              \"items\": { \"type\": \"STRING\", \"enum\": [\"Electrical\",\"EICR\",\"Plumbing\",\"Glazing\",\"Building\",\"Gas\",\"Decorating\"] }\n            },\n            \"Importance\": { \"type\": \"STRING\", \"nullable\": true },\n            \"Action\": {\n              \"type\": \"ARRAY\",\n              \"items\": { \"type\": \"STRING\", \"enum\": [\"Quote\",\"Todo\",\"Proceed\"] }\n            },\n            \"ThreadSummary\": { \"type\": \"STRING\", \"nullable\": true }\n          }\n        }\n      },\n      \"required\": [\"JobNumber\",\"Address\",\"Postcode\",\"Description\",\"Tags\",\"Importance\",\"confidence\",\"evidence\"]\n    }\n  }\n}",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            -96,
+            208
+          ],
+          "id": "a2973210-98f9-4d22-b8c6-fa3ea29fb465",
+          "name": "HTTP Request"
+        },
+        {
+          "parameters": {
+            "assignments": {
+              "assignments": [
+                {
+                  "id": "81d8d548-38f9-4e5c-9cc4-a961c2fa747c",
+                  "name": "prompt",
+                  "value": "Extract structured job details from the EMAILTEXT.\n\nExtraction Rules\n\nUse only information explicitly present in the email.\nIf a field is missing or uncertain, return null (or [] for lists).\nPreserve relevant original wording and capitalisation.\nIf several candidates exist, choose the one most clearly linked to the described work.\nDo not fabricate postcodes or job numbers.\n\nField Guidance\n\nJobNumber\nExtract a 5-digit reference number (regex-validated).\nMatches patterns like “Ref No: 23456”, “Ref: 23456”, “ref no 23456”, “job ref 23456”, etc.\nExtract the digits only.\n\nAddress\nFull address excluding postcode, one line.\n\nAddressLine1\nStreet/house/flat line only.\n\nPostcode\nExtract only explicit UK postcodes. Split postcode out if embedded in address.\n\nDescription\n1–2 sentence natural-language summary of the task, using sender’s own wording.\n\nTags\nChoose from: Electrical, EICR, Plumbing, Glazing, Building, Gas, Decorating\nCues:\n\nElectrical: socket, fuse, RCD, lighting, wiring\n\nEICR: testing, certificate, EICR, safety check, inspection, report\n\nPlumbing: leak, tap, toilet, boiler, water\n\nGlazing: window, pane, glass, unit\n\nBuilding: door, frame, plaster, damage\n\nGas: gas leak, boiler, combustion, safety\n\nDecorating: paint, touch up\n\nImportance\nChoose one of: Low, Medium, High\nCues:\n\nHigh: leak, no hot water, only toilet, tripping, scorching/scorched, expired, urgent, “attend today”, “attend this week”\n\nLow: cosmetic only, decorating, aesthetic concerns\n\nMedium: all other jobs not clearly high or low\n\nContactForAccess\nPerson and contact details for access.\n\nAction\nExtract intent: Quote, Todo, Proceed (one or more).\n\nThreadSummary\nSummarise thread chronologically if present; else null.\n\nevidence\nProvide minimal verbatim snippets used for each populated field.\n====\nEMAILTEXT:\n",
+                  "type": "string"
+                },
+                {
+                  "id": "07fa0abc-de2b-4b9a-90b5-8379888f0252",
+                  "name": "emailText",
+                  "value": "=Date: {{ $json.email.ReceivedDate }}\nFrom: {{ $json.email.From }}\nTo: {{ $json.email.To }}\nSubject: {{ $json.email.Subject }}\nImportance: {{ $json.email.Importance }}\n====\n{{ $json.email.Body }}",
+                  "type": "string"
+                }
+              ]
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.set",
+          "typeVersion": 3.4,
+          "position": [
+            -320,
+            144
+          ],
+          "id": "116b0cdf-2547-41f4-b98e-99f53a4ec171",
+          "name": "Edit Fields"
+        },
+        {
+          "parameters": {
+            "options": {}
+          },
+          "type": "n8n-nodes-base.splitInBatches",
+          "typeVersion": 3,
+          "position": [
+            -544,
+            144
+          ],
+          "id": "3fad4dfc-d717-4b03-b7fa-4f51589a2b80",
+          "name": "Loop Over Items1"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "name": "Replace Me",
+          "typeVersion": 1,
+          "position": [
+            -320,
+            -64
+          ],
+          "id": "9796074c-7262-4890-aa4f-c023fef02577"
+        },
+        {
+          "parameters": {
+            "content": "## This is an experiment\nUsing HTTP request can give us more control over LLM use / output but need to sort authentication.",
+            "height": 576,
+            "width": 768
+          },
+          "type": "n8n-nodes-base.stickyNote",
+          "typeVersion": 1,
+          "position": [
+            -656,
+            -208
+          ],
+          "id": "04c6a459-2b42-4c28-80ce-93ee519e6932",
+          "name": "Sticky Note"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            2048,
+            -288
+          ],
+          "id": "811a67dc-5538-463a-8c26-33c1d3ffaa48",
+          "name": "TODO: Update email attachments folder"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            2256,
+            -864
+          ],
+          "id": "09d4745d-9cd0-49c8-ba56-edbae524ddd8",
+          "name": "Return"
+        }
+      ],
+      "connections": {
+        "Google Vertex Chat Model": {
+          "ai_languageModel": [
+            [
+              {
+                "node": "Information Extractor",
+                "type": "ai_languageModel",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Information Extractor": {
+          "main": [
+            [
+              {
+                "node": "If POSTCODE",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "EntryPoint": {
+          "main": [
+            [
+              {
+                "node": "Wrap input",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: Suggest address from postcode'": {
+          "main": [
+            []
+          ]
+        },
+        "Create or update job record": {
+          "main": [
+            [
+              {
+                "node": "Wrap job1",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If AiDone": {
+          "main": [
+            [
+              {
+                "node": "If JOBNUMBER",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Information Extractor",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If JOBNUMBER missing": {
+          "main": [
+            [
+              {
+                "node": "Skip updates",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Loop Over Items",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Create or update email record": {
+          "main": [
+            [
+              {
+                "node": "Wrap email1",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Find emails": {
+          "main": [
+            [
+              {
+                "node": "Wrap email",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap input": {
+          "main": [
+            [
+              {
+                "node": "Find emails",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap email": {
+          "main": [
+            [
+              {
+                "node": "If AiDone",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap job": {
+          "main": [
+            [
+              {
+                "node": "If JOBNUMBER missing",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If POSTCODE": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: Suggest address from postcode'",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "Wrap job",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Wrap job",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Skip updates": {
+          "main": [
+            [
+              {
+                "node": "Code in JavaScript",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If JOBNUMBER": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: Job repo'",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "If POSTCODE",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: Job repo'": {
+          "main": [
+            [
+              {
+                "node": "If POSTCODE",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Code in JavaScript": {
+          "main": [
+            [
+              {
+                "node": "Return",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Loop Over Items": {
+          "main": [
+            [
+              {
+                "node": "Code in JavaScript",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Create or update job record",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "Create or update email record",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "TODO: Update email attachments folder",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Merge": {
+          "main": [
+            [
+              {
+                "node": "Loop Over Items",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap email1": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 1
+              }
+            ]
+          ]
+        },
+        "Wrap job1": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Edit Fields": {
+          "main": [
+            [
+              {
+                "node": "HTTP Request",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Loop Over Items1": {
+          "main": [
+            [
+              {
+                "node": "Replace Me",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Edit Fields",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Replace Me": {
+          "main": [
+            []
+          ]
+        },
+        "HTTP Request": {
+          "main": [
+            [
+              {
+                "node": "Loop Over Items1",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

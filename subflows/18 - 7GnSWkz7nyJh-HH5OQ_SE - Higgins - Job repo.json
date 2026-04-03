@@ -1,0 +1,3126 @@
+{
+  "workflow": {
+    "id": "7GnSWkz7nyJh-HH5OQ_SE",
+    "name": "Higgins: Job repo",
+    "active": true,
+    "isArchived": false,
+    "versionId": "7aabe302-4d93-4c3d-9181-e5feef88c885",
+    "activeVersionId": "7aabe302-4d93-4c3d-9181-e5feef88c885",
+    "triggerCount": 0,
+    "createdAt": "2026-02-02T13:24:05.871Z",
+    "updatedAt": "2026-04-03T16:23:13.171Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true,
+      "binaryMode": "separate"
+    },
+    "connections": {
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Call Higgins: Job update",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get a job item",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get many job items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get a job item": {
+        "main": [
+          [
+            {
+              "node": "Sp Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many job items": {
+        "main": [
+          [
+            {
+              "node": "Sp Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many email items": {
+        "main": [
+          [
+            {
+              "node": "Markdown",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Markdown": {
+        "main": [
+          [
+            {
+              "node": "Wrap emails",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If include(property)": {
+        "main": [
+          [
+            {
+              "node": "Get property by id",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Property output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get property by id": {
+        "main": [
+          [
+            {
+              "node": "Wrap property",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "EntryPoint": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If include(attachments)": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request Thread Files",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Attachments output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Property output": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Emails output": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 4
+            }
+          ]
+        ]
+      },
+      "Attachments output": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 6
+            }
+          ]
+        ]
+      },
+      "Wrap job": {
+        "main": [
+          [
+            {
+              "node": "If include(property)",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "If include(emails)",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "If include(attachments)",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "If include(quotes)",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "If include(notes)",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "If include(completions)",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "If include(files)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap property": {
+        "main": [
+          [
+            {
+              "node": "Property output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap emails": {
+        "main": [
+          [
+            {
+              "node": "Emails output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If include(emails)": {
+        "main": [
+          [
+            {
+              "node": "Get many email items",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Emails output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Aggregator",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If include(quotes)": {
+        "main": [
+          [
+            {
+              "node": "Get many quote items",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Quotes output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many quote items": {
+        "main": [
+          [
+            {
+              "node": "Wrap quotes",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap quotes": {
+        "main": [
+          [
+            {
+              "node": "Quotes output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Quotes output": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Call Higgins: Job update": {
+        "main": [
+          [
+            {
+              "node": "Sp Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If include(notes)": {
+        "main": [
+          [
+            {
+              "node": "Get many note items",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Notes output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many note items": {
+        "main": [
+          [
+            {
+              "node": "Wrap notes",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap notes": {
+        "main": [
+          [
+            {
+              "node": "Notes output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Notes output": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 2
+            }
+          ]
+        ]
+      },
+      "Completion output": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 3
+            }
+          ]
+        ]
+      },
+      "If include(completions)": {
+        "main": [
+          [
+            {
+              "node": "Get many completion items",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Completion output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many completion items": {
+        "main": [
+          [
+            {
+              "node": "Wrap completion",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap completion": {
+        "main": [
+          [
+            {
+              "node": "Completion output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If include(files)": {
+        "main": [
+          [
+            {
+              "node": "Unwrap files",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Files output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap attachments": {
+        "main": [
+          [
+            {
+              "node": "Attachments output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap files": {
+        "main": [
+          [
+            {
+              "node": "Files output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Files output": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 5
+            }
+          ]
+        ]
+      },
+      "Sp Defaults": {
+        "main": [
+          [
+            {
+              "node": "Wrap job",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Split Out": {
+        "main": [
+          [
+            {
+              "node": "Merge Attachments + Preview",
+              "type": "main",
+              "index": 1
+            },
+            {
+              "node": "HTTP Request attachment preview",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request Thread Files": {
+        "main": [
+          [
+            {
+              "node": "Split Out",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Unwrap files": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request file preview",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Merge Files + Preview",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "HTTP Request attachment preview": {
+        "main": [
+          [
+            {
+              "node": "Merge Attachments + Preview",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request file preview": {
+        "main": [
+          [
+            {
+              "node": "Merge Files + Preview",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge Attachments + Preview": {
+        "main": [
+          [
+            {
+              "node": "Wrap attachments",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge Files + Preview": {
+        "main": [
+          [
+            {
+              "node": "Wrap files",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.job }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "object",
+                        "operation": "notEmpty",
+                        "singleValue": true
+                      },
+                      "id": "0fd1f538-abe6-4cc5-af2a-040d197c3d63"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "SAVE"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "65f7025d-fad0-43e4-b431-b87fb83a7739",
+                      "leftValue": "={{ $json.id }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "string",
+                        "operation": "notEmpty",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "GETBYID"
+              }
+            ]
+          },
+          "options": {
+            "fallbackOutput": "extra"
+          }
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          224,
+          -512
+        ],
+        "id": "a3f5ad87-55cc-4dd4-be2d-e0847550603a",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "be45f44d-50b0-41cd-82ee-7ad2f30a0e94",
+            "mode": "list",
+            "cachedResultName": "LISA - Email"
+          },
+          "filter": "=fields/ConversationId eq '{{ $json.job.ConversationId }}'",
+          "options": {
+            "fields": [
+              "fields"
+            ]
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          1792,
+          -256
+        ],
+        "id": "7ef20a63-a0c7-4098-ae57-03bc5f2b220a",
+        "name": "Get many email items",
+        "alwaysOutputData": false
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "operation": "get",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "a68024e7-1ff9-4e0d-a523-f709da9cca8f",
+            "mode": "list",
+            "cachedResultName": "LISA - Jobs"
+          },
+          "item": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          448,
+          -496
+        ],
+        "id": "86be8fdc-30b6-4c65-b009-beb36126f833",
+        "name": "Get a job item"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "a68024e7-1ff9-4e0d-a523-f709da9cca8f",
+            "mode": "list",
+            "cachedResultName": "LISA - Jobs"
+          },
+          "filter": "=fields/Title eq '{{ $json.jobNumber }}'",
+          "options": {
+            "fields": [
+              "fields"
+            ]
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          448,
+          -304
+        ],
+        "id": "e37f7409-d06a-4e51-ac66-9be78fd15072",
+        "name": "Get many job items"
+      },
+      {
+        "parameters": {
+          "mode": "markdownToHtml",
+          "markdown": "={{ $json.fields.Body }}",
+          "destinationKey": "fields.BodyHtml",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.markdown",
+        "typeVersion": 1,
+        "position": [
+          2016,
+          -256
+        ],
+        "id": "5e15219a-fcd4-4788-83c0-06593c300722",
+        "name": "Markdown",
+        "alwaysOutputData": false
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                "leftValue": "={{ $json.include.includes('property') }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1792,
+          -1360
+        ],
+        "id": "3e9e16c9-bc56-4aab-b69e-b435e6d7ead5",
+        "name": "If include(property)"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "operation": "get",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "145a83ee-8cab-4316-83c6-0adf01e5dee3",
+            "mode": "list",
+            "cachedResultName": "LISA - Property"
+          },
+          "item": {
+            "__rl": true,
+            "value": "={{ $json.job.PropertyLookupId }}",
+            "mode": "id"
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          2016,
+          -1424
+        ],
+        "id": "a5238fc9-28d4-4304-8997-d4035286967b",
+        "name": "Get property by id",
+        "alwaysOutputData": false
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "jobNumber"
+              },
+              {
+                "name": "job",
+                "type": "object"
+              },
+              {
+                "name": "include"
+              },
+              {
+                "name": "id"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          0,
+          -496
+        ],
+        "id": "94378a24-c20d-4c03-9311-a56197920e26",
+        "name": "EntryPoint"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                "leftValue": "={{ $json.include.includes('attachment') }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              },
+              {
+                "id": "9c793748-6309-4485-9263-e21b9be6372a",
+                "leftValue": "={{ $json.job.SpThreadId }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1120,
+          592
+        ],
+        "id": "56d34516-ba00-4bb7-aa18-28dd679bb42f",
+        "name": "If include(attachments)"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2464,
+          -176
+        ],
+        "id": "2989cc67-70e1-4b13-b78a-6be5274422c8",
+        "name": "Emails output"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2464,
+          592
+        ],
+        "id": "178050fc-b5ba-44fd-9cc0-90e12da43fca",
+        "name": "Attachments output"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2464,
+          -1360
+        ],
+        "id": "c9df042f-a3ee-453d-9983-860125e36056",
+        "name": "Property output"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"job\";\nconst keepFields = [\n  ...($json.n8n_sharepoint.lists[objectType].fields || []),\n  ...($json.n8n_sharepoint.lists[objectType].readonly || [])\n];\n\nconst fields = $json?.fields ?? $json;\nconst ID = $json.id || $json.ID;\nconst JobNumber = fields.Title;\nconst JobTitle = `Ref: ${fields.JobNumber} (${fields.AddressLine1 ?? ''}, ${fields.Postcode ?? ''})`;\n\nconst item = Object.fromEntries(\n  Object.entries(fields).filter(([k]) => keepFields.includes(k))\n);\n\n// Find the includes and split to an array\nconst include = ($('EntryPoint').item.json.include ?? '')\n     .split(',')\n     .map(s => s.trim().toLowerCase());\n\nreturn {\n  json: {\n    [objectType]: {\n      ID,\n      JobNumber,\n      ...item\n    },\n    include,\n    /*related: {\n      property: null,\n      email: [],\n      attachment: []\n    },*/\n    n8n_sharepoint: $json.n8n_sharepoint\n  }\n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          896,
+          -496
+        ],
+        "id": "83470c64-8e38-4807-a44c-70945a32867c",
+        "name": "Wrap job"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"property\";\nconst sharepointSettings = $('Wrap job').first().json.n8n_sharepoint;\nconst keepFields = sharepointSettings.lists[objectType].fields || [];\n\nfunction safeParseJson(str) {\n  if (!str || typeof str !== \"string\") return null;\n  try {\n    return JSON.parse(str);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all()\n  .map(i => {\n    const f = i.json?.fields ?? i.json;\n    if (!f) return null;\n\n    const item = Object.fromEntries(\n      Object.entries(f).filter(([k]) => keepFields.includes(k))\n    );\n\n    //item.QuoteObject = safeParseJson(item.QuoteDetail);\n\n    return item;\n  })\n  .filter(Boolean)\n  .sort((a, b) => (Number(b.Created) || 0) - (Number(a.Created) || 0));\n\nif (!items.length) return [];\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: `${objectType}`,\n        value: items.pop()\n      }\n    }\n  }\n];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2240,
+          -1424
+        ],
+        "id": "9084d58a-e2f0-4145-8de0-9717762c533c",
+        "name": "Wrap property"
+      },
+      {
+        "parameters": {
+          "jsCode": "const items = $input.all();\n\nconst emails = items\n  .map(i => {\n    const f = i.json?.fields ?? i.json;\n    if (!f) return null;\n\n    return {\n      id: i.json.id ?? f.ID,\n      From: f.From,\n      Subject: f.Subject ?? f.Title,\n      Body: f.Body,\n      BodyHtml: f.BodyHtml,\n      ThreadSummary: f.ThreadSummary,\n      ReceivedDate: f.ReceivedDate ? new Date(f.ReceivedDate).toISOString() : null,\n      OutlookUrl: f.OutlookUrl,\n      ThreadUrl: f.Thread\n    };\n  })\n  .filter(Boolean)\n  .sort((a, b) => new Date(b.ReceivedDate) - new Date(a.ReceivedDate));\n\nif (!emails.length) return [];\n\nreturn {\n  json: {\n    relatedItem: {\n      key: \"email\",\n      value: emails\n    }\n  }\n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2240,
+          -256
+        ],
+        "id": "f3ffa721-3938-4a16-baf9-61721d34a3ef",
+        "name": "Wrap emails"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                "leftValue": "={{ $json.include.includes('email') }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1568,
+          -176
+        ],
+        "id": "2b2d5640-cfeb-446c-92d3-601552c18177",
+        "name": "If include(emails)"
+      },
+      {
+        "parameters": {
+          "numberInputs": 7
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          2688,
+          -576
+        ],
+        "id": "8cd48cb7-1be5-4646-9cbb-11bc4366afa9",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "jsCode": "const base = $('Wrap job').first().json;\nconst items = $input.all();\n\nconst requested = (\n  Array.isArray(base.include)\n    ? base.include\n    : String(base.include ?? \"\")\n        .split(\",\")\n).filter(Boolean);\n\nconst related = { ...(base.related ?? {}) };\nconst resolved = [];\n\nfor (const item of items) {\n  const r = item.json?.relatedItem;\n  if (!r?.key) continue;\n\n  const key = r.key;\n\n  related[key] = r.value;\n\n  if (!resolved.includes(key)) {\n    resolved.push(key);\n  }\n}\n\nconst missing = requested.filter(key => !resolved.includes(key));\n\nreturn [\n  {\n    json: {\n      ...base,\n      include: requested,\n      related,\n      meta: {\n        requested,\n        resolved,\n        missing\n      }\n    }\n  }\n];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2896,
+          -496
+        ],
+        "id": "e68d0270-0374-486a-87f5-d076a456cebf",
+        "name": "Aggregator"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                "leftValue": "={{ $json.include.includes('quote') }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1792,
+          -1072
+        ],
+        "id": "2be6fd3f-c1ec-4338-86da-8f044f252ba4",
+        "name": "If include(quotes)"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "3ce960bc-e246-483f-ae86-069bf240735a",
+            "mode": "list",
+            "cachedResultName": "LISA - Quotes"
+          },
+          "filter": "=fields/Title eq '{{ $json.job.JobNumber }}'",
+          "options": {
+            "fields": [
+              "fields"
+            ]
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          2016,
+          -1136
+        ],
+        "id": "ef11c234-db9d-4ff6-89ed-da39d0351b2b",
+        "name": "Get many quote items",
+        "alwaysOutputData": false
+      },
+      {
+        "parameters": {
+          "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"quote\";\nconst sharepointSettings = $('Wrap job').first().json.n8n_sharepoint;\nconst keepFields = [\n  ...(sharepointSettings.lists[objectType].fields || []),\n  ...(sharepointSettings.lists[objectType].readonly || [])\n];\n\nfunction safeParseJson(str) {\n  if (!str || typeof str !== \"string\") return null;\n  try {\n    return JSON.parse(str);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all()\n  .map(i => {\n    const f = i.json?.fields ?? i.json;\n    if (!f) return null;\n\n    const item = Object.fromEntries(\n      Object.entries(f).filter(([k]) => keepFields.includes(k))\n    );\n\n    item.QuoteObject = safeParseJson(item.QuoteDetail);\n\n    return item;\n  })\n  .filter(Boolean)\n  .sort((a, b) => (Number(b.Created) || 0) - (Number(a.Created) || 0));\n\nif (!items.length) return [];\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: `${objectType}`,\n        value: items\n      }\n    }\n  }\n];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2240,
+          -1136
+        ],
+        "id": "92dae0c6-2b0a-4641-b573-d21211ef0003",
+        "name": "Wrap quotes"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2464,
+          -1072
+        ],
+        "id": "260f5d55-d147-4cfa-974b-ae00b0c61ff1",
+        "name": "Quotes output"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "oTZFNCsindV24yxj",
+            "mode": "list"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.2,
+        "position": [
+          448,
+          -688
+        ],
+        "name": "Call Higgins: Job update",
+        "id": "e1bd8943-8468-4803-9762-30e96d4165a3"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                "leftValue": "={{ $json.include.includes('note') }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1792,
+          -784
+        ],
+        "id": "b8f9b2d4-4b1d-4579-8eb1-d1fa002c9ad2",
+        "name": "If include(notes)"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "a87361c5-3794-4a2e-a72c-a9ca209b4d05",
+            "mode": "list",
+            "cachedResultName": "LISA - Notes"
+          },
+          "filter": "=fields/Title eq '{{ $json.job.JobNumber }}'",
+          "options": {
+            "fields": [
+              "fields"
+            ]
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          2016,
+          -848
+        ],
+        "id": "d42a4ef4-768d-40df-a5c1-7fe7e7c422ae",
+        "name": "Get many note items",
+        "alwaysOutputData": false
+      },
+      {
+        "parameters": {
+          "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"note\";\nconst sharepointSettings = $('Wrap job').first().json.n8n_sharepoint;\nconst keepFields = [\n  ...(sharepointSettings.lists[objectType].fields || []),\n  ...(sharepointSettings.lists[objectType].readonly || [])\n];\n\nfunction safeParseJson(str) {\n  if (!str || typeof str !== \"string\") return null;\n  try {\n    return JSON.parse(str);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all()\n  .map(i => {\n    const f = i.json?.fields ?? i.json;\n    if (!f) return null;\n\n    const item = Object.fromEntries(\n      Object.entries(f).filter(([k]) => keepFields.includes(k))\n    );\n\n    //item.QuoteObject = safeParseJson(item.QuoteDetail);\n\n    return item;\n  })\n  .filter(Boolean)\n  .sort((a, b) => (Number(b.Created) || 0) - (Number(a.Created) || 0));\n\nif (!items.length) return [];\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: `${objectType}`,\n        value: items\n      }\n    }\n  }\n];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2240,
+          -848
+        ],
+        "id": "80c22b62-018a-4ec4-a061-8ea8d91add61",
+        "name": "Wrap notes"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2464,
+          -784
+        ],
+        "id": "ca448101-c5a2-4eb7-9791-5d2cbaf0e46f",
+        "name": "Notes output"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2464,
+          -496
+        ],
+        "id": "f52ae751-a94d-4709-afe7-f7c7b042ec1b",
+        "name": "Completion output"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                "leftValue": "={{ $json.include.includes('completion') }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1792,
+          -496
+        ],
+        "id": "b6b00bef-bbde-436f-a990-bcef39c71bbf",
+        "name": "If include(completions)"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "a87361c5-3794-4a2e-a72c-a9ca209b4d05",
+            "mode": "list",
+            "cachedResultName": "LISA - Notes"
+          },
+          "filter": "=fields/Title eq '{{ $json.job.JobNumber }}'",
+          "options": {
+            "fields": [
+              "fields"
+            ]
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          2016,
+          -560
+        ],
+        "id": "1bc15ed9-d2e8-4c53-a687-1f78a7e2cf96",
+        "name": "Get many completion items",
+        "alwaysOutputData": false
+      },
+      {
+        "parameters": {
+          "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"completion\";\nconst sharepointSettings = $('Wrap job').first().json.n8n_sharepoint;\nconst keepFields = [\n  ...(sharepointSettings.lists[objectType].fields || []),\n  ...(sharepointSettings.lists[objectType].readonly || [])\n];\n\nfunction safeParseJson(str) {\n  if (!str || typeof str !== \"string\") return null;\n  try {\n    return JSON.parse(str);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all()\n  .map(i => {\n    const f = i.json?.fields ?? i.json;\n    if (!f) return null;\n\n    const item = Object.fromEntries(\n      Object.entries(f).filter(([k]) => keepFields.includes(k))\n    );\n\n    //item.QuoteObject = safeParseJson(item.QuoteDetail);\n\n    return item;\n  })\n  .filter(Boolean)\n  .sort((a, b) => (Number(b.Created) || 0) - (Number(a.Created) || 0));\n\nif (!items.length) return [];\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: `${objectType}`,\n        value: items\n      }\n    }\n  }\n];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2240,
+          -560
+        ],
+        "id": "db785bd2-66a1-442a-bb22-599d5da878f2",
+        "name": "Wrap completion"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                "leftValue": "={{ $json.include.includes('file') }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1344,
+          192
+        ],
+        "id": "a75881dc-880f-4e3b-89f6-04049105c885",
+        "name": "If include(files)"
+      },
+      {
+        "parameters": {
+          "jsCode": "function extOf(name = \"\") {\n  const m = String(name).toLowerCase().match(/\\.([a-z0-9]+)$/i);\n  return m ? m[1] : \"\";\n}\n\nfunction prettySize(bytes) {\n  const n0 = Number(bytes);\n  if (!Number.isFinite(n0)) return \"\";\n\n  const units = [\"B\", \"KB\", \"MB\", \"GB\", \"TB\"];\n  let i = 0;\n  let n = n0;\n\n  while (n >= 1024 && i < units.length - 1) {\n    n /= 1024;\n    i++;\n  }\n\n  return `${n.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;\n}\n\nfunction iconForExt(ext = \"\") {\n  const e = ext.toLowerCase();\n\n  if ([\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(e)) return \"fa-regular fa-image\";\n  if (e === \"pdf\") return \"fa-regular fa-file-pdf\";\n  if ([\"doc\",\"docx\",\"rtf\"].includes(e)) return \"fa-regular fa-file-word\";\n  if ([\"xls\",\"xlsx\",\"csv\"].includes(e)) return \"fa-regular fa-file-excel\";\n  if ([\"ppt\",\"pptx\"].includes(e)) return \"fa-regular fa-file-powerpoint\";\n  if ([\"eml\",\"msg\"].includes(e)) return \"fa-regular fa-envelope\";\n  if ([\"zip\",\"7z\",\"rar\",\"tar\",\"gz\"].includes(e)) return \"fa-regular fa-file-zipper\";\n  if ([\"txt\",\"log\"].includes(e)) return \"fa-regular fa-file-lines\";\n  if ([\"json\",\"xml\",\"yaml\",\"yml\"].includes(e)) return \"fa-regular fa-file-code\";\n\n  return \"fa-regular fa-file\";\n}\n\nfunction previewKindFor(mimeType = \"\", ext = \"\") {\n  const e = ext.toLowerCase();\n\n  const isImage =\n    mimeType.startsWith(\"image/\") ||\n    [\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(e);\n\n  const isPdf =\n    mimeType === \"application/pdf\" || e === \"pdf\";\n\n  if (isImage) return \"image\";\n  if (isPdf) return \"iframe\";\n\n  return \"external\";\n}\n\nfunction groupRank(a) {\n  if (a.previewKind === \"image\") return 0;\n  if (a.ext === \"PDF\") return 1;\n  if (a.ext === \"EML\" || a.ext === \"MSG\") return 3;\n  return 2; // office docs, etc\n}\n\nconst items = $input.all();\n\nconst attachments = items\n  .map(item => {\n    const file = item.json;\n    if (!file?.file) return null;\n\n    const ext = extOf(file.name);\n    const mimeType = file.file?.mimeType ?? \"\";\n\n    const thumbUrl =\n      file.thumbnails?.[0]?.small?.url ??\n      file.thumbnails?.[0]?.medium?.url ??\n      null;\n\n    const isImage =\n      mimeType.startsWith(\"image/\") ||\n      [\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(ext);\n\n    const previewUrl = isImage\n      ? (file.webUrl ?? \"\")\n      : (file.getUrl ?? file.webUrl ?? \"\");\n\n    return {\n      id: file.id ?? null,\n      name: file.name ?? \"\",\n      webUrl: file.webUrl ?? \"\",\n      size: file.size ?? null,\n      sizeText: prettySize(file.size),\n      mimeType,\n      ext: ext.toUpperCase(),\n      icon: iconForExt(ext),\n      thumbUrl,\n      previewKind: previewKindFor(mimeType, ext),\n      previewUrl,\n      created: file.createdDateTime ?? \"\",\n      modified: file.lastModifiedDateTime ?? \"\"\n    };\n  })\n  .filter(Boolean)\n  .sort((a, b) =>\n    groupRank(a) - groupRank(b) ||\n    String(b.modified ?? \"\").localeCompare(String(a.modified ?? \"\"))\n  );\n\nif (!attachments.length) {\n  return [];\n}\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: \"attachment\",\n        value: attachments\n      }\n    }\n  }\n];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2240,
+          528
+        ],
+        "id": "e2aab1f1-b6d1-413e-893c-c8b41f65fd06",
+        "name": "Wrap attachments"
+      },
+      {
+        "parameters": {
+          "jsCode": "function extOf(name = \"\") {\n  const m = String(name).toLowerCase().match(/\\.([a-z0-9]+)$/i);\n  return m ? m[1] : \"\";\n}\n\nfunction prettySize(bytes) {\n  const n0 = Number(bytes);\n  if (!Number.isFinite(n0)) return \"\";\n\n  const units = [\"B\", \"KB\", \"MB\", \"GB\", \"TB\"];\n  let i = 0;\n  let n = n0;\n\n  while (n >= 1024 && i < units.length - 1) {\n    n /= 1024;\n    i++;\n  }\n\n  return `${n.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;\n}\n\nfunction iconForExt(ext = \"\") {\n  const e = ext.toLowerCase();\n\n  if ([\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(e)) return \"fa-regular fa-image\";\n  if (e === \"pdf\") return \"fa-regular fa-file-pdf\";\n  if ([\"doc\",\"docx\",\"rtf\"].includes(e)) return \"fa-regular fa-file-word\";\n  if ([\"xls\",\"xlsx\",\"csv\"].includes(e)) return \"fa-regular fa-file-excel\";\n  if ([\"ppt\",\"pptx\"].includes(e)) return \"fa-regular fa-file-powerpoint\";\n  if ([\"eml\",\"msg\"].includes(e)) return \"fa-regular fa-envelope\";\n  if ([\"zip\",\"7z\",\"rar\",\"tar\",\"gz\"].includes(e)) return \"fa-regular fa-file-zipper\";\n  if ([\"txt\",\"log\"].includes(e)) return \"fa-regular fa-file-lines\";\n  if ([\"json\",\"xml\",\"yaml\",\"yml\"].includes(e)) return \"fa-regular fa-file-code\";\n\n  return \"fa-regular fa-file\";\n}\n\nfunction previewKindFor(mimeType = \"\", ext = \"\") {\n  const e = ext.toLowerCase();\n\n  const isImage =\n    mimeType.startsWith(\"image/\") ||\n    [\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(e);\n\n  const isPdf =\n    mimeType === \"application/pdf\" || e === \"pdf\";\n\n  if (isImage) return \"image\";\n  if (isPdf) return \"iframe\";\n\n  return \"external\";\n}\n\nfunction groupRank(a) {\n  if (a.previewKind === \"image\") return 0;\n  if (a.ext === \"PDF\") return 1;\n  if (a.ext === \"EML\" || a.ext === \"MSG\") return 3;\n  return 2; // office docs, etc\n}\n\nconst items = $input.all();\n\nconst attachments = items\n  .map(item => {\n    const file = item.json;\n    if (!file?.isFile) return null;\n\n    const ext = extOf(file.name);\n    const mimeType = file.file?.mimeType ?? \"\";\n\n    const thumbUrl =\n      file.thumbnails?.[0]?.small?.url ??\n      file.thumbnails?.[0]?.medium?.url ??\n      null;\n\n    const isImage =\n      mimeType.startsWith(\"image/\") ||\n      [\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(ext);\n\n    const previewUrl = isImage\n      ? (file.webUrl ?? \"\")\n      : (file.getUrl ?? file.webUrl ?? \"\");\n\n    return {\n      id: file.id ?? null,\n      name: file.name ?? \"\",\n      webUrl: file.webUrl ?? \"\",\n      size: file.size ?? null,\n      sizeText: prettySize(file.size),\n      mimeType,\n      ext: ext.toUpperCase(),\n      icon: iconForExt(ext),\n      thumbUrl,\n      previewKind: previewKindFor(mimeType, ext),\n      previewUrl,\n      created: file.createdDateTime ?? \"\",\n      modified: file.lastModifiedDateTime ?? \"\",\n      parentPath: file.parentPath\n    };\n  })\n  .filter(Boolean)\n  .sort((a, b) =>\n    groupRank(a) - groupRank(b) ||\n    String(b.modified ?? \"\").localeCompare(String(a.modified ?? \"\"))\n  );\n\nif (!attachments.length) {\n  return [];\n}\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: \"file\",\n        value: attachments\n      }\n    }\n  }\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2240,
+          112
+        ],
+        "id": "b5e375d2-5e43-42a0-92bc-ca4560c3c9c1",
+        "name": "Wrap files"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2464,
+          192
+        ],
+        "id": "a3134ab6-ac0c-475b-a12e-8fbcbec9de60",
+        "name": "Files output"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "Dkd3fVOs3tYMZHkk",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/Dkd3fVOs3tYMZHkk",
+            "cachedResultName": "WfD Shared Project — Higgins: _Sharepoint Defaults"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          672,
+          -496
+        ],
+        "id": "58cea55b-9813-4808-8089-9cebc1635715",
+        "name": "Sp Defaults"
+      },
+      {
+        "parameters": {
+          "fieldToSplitOut": "value",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitOut",
+        "typeVersion": 1,
+        "position": [
+          1568,
+          528
+        ],
+        "id": "b2ca3c28-f2fe-44a2-8f77-ce0ce7e3455b",
+        "name": "Split Out"
+      },
+      {
+        "parameters": {
+          "url": "=https://graph.microsoft.com/v1.0/drives/{{ $json.n8n_sharepoint.driveId }}/items/{{ $json.job.SpThreadId }}/children?$select=id,name,size,webUrl,file,folder,lastModifiedDateTime,createdDateTime&$expand=thumbnails",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "microsoftOutlookOAuth2Api",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1344,
+          528
+        ],
+        "id": "00931898-3801-4480-a2d4-aea17dbd980d",
+        "name": "HTTP Request Thread Files",
+        "alwaysOutputData": false,
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "jsCode": "function safeParseJson(str) {\n  if (!str || typeof str !== \"string\") return null;\n  try {\n    return JSON.parse(str);\n  } catch {\n    return null;\n  }\n}\n\nconst input = safeParseJson($('Wrap job').first().json.job.SpFilesJson)?.items || [];\n\nreturn input;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1568,
+          112
+        ],
+        "id": "cfdc16f0-dcc8-41e0-b999-72b0fbd511ff",
+        "name": "Unwrap files"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://graph.microsoft.com/v1.0/drives/{{ $('If include(attachments)').item.json.n8n_sharepoint.driveId }}/items/{{ $json.id }}/preview",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "microsoftOutlookOAuth2Api",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          1792,
+          448
+        ],
+        "id": "9a394fb7-424d-45cc-9e22-3050cc7477e6",
+        "name": "HTTP Request attachment preview",
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://graph.microsoft.com/v1.0/drives/{{ $('If include(files)').item.json.n8n_sharepoint.driveId }}/items/{{ $json.id }}/preview",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "microsoftOutlookOAuth2Api",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.4,
+        "position": [
+          1792,
+          48
+        ],
+        "id": "6be0aa15-c4ea-4843-aa6f-236bf928ff5f",
+        "name": "HTTP Request file preview",
+        "retryOnFail": false,
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          2016,
+          528
+        ],
+        "id": "74702773-de05-4121-be72-6c629312bc98",
+        "name": "Merge Attachments + Preview"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          2016,
+          112
+        ],
+        "id": "c0ca21aa-86d1-47c6-a144-5bf5a23f0242",
+        "name": "Merge Files + Preview"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "rules": {
+              "values": [
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": true,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 3
+                    },
+                    "conditions": [
+                      {
+                        "leftValue": "={{ $json.job }}",
+                        "rightValue": "",
+                        "operator": {
+                          "type": "object",
+                          "operation": "notEmpty",
+                          "singleValue": true
+                        },
+                        "id": "0fd1f538-abe6-4cc5-af2a-040d197c3d63"
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "SAVE"
+                },
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": true,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 3
+                    },
+                    "conditions": [
+                      {
+                        "id": "65f7025d-fad0-43e4-b431-b87fb83a7739",
+                        "leftValue": "={{ $json.id }}",
+                        "rightValue": "",
+                        "operator": {
+                          "type": "string",
+                          "operation": "notEmpty",
+                          "singleValue": true
+                        }
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "GETBYID"
+                }
+              ]
+            },
+            "options": {
+              "fallbackOutput": "extra"
+            }
+          },
+          "type": "n8n-nodes-base.switch",
+          "typeVersion": 3.4,
+          "position": [
+            224,
+            -512
+          ],
+          "id": "a3f5ad87-55cc-4dd4-be2d-e0847550603a",
+          "name": "Switch"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "be45f44d-50b0-41cd-82ee-7ad2f30a0e94",
+              "mode": "list",
+              "cachedResultName": "LISA - Email"
+            },
+            "filter": "=fields/ConversationId eq '{{ $json.job.ConversationId }}'",
+            "options": {
+              "fields": [
+                "fields"
+              ]
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            1792,
+            -256
+          ],
+          "id": "7ef20a63-a0c7-4098-ae57-03bc5f2b220a",
+          "name": "Get many email items",
+          "alwaysOutputData": false
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "operation": "get",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "a68024e7-1ff9-4e0d-a523-f709da9cca8f",
+              "mode": "list",
+              "cachedResultName": "LISA - Jobs"
+            },
+            "item": {
+              "__rl": true,
+              "value": "={{ $json.id }}",
+              "mode": "id"
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            448,
+            -496
+          ],
+          "id": "86be8fdc-30b6-4c65-b009-beb36126f833",
+          "name": "Get a job item"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "a68024e7-1ff9-4e0d-a523-f709da9cca8f",
+              "mode": "list",
+              "cachedResultName": "LISA - Jobs"
+            },
+            "filter": "=fields/Title eq '{{ $json.jobNumber }}'",
+            "options": {
+              "fields": [
+                "fields"
+              ]
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            448,
+            -304
+          ],
+          "id": "e37f7409-d06a-4e51-ac66-9be78fd15072",
+          "name": "Get many job items"
+        },
+        {
+          "parameters": {
+            "mode": "markdownToHtml",
+            "markdown": "={{ $json.fields.Body }}",
+            "destinationKey": "fields.BodyHtml",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.markdown",
+          "typeVersion": 1,
+          "position": [
+            2016,
+            -256
+          ],
+          "id": "5e15219a-fcd4-4788-83c0-06593c300722",
+          "name": "Markdown",
+          "alwaysOutputData": false
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                  "leftValue": "={{ $json.include.includes('property') }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "boolean",
+                    "operation": "true",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1792,
+            -1360
+          ],
+          "id": "3e9e16c9-bc56-4aab-b69e-b435e6d7ead5",
+          "name": "If include(property)"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "operation": "get",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "145a83ee-8cab-4316-83c6-0adf01e5dee3",
+              "mode": "list",
+              "cachedResultName": "LISA - Property"
+            },
+            "item": {
+              "__rl": true,
+              "value": "={{ $json.job.PropertyLookupId }}",
+              "mode": "id"
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            2016,
+            -1424
+          ],
+          "id": "a5238fc9-28d4-4304-8997-d4035286967b",
+          "name": "Get property by id",
+          "alwaysOutputData": false
+        },
+        {
+          "parameters": {
+            "workflowInputs": {
+              "values": [
+                {
+                  "name": "jobNumber"
+                },
+                {
+                  "name": "job",
+                  "type": "object"
+                },
+                {
+                  "name": "include"
+                },
+                {
+                  "name": "id"
+                }
+              ]
+            }
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            0,
+            -496
+          ],
+          "id": "94378a24-c20d-4c03-9311-a56197920e26",
+          "name": "EntryPoint"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                  "leftValue": "={{ $json.include.includes('attachment') }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "boolean",
+                    "operation": "true",
+                    "singleValue": true
+                  }
+                },
+                {
+                  "id": "9c793748-6309-4485-9263-e21b9be6372a",
+                  "leftValue": "={{ $json.job.SpThreadId }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "string",
+                    "operation": "notEmpty",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1120,
+            592
+          ],
+          "id": "56d34516-ba00-4bb7-aa18-28dd679bb42f",
+          "name": "If include(attachments)"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            2464,
+            -176
+          ],
+          "id": "2989cc67-70e1-4b13-b78a-6be5274422c8",
+          "name": "Emails output"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            2464,
+            592
+          ],
+          "id": "178050fc-b5ba-44fd-9cc0-90e12da43fca",
+          "name": "Attachments output"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            2464,
+            -1360
+          ],
+          "id": "c9df042f-a3ee-453d-9983-860125e36056",
+          "name": "Property output"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"job\";\nconst keepFields = [\n  ...($json.n8n_sharepoint.lists[objectType].fields || []),\n  ...($json.n8n_sharepoint.lists[objectType].readonly || [])\n];\n\nconst fields = $json?.fields ?? $json;\nconst ID = $json.id || $json.ID;\nconst JobNumber = fields.Title;\nconst JobTitle = `Ref: ${fields.JobNumber} (${fields.AddressLine1 ?? ''}, ${fields.Postcode ?? ''})`;\n\nconst item = Object.fromEntries(\n  Object.entries(fields).filter(([k]) => keepFields.includes(k))\n);\n\n// Find the includes and split to an array\nconst include = ($('EntryPoint').item.json.include ?? '')\n     .split(',')\n     .map(s => s.trim().toLowerCase());\n\nreturn {\n  json: {\n    [objectType]: {\n      ID,\n      JobNumber,\n      ...item\n    },\n    include,\n    /*related: {\n      property: null,\n      email: [],\n      attachment: []\n    },*/\n    n8n_sharepoint: $json.n8n_sharepoint\n  }\n};"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            896,
+            -496
+          ],
+          "id": "83470c64-8e38-4807-a44c-70945a32867c",
+          "name": "Wrap job"
+        },
+        {
+          "parameters": {
+            "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"property\";\nconst sharepointSettings = $('Wrap job').first().json.n8n_sharepoint;\nconst keepFields = sharepointSettings.lists[objectType].fields || [];\n\nfunction safeParseJson(str) {\n  if (!str || typeof str !== \"string\") return null;\n  try {\n    return JSON.parse(str);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all()\n  .map(i => {\n    const f = i.json?.fields ?? i.json;\n    if (!f) return null;\n\n    const item = Object.fromEntries(\n      Object.entries(f).filter(([k]) => keepFields.includes(k))\n    );\n\n    //item.QuoteObject = safeParseJson(item.QuoteDetail);\n\n    return item;\n  })\n  .filter(Boolean)\n  .sort((a, b) => (Number(b.Created) || 0) - (Number(a.Created) || 0));\n\nif (!items.length) return [];\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: `${objectType}`,\n        value: items.pop()\n      }\n    }\n  }\n];"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2240,
+            -1424
+          ],
+          "id": "9084d58a-e2f0-4145-8de0-9717762c533c",
+          "name": "Wrap property"
+        },
+        {
+          "parameters": {
+            "jsCode": "const items = $input.all();\n\nconst emails = items\n  .map(i => {\n    const f = i.json?.fields ?? i.json;\n    if (!f) return null;\n\n    return {\n      id: i.json.id ?? f.ID,\n      From: f.From,\n      Subject: f.Subject ?? f.Title,\n      Body: f.Body,\n      BodyHtml: f.BodyHtml,\n      ThreadSummary: f.ThreadSummary,\n      ReceivedDate: f.ReceivedDate ? new Date(f.ReceivedDate).toISOString() : null,\n      OutlookUrl: f.OutlookUrl,\n      ThreadUrl: f.Thread\n    };\n  })\n  .filter(Boolean)\n  .sort((a, b) => new Date(b.ReceivedDate) - new Date(a.ReceivedDate));\n\nif (!emails.length) return [];\n\nreturn {\n  json: {\n    relatedItem: {\n      key: \"email\",\n      value: emails\n    }\n  }\n};"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2240,
+            -256
+          ],
+          "id": "f3ffa721-3938-4a16-baf9-61721d34a3ef",
+          "name": "Wrap emails"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                  "leftValue": "={{ $json.include.includes('email') }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "boolean",
+                    "operation": "true",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1568,
+            -176
+          ],
+          "id": "2b2d5640-cfeb-446c-92d3-601552c18177",
+          "name": "If include(emails)"
+        },
+        {
+          "parameters": {
+            "numberInputs": 7
+          },
+          "type": "n8n-nodes-base.merge",
+          "typeVersion": 3.2,
+          "position": [
+            2688,
+            -576
+          ],
+          "id": "8cd48cb7-1be5-4646-9cbb-11bc4366afa9",
+          "name": "Merge"
+        },
+        {
+          "parameters": {
+            "jsCode": "const base = $('Wrap job').first().json;\nconst items = $input.all();\n\nconst requested = (\n  Array.isArray(base.include)\n    ? base.include\n    : String(base.include ?? \"\")\n        .split(\",\")\n).filter(Boolean);\n\nconst related = { ...(base.related ?? {}) };\nconst resolved = [];\n\nfor (const item of items) {\n  const r = item.json?.relatedItem;\n  if (!r?.key) continue;\n\n  const key = r.key;\n\n  related[key] = r.value;\n\n  if (!resolved.includes(key)) {\n    resolved.push(key);\n  }\n}\n\nconst missing = requested.filter(key => !resolved.includes(key));\n\nreturn [\n  {\n    json: {\n      ...base,\n      include: requested,\n      related,\n      meta: {\n        requested,\n        resolved,\n        missing\n      }\n    }\n  }\n];"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2896,
+            -496
+          ],
+          "id": "e68d0270-0374-486a-87f5-d076a456cebf",
+          "name": "Aggregator"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                  "leftValue": "={{ $json.include.includes('quote') }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "boolean",
+                    "operation": "true",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1792,
+            -1072
+          ],
+          "id": "2be6fd3f-c1ec-4338-86da-8f044f252ba4",
+          "name": "If include(quotes)"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "3ce960bc-e246-483f-ae86-069bf240735a",
+              "mode": "list",
+              "cachedResultName": "LISA - Quotes"
+            },
+            "filter": "=fields/Title eq '{{ $json.job.JobNumber }}'",
+            "options": {
+              "fields": [
+                "fields"
+              ]
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            2016,
+            -1136
+          ],
+          "id": "ef11c234-db9d-4ff6-89ed-da39d0351b2b",
+          "name": "Get many quote items",
+          "alwaysOutputData": false
+        },
+        {
+          "parameters": {
+            "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"quote\";\nconst sharepointSettings = $('Wrap job').first().json.n8n_sharepoint;\nconst keepFields = [\n  ...(sharepointSettings.lists[objectType].fields || []),\n  ...(sharepointSettings.lists[objectType].readonly || [])\n];\n\nfunction safeParseJson(str) {\n  if (!str || typeof str !== \"string\") return null;\n  try {\n    return JSON.parse(str);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all()\n  .map(i => {\n    const f = i.json?.fields ?? i.json;\n    if (!f) return null;\n\n    const item = Object.fromEntries(\n      Object.entries(f).filter(([k]) => keepFields.includes(k))\n    );\n\n    item.QuoteObject = safeParseJson(item.QuoteDetail);\n\n    return item;\n  })\n  .filter(Boolean)\n  .sort((a, b) => (Number(b.Created) || 0) - (Number(a.Created) || 0));\n\nif (!items.length) return [];\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: `${objectType}`,\n        value: items\n      }\n    }\n  }\n];"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2240,
+            -1136
+          ],
+          "id": "92dae0c6-2b0a-4641-b573-d21211ef0003",
+          "name": "Wrap quotes"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            2464,
+            -1072
+          ],
+          "id": "260f5d55-d147-4cfa-974b-ae00b0c61ff1",
+          "name": "Quotes output"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "oTZFNCsindV24yxj",
+              "mode": "list"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.2,
+          "position": [
+            448,
+            -688
+          ],
+          "name": "Call Higgins: Job update",
+          "id": "e1bd8943-8468-4803-9762-30e96d4165a3"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                  "leftValue": "={{ $json.include.includes('note') }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "boolean",
+                    "operation": "true",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1792,
+            -784
+          ],
+          "id": "b8f9b2d4-4b1d-4579-8eb1-d1fa002c9ad2",
+          "name": "If include(notes)"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "a87361c5-3794-4a2e-a72c-a9ca209b4d05",
+              "mode": "list",
+              "cachedResultName": "LISA - Notes"
+            },
+            "filter": "=fields/Title eq '{{ $json.job.JobNumber }}'",
+            "options": {
+              "fields": [
+                "fields"
+              ]
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            2016,
+            -848
+          ],
+          "id": "d42a4ef4-768d-40df-a5c1-7fe7e7c422ae",
+          "name": "Get many note items",
+          "alwaysOutputData": false
+        },
+        {
+          "parameters": {
+            "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"note\";\nconst sharepointSettings = $('Wrap job').first().json.n8n_sharepoint;\nconst keepFields = [\n  ...(sharepointSettings.lists[objectType].fields || []),\n  ...(sharepointSettings.lists[objectType].readonly || [])\n];\n\nfunction safeParseJson(str) {\n  if (!str || typeof str !== \"string\") return null;\n  try {\n    return JSON.parse(str);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all()\n  .map(i => {\n    const f = i.json?.fields ?? i.json;\n    if (!f) return null;\n\n    const item = Object.fromEntries(\n      Object.entries(f).filter(([k]) => keepFields.includes(k))\n    );\n\n    //item.QuoteObject = safeParseJson(item.QuoteDetail);\n\n    return item;\n  })\n  .filter(Boolean)\n  .sort((a, b) => (Number(b.Created) || 0) - (Number(a.Created) || 0));\n\nif (!items.length) return [];\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: `${objectType}`,\n        value: items\n      }\n    }\n  }\n];"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2240,
+            -848
+          ],
+          "id": "80c22b62-018a-4ec4-a061-8ea8d91add61",
+          "name": "Wrap notes"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            2464,
+            -784
+          ],
+          "id": "ca448101-c5a2-4eb7-9791-5d2cbaf0e46f",
+          "name": "Notes output"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            2464,
+            -496
+          ],
+          "id": "f52ae751-a94d-4709-afe7-f7c7b042ec1b",
+          "name": "Completion output"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                  "leftValue": "={{ $json.include.includes('completion') }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "boolean",
+                    "operation": "true",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1792,
+            -496
+          ],
+          "id": "b6b00bef-bbde-436f-a990-bcef39c71bbf",
+          "name": "If include(completions)"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "a87361c5-3794-4a2e-a72c-a9ca209b4d05",
+              "mode": "list",
+              "cachedResultName": "LISA - Notes"
+            },
+            "filter": "=fields/Title eq '{{ $json.job.JobNumber }}'",
+            "options": {
+              "fields": [
+                "fields"
+              ]
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            2016,
+            -560
+          ],
+          "id": "1bc15ed9-d2e8-4c53-a687-1f78a7e2cf96",
+          "name": "Get many completion items",
+          "alwaysOutputData": false
+        },
+        {
+          "parameters": {
+            "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"completion\";\nconst sharepointSettings = $('Wrap job').first().json.n8n_sharepoint;\nconst keepFields = [\n  ...(sharepointSettings.lists[objectType].fields || []),\n  ...(sharepointSettings.lists[objectType].readonly || [])\n];\n\nfunction safeParseJson(str) {\n  if (!str || typeof str !== \"string\") return null;\n  try {\n    return JSON.parse(str);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all()\n  .map(i => {\n    const f = i.json?.fields ?? i.json;\n    if (!f) return null;\n\n    const item = Object.fromEntries(\n      Object.entries(f).filter(([k]) => keepFields.includes(k))\n    );\n\n    //item.QuoteObject = safeParseJson(item.QuoteDetail);\n\n    return item;\n  })\n  .filter(Boolean)\n  .sort((a, b) => (Number(b.Created) || 0) - (Number(a.Created) || 0));\n\nif (!items.length) return [];\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: `${objectType}`,\n        value: items\n      }\n    }\n  }\n];"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2240,
+            -560
+          ],
+          "id": "db785bd2-66a1-442a-bb22-599d5da878f2",
+          "name": "Wrap completion"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "49a4c277-f2cf-4100-874a-1b5ecd6f840c",
+                  "leftValue": "={{ $json.include.includes('file') }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "boolean",
+                    "operation": "true",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1344,
+            192
+          ],
+          "id": "a75881dc-880f-4e3b-89f6-04049105c885",
+          "name": "If include(files)"
+        },
+        {
+          "parameters": {
+            "jsCode": "function extOf(name = \"\") {\n  const m = String(name).toLowerCase().match(/\\.([a-z0-9]+)$/i);\n  return m ? m[1] : \"\";\n}\n\nfunction prettySize(bytes) {\n  const n0 = Number(bytes);\n  if (!Number.isFinite(n0)) return \"\";\n\n  const units = [\"B\", \"KB\", \"MB\", \"GB\", \"TB\"];\n  let i = 0;\n  let n = n0;\n\n  while (n >= 1024 && i < units.length - 1) {\n    n /= 1024;\n    i++;\n  }\n\n  return `${n.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;\n}\n\nfunction iconForExt(ext = \"\") {\n  const e = ext.toLowerCase();\n\n  if ([\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(e)) return \"fa-regular fa-image\";\n  if (e === \"pdf\") return \"fa-regular fa-file-pdf\";\n  if ([\"doc\",\"docx\",\"rtf\"].includes(e)) return \"fa-regular fa-file-word\";\n  if ([\"xls\",\"xlsx\",\"csv\"].includes(e)) return \"fa-regular fa-file-excel\";\n  if ([\"ppt\",\"pptx\"].includes(e)) return \"fa-regular fa-file-powerpoint\";\n  if ([\"eml\",\"msg\"].includes(e)) return \"fa-regular fa-envelope\";\n  if ([\"zip\",\"7z\",\"rar\",\"tar\",\"gz\"].includes(e)) return \"fa-regular fa-file-zipper\";\n  if ([\"txt\",\"log\"].includes(e)) return \"fa-regular fa-file-lines\";\n  if ([\"json\",\"xml\",\"yaml\",\"yml\"].includes(e)) return \"fa-regular fa-file-code\";\n\n  return \"fa-regular fa-file\";\n}\n\nfunction previewKindFor(mimeType = \"\", ext = \"\") {\n  const e = ext.toLowerCase();\n\n  const isImage =\n    mimeType.startsWith(\"image/\") ||\n    [\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(e);\n\n  const isPdf =\n    mimeType === \"application/pdf\" || e === \"pdf\";\n\n  if (isImage) return \"image\";\n  if (isPdf) return \"iframe\";\n\n  return \"external\";\n}\n\nfunction groupRank(a) {\n  if (a.previewKind === \"image\") return 0;\n  if (a.ext === \"PDF\") return 1;\n  if (a.ext === \"EML\" || a.ext === \"MSG\") return 3;\n  return 2; // office docs, etc\n}\n\nconst items = $input.all();\n\nconst attachments = items\n  .map(item => {\n    const file = item.json;\n    if (!file?.file) return null;\n\n    const ext = extOf(file.name);\n    const mimeType = file.file?.mimeType ?? \"\";\n\n    const thumbUrl =\n      file.thumbnails?.[0]?.small?.url ??\n      file.thumbnails?.[0]?.medium?.url ??\n      null;\n\n    const isImage =\n      mimeType.startsWith(\"image/\") ||\n      [\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(ext);\n\n    const previewUrl = isImage\n      ? (file.webUrl ?? \"\")\n      : (file.getUrl ?? file.webUrl ?? \"\");\n\n    return {\n      id: file.id ?? null,\n      name: file.name ?? \"\",\n      webUrl: file.webUrl ?? \"\",\n      size: file.size ?? null,\n      sizeText: prettySize(file.size),\n      mimeType,\n      ext: ext.toUpperCase(),\n      icon: iconForExt(ext),\n      thumbUrl,\n      previewKind: previewKindFor(mimeType, ext),\n      previewUrl,\n      created: file.createdDateTime ?? \"\",\n      modified: file.lastModifiedDateTime ?? \"\"\n    };\n  })\n  .filter(Boolean)\n  .sort((a, b) =>\n    groupRank(a) - groupRank(b) ||\n    String(b.modified ?? \"\").localeCompare(String(a.modified ?? \"\"))\n  );\n\nif (!attachments.length) {\n  return [];\n}\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: \"attachment\",\n        value: attachments\n      }\n    }\n  }\n];"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2240,
+            528
+          ],
+          "id": "e2aab1f1-b6d1-413e-893c-c8b41f65fd06",
+          "name": "Wrap attachments"
+        },
+        {
+          "parameters": {
+            "jsCode": "function extOf(name = \"\") {\n  const m = String(name).toLowerCase().match(/\\.([a-z0-9]+)$/i);\n  return m ? m[1] : \"\";\n}\n\nfunction prettySize(bytes) {\n  const n0 = Number(bytes);\n  if (!Number.isFinite(n0)) return \"\";\n\n  const units = [\"B\", \"KB\", \"MB\", \"GB\", \"TB\"];\n  let i = 0;\n  let n = n0;\n\n  while (n >= 1024 && i < units.length - 1) {\n    n /= 1024;\n    i++;\n  }\n\n  return `${n.toFixed(i === 0 ? 0 : 1)} ${units[i]}`;\n}\n\nfunction iconForExt(ext = \"\") {\n  const e = ext.toLowerCase();\n\n  if ([\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(e)) return \"fa-regular fa-image\";\n  if (e === \"pdf\") return \"fa-regular fa-file-pdf\";\n  if ([\"doc\",\"docx\",\"rtf\"].includes(e)) return \"fa-regular fa-file-word\";\n  if ([\"xls\",\"xlsx\",\"csv\"].includes(e)) return \"fa-regular fa-file-excel\";\n  if ([\"ppt\",\"pptx\"].includes(e)) return \"fa-regular fa-file-powerpoint\";\n  if ([\"eml\",\"msg\"].includes(e)) return \"fa-regular fa-envelope\";\n  if ([\"zip\",\"7z\",\"rar\",\"tar\",\"gz\"].includes(e)) return \"fa-regular fa-file-zipper\";\n  if ([\"txt\",\"log\"].includes(e)) return \"fa-regular fa-file-lines\";\n  if ([\"json\",\"xml\",\"yaml\",\"yml\"].includes(e)) return \"fa-regular fa-file-code\";\n\n  return \"fa-regular fa-file\";\n}\n\nfunction previewKindFor(mimeType = \"\", ext = \"\") {\n  const e = ext.toLowerCase();\n\n  const isImage =\n    mimeType.startsWith(\"image/\") ||\n    [\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(e);\n\n  const isPdf =\n    mimeType === \"application/pdf\" || e === \"pdf\";\n\n  if (isImage) return \"image\";\n  if (isPdf) return \"iframe\";\n\n  return \"external\";\n}\n\nfunction groupRank(a) {\n  if (a.previewKind === \"image\") return 0;\n  if (a.ext === \"PDF\") return 1;\n  if (a.ext === \"EML\" || a.ext === \"MSG\") return 3;\n  return 2; // office docs, etc\n}\n\nconst items = $input.all();\n\nconst attachments = items\n  .map(item => {\n    const file = item.json;\n    if (!file?.isFile) return null;\n\n    const ext = extOf(file.name);\n    const mimeType = file.file?.mimeType ?? \"\";\n\n    const thumbUrl =\n      file.thumbnails?.[0]?.small?.url ??\n      file.thumbnails?.[0]?.medium?.url ??\n      null;\n\n    const isImage =\n      mimeType.startsWith(\"image/\") ||\n      [\"png\",\"jpg\",\"jpeg\",\"gif\",\"webp\",\"bmp\",\"tif\",\"tiff\",\"svg\"].includes(ext);\n\n    const previewUrl = isImage\n      ? (file.webUrl ?? \"\")\n      : (file.getUrl ?? file.webUrl ?? \"\");\n\n    return {\n      id: file.id ?? null,\n      name: file.name ?? \"\",\n      webUrl: file.webUrl ?? \"\",\n      size: file.size ?? null,\n      sizeText: prettySize(file.size),\n      mimeType,\n      ext: ext.toUpperCase(),\n      icon: iconForExt(ext),\n      thumbUrl,\n      previewKind: previewKindFor(mimeType, ext),\n      previewUrl,\n      created: file.createdDateTime ?? \"\",\n      modified: file.lastModifiedDateTime ?? \"\",\n      parentPath: file.parentPath\n    };\n  })\n  .filter(Boolean)\n  .sort((a, b) =>\n    groupRank(a) - groupRank(b) ||\n    String(b.modified ?? \"\").localeCompare(String(a.modified ?? \"\"))\n  );\n\nif (!attachments.length) {\n  return [];\n}\n\nreturn [\n  {\n    json: {\n      relatedItem: {\n        key: \"file\",\n        value: attachments\n      }\n    }\n  }\n];\n"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2240,
+            112
+          ],
+          "id": "b5e375d2-5e43-42a0-92bc-ca4560c3c9c1",
+          "name": "Wrap files"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            2464,
+            192
+          ],
+          "id": "a3134ab6-ac0c-475b-a12e-8fbcbec9de60",
+          "name": "Files output"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "Dkd3fVOs3tYMZHkk",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/Dkd3fVOs3tYMZHkk",
+              "cachedResultName": "WfD Shared Project — Higgins: _Sharepoint Defaults"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            672,
+            -496
+          ],
+          "id": "58cea55b-9813-4808-8089-9cebc1635715",
+          "name": "Sp Defaults"
+        },
+        {
+          "parameters": {
+            "fieldToSplitOut": "value",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.splitOut",
+          "typeVersion": 1,
+          "position": [
+            1568,
+            528
+          ],
+          "id": "b2ca3c28-f2fe-44a2-8f77-ce0ce7e3455b",
+          "name": "Split Out"
+        },
+        {
+          "parameters": {
+            "url": "=https://graph.microsoft.com/v1.0/drives/{{ $json.n8n_sharepoint.driveId }}/items/{{ $json.job.SpThreadId }}/children?$select=id,name,size,webUrl,file,folder,lastModifiedDateTime,createdDateTime&$expand=thumbnails",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "microsoftOutlookOAuth2Api",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1344,
+            528
+          ],
+          "id": "00931898-3801-4480-a2d4-aea17dbd980d",
+          "name": "HTTP Request Thread Files",
+          "alwaysOutputData": false,
+          "onError": "continueErrorOutput"
+        },
+        {
+          "parameters": {
+            "jsCode": "function safeParseJson(str) {\n  if (!str || typeof str !== \"string\") return null;\n  try {\n    return JSON.parse(str);\n  } catch {\n    return null;\n  }\n}\n\nconst input = safeParseJson($('Wrap job').first().json.job.SpFilesJson)?.items || [];\n\nreturn input;"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1568,
+            112
+          ],
+          "id": "cfdc16f0-dcc8-41e0-b999-72b0fbd511ff",
+          "name": "Unwrap files"
+        },
+        {
+          "parameters": {
+            "method": "POST",
+            "url": "=https://graph.microsoft.com/v1.0/drives/{{ $('If include(attachments)').item.json.n8n_sharepoint.driveId }}/items/{{ $json.id }}/preview",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "microsoftOutlookOAuth2Api",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.4,
+          "position": [
+            1792,
+            448
+          ],
+          "id": "9a394fb7-424d-45cc-9e22-3050cc7477e6",
+          "name": "HTTP Request attachment preview",
+          "onError": "continueErrorOutput"
+        },
+        {
+          "parameters": {
+            "method": "POST",
+            "url": "=https://graph.microsoft.com/v1.0/drives/{{ $('If include(files)').item.json.n8n_sharepoint.driveId }}/items/{{ $json.id }}/preview",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "microsoftOutlookOAuth2Api",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.4,
+          "position": [
+            1792,
+            48
+          ],
+          "id": "6be0aa15-c4ea-4843-aa6f-236bf928ff5f",
+          "name": "HTTP Request file preview",
+          "retryOnFail": false,
+          "onError": "continueErrorOutput"
+        },
+        {
+          "parameters": {
+            "mode": "combine",
+            "combineBy": "combineByPosition",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.merge",
+          "typeVersion": 3.2,
+          "position": [
+            2016,
+            528
+          ],
+          "id": "74702773-de05-4121-be72-6c629312bc98",
+          "name": "Merge Attachments + Preview"
+        },
+        {
+          "parameters": {
+            "mode": "combine",
+            "combineBy": "combineByPosition",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.merge",
+          "typeVersion": 3.2,
+          "position": [
+            2016,
+            112
+          ],
+          "id": "c0ca21aa-86d1-47c6-a144-5bf5a23f0242",
+          "name": "Merge Files + Preview"
+        }
+      ],
+      "connections": {
+        "Switch": {
+          "main": [
+            [
+              {
+                "node": "Call Higgins: Job update",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Get a job item",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Get many job items",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get a job item": {
+          "main": [
+            [
+              {
+                "node": "Sp Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get many job items": {
+          "main": [
+            [
+              {
+                "node": "Sp Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get many email items": {
+          "main": [
+            [
+              {
+                "node": "Markdown",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Markdown": {
+          "main": [
+            [
+              {
+                "node": "Wrap emails",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If include(property)": {
+          "main": [
+            [
+              {
+                "node": "Get property by id",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Property output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get property by id": {
+          "main": [
+            [
+              {
+                "node": "Wrap property",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "EntryPoint": {
+          "main": [
+            [
+              {
+                "node": "Switch",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If include(attachments)": {
+          "main": [
+            [
+              {
+                "node": "HTTP Request Thread Files",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Attachments output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Property output": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Emails output": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 4
+              }
+            ]
+          ]
+        },
+        "Attachments output": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 6
+              }
+            ]
+          ]
+        },
+        "Wrap job": {
+          "main": [
+            [
+              {
+                "node": "If include(property)",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "If include(emails)",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "If include(attachments)",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "If include(quotes)",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "If include(notes)",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "If include(completions)",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "If include(files)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap property": {
+          "main": [
+            [
+              {
+                "node": "Property output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap emails": {
+          "main": [
+            [
+              {
+                "node": "Emails output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If include(emails)": {
+          "main": [
+            [
+              {
+                "node": "Get many email items",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Emails output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Merge": {
+          "main": [
+            [
+              {
+                "node": "Aggregator",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If include(quotes)": {
+          "main": [
+            [
+              {
+                "node": "Get many quote items",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Quotes output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get many quote items": {
+          "main": [
+            [
+              {
+                "node": "Wrap quotes",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap quotes": {
+          "main": [
+            [
+              {
+                "node": "Quotes output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Quotes output": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 1
+              }
+            ]
+          ]
+        },
+        "Call Higgins: Job update": {
+          "main": [
+            [
+              {
+                "node": "Sp Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If include(notes)": {
+          "main": [
+            [
+              {
+                "node": "Get many note items",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Notes output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get many note items": {
+          "main": [
+            [
+              {
+                "node": "Wrap notes",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap notes": {
+          "main": [
+            [
+              {
+                "node": "Notes output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Notes output": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 2
+              }
+            ]
+          ]
+        },
+        "Completion output": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 3
+              }
+            ]
+          ]
+        },
+        "If include(completions)": {
+          "main": [
+            [
+              {
+                "node": "Get many completion items",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Completion output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get many completion items": {
+          "main": [
+            [
+              {
+                "node": "Wrap completion",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap completion": {
+          "main": [
+            [
+              {
+                "node": "Completion output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If include(files)": {
+          "main": [
+            [
+              {
+                "node": "Unwrap files",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Files output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap attachments": {
+          "main": [
+            [
+              {
+                "node": "Attachments output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap files": {
+          "main": [
+            [
+              {
+                "node": "Files output",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Files output": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 5
+              }
+            ]
+          ]
+        },
+        "Sp Defaults": {
+          "main": [
+            [
+              {
+                "node": "Wrap job",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Split Out": {
+          "main": [
+            [
+              {
+                "node": "Merge Attachments + Preview",
+                "type": "main",
+                "index": 1
+              },
+              {
+                "node": "HTTP Request attachment preview",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "HTTP Request Thread Files": {
+          "main": [
+            [
+              {
+                "node": "Split Out",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Unwrap files": {
+          "main": [
+            [
+              {
+                "node": "HTTP Request file preview",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "Merge Files + Preview",
+                "type": "main",
+                "index": 1
+              }
+            ]
+          ]
+        },
+        "HTTP Request attachment preview": {
+          "main": [
+            [
+              {
+                "node": "Merge Attachments + Preview",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "HTTP Request file preview": {
+          "main": [
+            [
+              {
+                "node": "Merge Files + Preview",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Merge Attachments + Preview": {
+          "main": [
+            [
+              {
+                "node": "Wrap attachments",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Merge Files + Preview": {
+          "main": [
+            [
+              {
+                "node": "Wrap files",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

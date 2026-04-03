@@ -1,0 +1,186 @@
+{
+  "workflow": {
+    "id": "0pcNOE6vWgySHRsy",
+    "name": "Higgins: Calendar entry",
+    "active": true,
+    "isArchived": false,
+    "versionId": "d4a0c0b2-b08b-4403-bf08-20eef687a868",
+    "activeVersionId": "d4a0c0b2-b08b-4403-bf08-20eef687a868",
+    "triggerCount": 0,
+    "createdAt": "2025-12-08T16:26:18.338Z",
+    "updatedAt": "2026-04-03T16:21:41.049Z",
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": true
+    },
+    "connections": {
+      "EntryPoint": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "inputSource": "jsonExample",
+          "jsonExample": "  {\n    \"attendees\": [\n      {\n        \"name\": \"Fred\",\n        \"email\": \"fred@domain.com\"\n      },\n      {\n        \"name\": \"Stan\",\n        \"email\": \"stan@domain.com\"\n      }\n    ],\n    \"categories\": [\"Electrical\"],\n    \"subject\": \"#12345 at address, postcode\",\n    \"location\": \"address, postcode\",\n    \"imgMap\": \"https://maps.googleapis.com/maps/api/staticmap\",\n    \"embedMap\": \"https://www.google.com/maps/embed/v1/search\",\n    \"startTime\": \"2025-12-14T09:00:00\",\n    \"durationHours\": \"1.5\",\n    \"endTime\": \"2025-12-14T10:30:00\",\n    \"body\": \"\"\n  }"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "fa0e28eb-5eda-4eea-972e-22830acdac80",
+        "name": "EntryPoint"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "https://graph.microsoft.com/v1.0/me/events",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "microsoftOutlookOAuth2Api",
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={{ $json }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          448,
+          0
+        ],
+        "id": "9ec71369-8a92-42a1-9139-f0b6e11849c3",
+        "name": "HTTP Request"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Build the event body object\nconst event = {\n  subject: $json.subject,\n  body: {\n    contentType: \"HTML\",\n    content: $json.body\n  },\n  start: {\n    dateTime: $json.startTime,\n    timeZone: \"UTC\"\n  },\n  end: {\n    dateTime: $json.endTime,\n    timeZone: \"UTC\"\n  },\n  location: {\n    displayName: $json.location\n  },\n  categories: $input.first().json.categories,\n  attendees: ($json.attendees || []).map(a => {\n    return {\n      emailAddress: {\n        address: a.email,\n        name: a.name\n      },\n      type: \"required\"\n    };\n  }),\n  isOnlineMeeting: false,\n  isDraft: true\n};\n\n// Return the event as the item output\nreturn [\n  {\n    json: event\n  }\n];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          208,
+          0
+        ],
+        "id": "af68da58-8053-4e88-b9f8-2a0187841614",
+        "name": "Code in JavaScript"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "inputSource": "jsonExample",
+            "jsonExample": "  {\n    \"attendees\": [\n      {\n        \"name\": \"Fred\",\n        \"email\": \"fred@domain.com\"\n      },\n      {\n        \"name\": \"Stan\",\n        \"email\": \"stan@domain.com\"\n      }\n    ],\n    \"categories\": [\"Electrical\"],\n    \"subject\": \"#12345 at address, postcode\",\n    \"location\": \"address, postcode\",\n    \"imgMap\": \"https://maps.googleapis.com/maps/api/staticmap\",\n    \"embedMap\": \"https://www.google.com/maps/embed/v1/search\",\n    \"startTime\": \"2025-12-14T09:00:00\",\n    \"durationHours\": \"1.5\",\n    \"endTime\": \"2025-12-14T10:30:00\",\n    \"body\": \"\"\n  }"
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            0,
+            0
+          ],
+          "id": "fa0e28eb-5eda-4eea-972e-22830acdac80",
+          "name": "EntryPoint"
+        },
+        {
+          "parameters": {
+            "method": "POST",
+            "url": "https://graph.microsoft.com/v1.0/me/events",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "microsoftOutlookOAuth2Api",
+            "sendBody": true,
+            "specifyBody": "json",
+            "jsonBody": "={{ $json }}",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.2,
+          "position": [
+            448,
+            0
+          ],
+          "id": "9ec71369-8a92-42a1-9139-f0b6e11849c3",
+          "name": "HTTP Request"
+        },
+        {
+          "parameters": {
+            "jsCode": "// Build the event body object\nconst event = {\n  subject: $json.subject,\n  body: {\n    contentType: \"HTML\",\n    content: $json.body\n  },\n  start: {\n    dateTime: $json.startTime,\n    timeZone: \"UTC\"\n  },\n  end: {\n    dateTime: $json.endTime,\n    timeZone: \"UTC\"\n  },\n  location: {\n    displayName: $json.location\n  },\n  categories: $input.first().json.categories,\n  attendees: ($json.attendees || []).map(a => {\n    return {\n      emailAddress: {\n        address: a.email,\n        name: a.name\n      },\n      type: \"required\"\n    };\n  }),\n  isOnlineMeeting: false,\n  isDraft: true\n};\n\n// Return the event as the item output\nreturn [\n  {\n    json: event\n  }\n];\n"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            208,
+            0
+          ],
+          "id": "af68da58-8053-4e88-b9f8-2a0187841614",
+          "name": "Code in JavaScript"
+        }
+      ],
+      "connections": {
+        "EntryPoint": {
+          "main": [
+            [
+              {
+                "node": "Code in JavaScript",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Code in JavaScript": {
+          "main": [
+            [
+              {
+                "node": "HTTP Request",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

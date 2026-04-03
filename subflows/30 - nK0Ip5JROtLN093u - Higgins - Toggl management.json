@@ -1,0 +1,1583 @@
+{
+  "workflow": {
+    "id": "nK0Ip5JROtLN093u",
+    "name": "Higgins: Toggl management",
+    "active": true,
+    "isArchived": false,
+    "versionId": "7f028d37-4d47-4db8-bb30-f31cc82a2248",
+    "activeVersionId": "7f028d37-4d47-4db8-bb30-f31cc82a2248",
+    "triggerCount": 0,
+    "createdAt": "2025-12-09T15:59:42.861Z",
+    "updatedAt": "2026-04-03T16:12:16.068Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true
+    },
+    "connections": {
+      "EntryPoint": {
+        "main": [
+          [
+            {
+              "node": "Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Skip if exists",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Update Project",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Archive Project",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Delete Project",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Archive Project": {
+        "main": [
+          [
+            {
+              "node": "Update job",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update Project": {
+        "main": [
+          [
+            {
+              "node": "Update job",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create Project": {
+        "main": [
+          [
+            {
+              "node": "Update job",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Defaults": {
+        "main": [
+          [
+            {
+              "node": "Get job",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Delete Project": {
+        "main": [
+          [
+            {
+              "node": "Update job (DELETE)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Skip if exists": {
+        "main": [
+          [
+            {
+              "node": "Create Project",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "HTML",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update job": {
+        "main": [
+          [
+            {
+              "node": "HTML",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get job": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update job (DELETE)": {
+        "main": [
+          [
+            {
+              "node": "HTML1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTML": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: HTML Render'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTML1": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: HTML Render'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "JobNumber"
+              },
+              {
+                "name": "action"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -32,
+          112
+        ],
+        "id": "e30bd111-eb4e-4078-a0a0-39c8891d14fa",
+        "name": "EntryPoint"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": false,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $('Defaults').item.json.action }}",
+                      "rightValue": "CREATE",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      },
+                      "id": "1241215c-6742-408f-8b1b-ee29612a3b9e"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "CREATE"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": false,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "8cbc8267-3124-4da6-add4-d78b83ff5622",
+                      "leftValue": "={{ $('Defaults').item.json.action }}",
+                      "rightValue": "UPDATE",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "UPDATE"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": false,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "07dc2c2e-cd8f-4b2b-be7b-f6628cc27465",
+                      "leftValue": "={{ $('Defaults').item.json.action }}",
+                      "rightValue": "ARCHIVE",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "ARCHIVE"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": false,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 2
+                  },
+                  "conditions": [
+                    {
+                      "id": "a1c151f2-8d0f-4887-bb72-e0e8eafbd673",
+                      "leftValue": "={{ $('Defaults').item.json.action }}",
+                      "rightValue": "DELETE",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "DELETE"
+              }
+            ]
+          },
+          "options": {
+            "ignoreCase": true
+          }
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.3,
+        "position": [
+          640,
+          176
+        ],
+        "id": "5bb49b66-42b9-420a-a511-da1fdfa5b8a1",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "method": "PUT",
+          "url": "={{ $('Defaults').item.json.n8n_defaults.toggl.api_url }}{{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}/projects/{{ $json.job.Toggl }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "={{ 'Basic ' + ($('Defaults').item.json.n8n_defaults.toggl.api_key + ':api_token').base64Encode() }}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"is_private\": false,\n  \"is_shared\": true,\n  \"active\": false\n} ",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1088,
+          304
+        ],
+        "id": "a9f373d4-8fd3-476e-89dc-2be99baf8292",
+        "name": "Archive Project"
+      },
+      {
+        "parameters": {
+          "method": "PUT",
+          "url": "={{ $('Defaults').item.json.n8n_defaults.toggl.api_url }}{{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}/projects/{{ $json.job.Toggl }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "={{ 'Basic ' + ($('Defaults').item.json.n8n_defaults.toggl.api_key + ':api_token').base64Encode() }}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"name\": \"#{{ $json.job.JobNumber }}, {{ $json.job.AddressLine1 ?? $json.job.Address }}, {{ $json.job.Postcode }} ({{ $json.job.Tags }})\",\n  \"is_private\": false,\n  \"is_shared\": true,\n  \"active\": true\n} ",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1088,
+          112
+        ],
+        "id": "7db468ed-4e4f-4965-98b2-0b7671d83bee",
+        "name": "Update Project"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "={{ $('Defaults').item.json.n8n_defaults.toggl.api_url }}{{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}/projects",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "={{ 'Basic ' + ($('Defaults').item.json.n8n_defaults.toggl.api_key + ':api_token').base64Encode() }}"
+              }
+            ]
+          },
+          "sendBody": true,
+          "specifyBody": "json",
+          "jsonBody": "={\n  \"name\": \"#{{ $json.job.JobNumber }}, {{ $json.job.AddressLine1 ?? $json.job.Address }}, {{ $json.job.Postcode }} ({{ $json.job.Tags }})\",\n  \"is_private\": false,\n  \"is_shared\": true,\n  \"active\": true\n} ",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1088,
+          -176
+        ],
+        "id": "c66dbe35-3e58-4c7a-919d-55ebb28f4e58",
+        "name": "Create Project"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "RgFuxYHwCa6cNZTQ",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/RgFuxYHwCa6cNZTQ",
+            "cachedResultName": "WfD Shared Project — Higgins: _Defaults"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          192,
+          208
+        ],
+        "id": "6e54dee2-f0e0-42d7-b11f-5697b3b0843e",
+        "name": "Defaults"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -32,
+          304
+        ],
+        "id": "0c841481-6867-4bdf-af20-d3bf564766f4",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "method": "DELETE",
+          "url": "={{ $('Defaults').item.json.n8n_defaults.toggl.api_url }}{{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}/projects/{{ $json.job.Toggl }}",
+          "sendHeaders": true,
+          "headerParameters": {
+            "parameters": [
+              {
+                "name": "Authorization",
+                "value": "={{ 'Basic ' + ($('Defaults').item.json.n8n_defaults.toggl.api_key + ':api_token').base64Encode() }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1088,
+          496
+        ],
+        "id": "42a35ba1-8f5e-4f5f-8103-77dbe867fd00",
+        "name": "Delete Project"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "e8a0b227-dd02-4559-b2e4-3fc36363c5ea",
+                "leftValue": "={{ $json.job.Toggl }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "empty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          864,
+          -112
+        ],
+        "id": "40c43df1-174e-453f-bc5f-fde8926e2b2e",
+        "name": "Skip if exists"
+      },
+      {
+        "parameters": {
+          "html": "<!-- #pageTitle 'Job #{{ $json.job.JobNumber }}\n\t\t\t\t<span class=\"badge badge-secondary\">\n\t\t\t\t\t{{ $json.job.Status ?? 'New' }}\n\t\t\t\t</span>' -->\n\n<ul>\n  <li>\n    <a href=\"https://track.toggl.com/{{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}/projects/{{ $json.job.Toggl }}/dashboard\" target=\"_blank\">\n      Open project in Toggl\n    </a>\n  </li>\n  {{ $('Defaults').item.json.action.toLowerCase() == 'archive' ? '<!-- Timers disabled for an archived project' : ''  }}\n  <li>\n    <a href=\"https://track.toggl.com/timer/start?pid={{ $json.job.Toggl }}&wid={{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}&description={{ encodeURIComponent($json.job.Subject) }}\" target=\"_blank\">\n      ▶ Start timer\n    </a>\n  </li>\n  <li>\n    <a href=\"https://track.toggl.com/stop\" target=\"_blank\">\n      ⏹ Stop current timer\n    </a>\n  </li>\n  {{ $('Defaults').item.json.action.toLowerCase() == 'archive' ? '-->' : ''  }}\n</ul>"
+        },
+        "type": "n8n-nodes-base.html",
+        "typeVersion": 1.2,
+        "position": [
+          1536,
+          -112
+        ],
+        "id": "5d118ecc-1298-4670-9d75-0b5e579df4d7",
+        "name": "HTML"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "7GnSWkz7nyJh-HH5OQ_SE",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+            "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "jobNumber": "={{ $('Switch').item.json.job.JobNumber }}",
+              "job": "={\n  \"ID\": {{ $('Switch').item.json.job.ID }},\n  \"JobNumber\": \"{{ $('Switch').item.json.job.JobNumber }}\",\n  \"Toggl\": \"{{ $json.id }}\"\n}",
+              "id": "={{ $('Switch').item.json.job.ID }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "jobNumber",
+                "displayName": "jobNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "job",
+                "displayName": "job",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "object",
+                "removed": false
+              },
+              {
+                "id": "include",
+                "displayName": "include",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": true,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1312,
+          496
+        ],
+        "id": "84d45508-6e08-405f-9466-46f40311e6ba",
+        "name": "Update job (DELETE)"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "7GnSWkz7nyJh-HH5OQ_SE",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+            "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "jobNumber": "={{ $('Switch').item.json.job.JobNumber }}",
+              "job": "={\n  \"ID\": {{ $('Switch').item.json.job.ID }},\n  \"JobNumber\": \"{{ $('Switch').item.json.job.JobNumber }}\",\n  \"Toggl\": \"{{ $json.id }}\"\n}",
+              "id": "={{ $('Switch').item.json.job.ID }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "jobNumber",
+                "displayName": "jobNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "job",
+                "displayName": "job",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "object",
+                "removed": false
+              },
+              {
+                "id": "include",
+                "displayName": "include",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": true,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1312,
+          -176
+        ],
+        "id": "31e8643f-0731-4f2e-8693-6bef80827583",
+        "name": "Update job"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "7GnSWkz7nyJh-HH5OQ_SE",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+            "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "jobNumber": "={{ $json.JobNumber }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "jobNumber",
+                "displayName": "jobNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "job",
+                "displayName": "job",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "object",
+                "removed": true
+              },
+              {
+                "id": "include",
+                "displayName": "include",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": true,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          416,
+          208
+        ],
+        "id": "5bc9ee2b-3e8e-420d-b580-87b927d71521",
+        "name": "Get job"
+      },
+      {
+        "parameters": {
+          "html": "<!-- #pageTitle 'Job #{{ $json.job.JobNumber }}\n\t\t\t\t<span class=\"badge badge-secondary\">\n\t\t\t\t\t{{ $json.job.Status ?? 'New' }}\n\t\t\t\t</span>' -->\n\n<div>Toggl project deleted</div>"
+        },
+        "type": "n8n-nodes-base.html",
+        "typeVersion": 1.2,
+        "position": [
+          1536,
+          496
+        ],
+        "id": "b52f5bdc-ba83-4dba-b70b-cad903cb2e36",
+        "name": "HTML1"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "CPMBwF51nRpqmBzc",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/CPMBwF51nRpqmBzc",
+            "cachedResultName": "WfD Shared Project — Higgins: HTML Render"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1760,
+          160
+        ],
+        "id": "4a4fe86e-45b5-4b54-aa08-f0598a00630d",
+        "name": "Call 'Higgins: HTML Render'"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "workflowInputs": {
+              "values": [
+                {
+                  "name": "JobNumber"
+                },
+                {
+                  "name": "action"
+                }
+              ]
+            }
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            -32,
+            112
+          ],
+          "id": "e30bd111-eb4e-4078-a0a0-39c8891d14fa",
+          "name": "EntryPoint"
+        },
+        {
+          "parameters": {
+            "rules": {
+              "values": [
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": false,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 2
+                    },
+                    "conditions": [
+                      {
+                        "leftValue": "={{ $('Defaults').item.json.action }}",
+                        "rightValue": "CREATE",
+                        "operator": {
+                          "type": "string",
+                          "operation": "equals"
+                        },
+                        "id": "1241215c-6742-408f-8b1b-ee29612a3b9e"
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "CREATE"
+                },
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": false,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 2
+                    },
+                    "conditions": [
+                      {
+                        "id": "8cbc8267-3124-4da6-add4-d78b83ff5622",
+                        "leftValue": "={{ $('Defaults').item.json.action }}",
+                        "rightValue": "UPDATE",
+                        "operator": {
+                          "type": "string",
+                          "operation": "equals"
+                        }
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "UPDATE"
+                },
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": false,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 2
+                    },
+                    "conditions": [
+                      {
+                        "id": "07dc2c2e-cd8f-4b2b-be7b-f6628cc27465",
+                        "leftValue": "={{ $('Defaults').item.json.action }}",
+                        "rightValue": "ARCHIVE",
+                        "operator": {
+                          "type": "string",
+                          "operation": "equals"
+                        }
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "ARCHIVE"
+                },
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": false,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 2
+                    },
+                    "conditions": [
+                      {
+                        "id": "a1c151f2-8d0f-4887-bb72-e0e8eafbd673",
+                        "leftValue": "={{ $('Defaults').item.json.action }}",
+                        "rightValue": "DELETE",
+                        "operator": {
+                          "type": "string",
+                          "operation": "equals"
+                        }
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "DELETE"
+                }
+              ]
+            },
+            "options": {
+              "ignoreCase": true
+            }
+          },
+          "type": "n8n-nodes-base.switch",
+          "typeVersion": 3.3,
+          "position": [
+            640,
+            176
+          ],
+          "id": "5bb49b66-42b9-420a-a511-da1fdfa5b8a1",
+          "name": "Switch"
+        },
+        {
+          "parameters": {
+            "method": "PUT",
+            "url": "={{ $('Defaults').item.json.n8n_defaults.toggl.api_url }}{{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}/projects/{{ $json.job.Toggl }}",
+            "sendHeaders": true,
+            "headerParameters": {
+              "parameters": [
+                {
+                  "name": "Authorization",
+                  "value": "={{ 'Basic ' + ($('Defaults').item.json.n8n_defaults.toggl.api_key + ':api_token').base64Encode() }}"
+                }
+              ]
+            },
+            "sendBody": true,
+            "specifyBody": "json",
+            "jsonBody": "={\n  \"is_private\": false,\n  \"is_shared\": true,\n  \"active\": false\n} ",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1088,
+            304
+          ],
+          "id": "a9f373d4-8fd3-476e-89dc-2be99baf8292",
+          "name": "Archive Project"
+        },
+        {
+          "parameters": {
+            "method": "PUT",
+            "url": "={{ $('Defaults').item.json.n8n_defaults.toggl.api_url }}{{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}/projects/{{ $json.job.Toggl }}",
+            "sendHeaders": true,
+            "headerParameters": {
+              "parameters": [
+                {
+                  "name": "Authorization",
+                  "value": "={{ 'Basic ' + ($('Defaults').item.json.n8n_defaults.toggl.api_key + ':api_token').base64Encode() }}"
+                }
+              ]
+            },
+            "sendBody": true,
+            "specifyBody": "json",
+            "jsonBody": "={\n  \"name\": \"#{{ $json.job.JobNumber }}, {{ $json.job.AddressLine1 ?? $json.job.Address }}, {{ $json.job.Postcode }} ({{ $json.job.Tags }})\",\n  \"is_private\": false,\n  \"is_shared\": true,\n  \"active\": true\n} ",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1088,
+            112
+          ],
+          "id": "7db468ed-4e4f-4965-98b2-0b7671d83bee",
+          "name": "Update Project"
+        },
+        {
+          "parameters": {
+            "method": "POST",
+            "url": "={{ $('Defaults').item.json.n8n_defaults.toggl.api_url }}{{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}/projects",
+            "sendHeaders": true,
+            "headerParameters": {
+              "parameters": [
+                {
+                  "name": "Authorization",
+                  "value": "={{ 'Basic ' + ($('Defaults').item.json.n8n_defaults.toggl.api_key + ':api_token').base64Encode() }}"
+                }
+              ]
+            },
+            "sendBody": true,
+            "specifyBody": "json",
+            "jsonBody": "={\n  \"name\": \"#{{ $json.job.JobNumber }}, {{ $json.job.AddressLine1 ?? $json.job.Address }}, {{ $json.job.Postcode }} ({{ $json.job.Tags }})\",\n  \"is_private\": false,\n  \"is_shared\": true,\n  \"active\": true\n} ",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1088,
+            -176
+          ],
+          "id": "c66dbe35-3e58-4c7a-919d-55ebb28f4e58",
+          "name": "Create Project"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "RgFuxYHwCa6cNZTQ",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/RgFuxYHwCa6cNZTQ",
+              "cachedResultName": "WfD Shared Project — Higgins: _Defaults"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            192,
+            208
+          ],
+          "id": "6e54dee2-f0e0-42d7-b11f-5697b3b0843e",
+          "name": "Defaults"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.manualTrigger",
+          "typeVersion": 1,
+          "position": [
+            -32,
+            304
+          ],
+          "id": "0c841481-6867-4bdf-af20-d3bf564766f4",
+          "name": "When clicking ‘Execute workflow’"
+        },
+        {
+          "parameters": {
+            "method": "DELETE",
+            "url": "={{ $('Defaults').item.json.n8n_defaults.toggl.api_url }}{{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}/projects/{{ $json.job.Toggl }}",
+            "sendHeaders": true,
+            "headerParameters": {
+              "parameters": [
+                {
+                  "name": "Authorization",
+                  "value": "={{ 'Basic ' + ($('Defaults').item.json.n8n_defaults.toggl.api_key + ':api_token').base64Encode() }}"
+                }
+              ]
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1088,
+            496
+          ],
+          "id": "42a35ba1-8f5e-4f5f-8103-77dbe867fd00",
+          "name": "Delete Project"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "e8a0b227-dd02-4559-b2e4-3fc36363c5ea",
+                  "leftValue": "={{ $json.job.Toggl }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "string",
+                    "operation": "empty",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            864,
+            -112
+          ],
+          "id": "40c43df1-174e-453f-bc5f-fde8926e2b2e",
+          "name": "Skip if exists"
+        },
+        {
+          "parameters": {
+            "html": "<!-- #pageTitle 'Job #{{ $json.job.JobNumber }}\n\t\t\t\t<span class=\"badge badge-secondary\">\n\t\t\t\t\t{{ $json.job.Status ?? 'New' }}\n\t\t\t\t</span>' -->\n\n<ul>\n  <li>\n    <a href=\"https://track.toggl.com/{{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}/projects/{{ $json.job.Toggl }}/dashboard\" target=\"_blank\">\n      Open project in Toggl\n    </a>\n  </li>\n  {{ $('Defaults').item.json.action.toLowerCase() == 'archive' ? '<!-- Timers disabled for an archived project' : ''  }}\n  <li>\n    <a href=\"https://track.toggl.com/timer/start?pid={{ $json.job.Toggl }}&wid={{ $('Defaults').item.json.n8n_defaults.toggl.workspace_id }}&description={{ encodeURIComponent($json.job.Subject) }}\" target=\"_blank\">\n      ▶ Start timer\n    </a>\n  </li>\n  <li>\n    <a href=\"https://track.toggl.com/stop\" target=\"_blank\">\n      ⏹ Stop current timer\n    </a>\n  </li>\n  {{ $('Defaults').item.json.action.toLowerCase() == 'archive' ? '-->' : ''  }}\n</ul>"
+          },
+          "type": "n8n-nodes-base.html",
+          "typeVersion": 1.2,
+          "position": [
+            1536,
+            -112
+          ],
+          "id": "5d118ecc-1298-4670-9d75-0b5e579df4d7",
+          "name": "HTML"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "7GnSWkz7nyJh-HH5OQ_SE",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+              "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "jobNumber": "={{ $('Switch').item.json.job.JobNumber }}",
+                "job": "={\n  \"ID\": {{ $('Switch').item.json.job.ID }},\n  \"JobNumber\": \"{{ $('Switch').item.json.job.JobNumber }}\",\n  \"Toggl\": \"{{ $json.id }}\"\n}",
+                "id": "={{ $('Switch').item.json.job.ID }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "jobNumber",
+                  "displayName": "jobNumber",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "job",
+                  "displayName": "job",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "object",
+                  "removed": false
+                },
+                {
+                  "id": "include",
+                  "displayName": "include",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "id",
+                  "displayName": "id",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": true,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            1312,
+            496
+          ],
+          "id": "84d45508-6e08-405f-9466-46f40311e6ba",
+          "name": "Update job (DELETE)"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "7GnSWkz7nyJh-HH5OQ_SE",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+              "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "jobNumber": "={{ $('Switch').item.json.job.JobNumber }}",
+                "job": "={\n  \"ID\": {{ $('Switch').item.json.job.ID }},\n  \"JobNumber\": \"{{ $('Switch').item.json.job.JobNumber }}\",\n  \"Toggl\": \"{{ $json.id }}\"\n}",
+                "id": "={{ $('Switch').item.json.job.ID }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "jobNumber",
+                  "displayName": "jobNumber",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "job",
+                  "displayName": "job",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "object",
+                  "removed": false
+                },
+                {
+                  "id": "include",
+                  "displayName": "include",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "id",
+                  "displayName": "id",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": true,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            1312,
+            -176
+          ],
+          "id": "31e8643f-0731-4f2e-8693-6bef80827583",
+          "name": "Update job"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "7GnSWkz7nyJh-HH5OQ_SE",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+              "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "jobNumber": "={{ $json.JobNumber }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "jobNumber",
+                  "displayName": "jobNumber",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "job",
+                  "displayName": "job",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "object",
+                  "removed": true
+                },
+                {
+                  "id": "include",
+                  "displayName": "include",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "id",
+                  "displayName": "id",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": true
+                }
+              ],
+              "attemptToConvertTypes": true,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            416,
+            208
+          ],
+          "id": "5bc9ee2b-3e8e-420d-b580-87b927d71521",
+          "name": "Get job"
+        },
+        {
+          "parameters": {
+            "html": "<!-- #pageTitle 'Job #{{ $json.job.JobNumber }}\n\t\t\t\t<span class=\"badge badge-secondary\">\n\t\t\t\t\t{{ $json.job.Status ?? 'New' }}\n\t\t\t\t</span>' -->\n\n<div>Toggl project deleted</div>"
+          },
+          "type": "n8n-nodes-base.html",
+          "typeVersion": 1.2,
+          "position": [
+            1536,
+            496
+          ],
+          "id": "b52f5bdc-ba83-4dba-b70b-cad903cb2e36",
+          "name": "HTML1"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "CPMBwF51nRpqmBzc",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/CPMBwF51nRpqmBzc",
+              "cachedResultName": "WfD Shared Project — Higgins: HTML Render"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            1760,
+            160
+          ],
+          "id": "4a4fe86e-45b5-4b54-aa08-f0598a00630d",
+          "name": "Call 'Higgins: HTML Render'"
+        }
+      ],
+      "connections": {
+        "EntryPoint": {
+          "main": [
+            [
+              {
+                "node": "Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Switch": {
+          "main": [
+            [
+              {
+                "node": "Skip if exists",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Update Project",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Archive Project",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Delete Project",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Archive Project": {
+          "main": [
+            [
+              {
+                "node": "Update job",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Update Project": {
+          "main": [
+            [
+              {
+                "node": "Update job",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Create Project": {
+          "main": [
+            [
+              {
+                "node": "Update job",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Defaults": {
+          "main": [
+            [
+              {
+                "node": "Get job",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "When clicking ‘Execute workflow’": {
+          "main": [
+            [
+              {
+                "node": "Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Delete Project": {
+          "main": [
+            [
+              {
+                "node": "Update job (DELETE)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Skip if exists": {
+          "main": [
+            [
+              {
+                "node": "Create Project",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "HTML",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Update job": {
+          "main": [
+            [
+              {
+                "node": "HTML",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get job": {
+          "main": [
+            [
+              {
+                "node": "Switch",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Update job (DELETE)": {
+          "main": [
+            [
+              {
+                "node": "HTML1",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "HTML": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: HTML Render'",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "HTML1": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: HTML Render'",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has the following trigger(s):\n"
+}

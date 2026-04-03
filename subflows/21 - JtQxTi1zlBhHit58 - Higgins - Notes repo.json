@@ -1,0 +1,1548 @@
+{
+  "workflow": {
+    "id": "JtQxTi1zlBhHit58",
+    "name": "Higgins: Notes repo",
+    "active": true,
+    "isArchived": false,
+    "versionId": "5f551a2e-0f04-4c17-acdb-84e3b01122bc",
+    "activeVersionId": "5f551a2e-0f04-4c17-acdb-84e3b01122bc",
+    "triggerCount": 0,
+    "createdAt": "2026-03-18T12:02:38.509Z",
+    "updatedAt": "2026-04-03T16:23:05.832Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true,
+      "binaryMode": "separate"
+    },
+    "connections": {
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: Notes update'",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get item",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get many items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "EntryPoint": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: Notes update'": {
+        "main": [
+          [
+            {
+              "node": "Sp Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap note": {
+        "main": [
+          [
+            {
+              "node": "If(Files)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get item": {
+        "main": [
+          [
+            {
+              "node": "Sp Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many items": {
+        "main": [
+          [
+            {
+              "node": "Sp Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Separate files": {
+        "main": [
+          [
+            {
+              "node": "Upload file",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Upload file": {
+        "main": [
+          [
+            {
+              "node": "Limit",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "SP folder": {
+        "main": [
+          [
+            {
+              "node": "Separate files",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Note metadata",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If(Files)": {
+        "main": [
+          [
+            {
+              "node": "SP folder",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "This is the return value",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Limit": {
+        "main": [
+          [
+            {
+              "node": "Force SP files list update",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Sp Defaults": {
+        "main": [
+          [
+            {
+              "node": "Inject binaries",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Force SP files list update": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Update note with new folder ID": {
+        "main": [
+          [
+            {
+              "node": "Wrap note",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Inject binaries": {
+        "main": [
+          [
+            {
+              "node": "Wrap note",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "This is the return value": {
+        "main": [
+          []
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Update note with new folder ID",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Note metadata": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "a9645937-852a-4876-b0dd-45c93ad6a4b2",
+                      "leftValue": "={{ $json.note }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "object",
+                        "operation": "exists",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "SAVE"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "65f7025d-fad0-43e4-b431-b87fb83a7739",
+                      "leftValue": "={{ $json.id }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "string",
+                        "operation": "notEmpty",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "GETBYID"
+              }
+            ]
+          },
+          "options": {
+            "fallbackOutput": "extra"
+          }
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          224,
+          -1216
+        ],
+        "id": "d24c321a-1ac6-4c5e-8fc3-804bf57fb903",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "jobNumber"
+              },
+              {
+                "name": "note",
+                "type": "object"
+              },
+              {
+                "name": "id"
+              },
+              {
+                "name": "binary",
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          0,
+          -1200
+        ],
+        "id": "6e62de4f-2c70-41de-ae39-3d8039df1128",
+        "name": "EntryPoint"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "xrnZPsybPvlsfnrH",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/xrnZPsybPvlsfnrH",
+            "cachedResultName": "WfD Shared Project — Higgins: Notes update"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          448,
+          -1392
+        ],
+        "id": "aa96a3e0-d2ef-47cd-b965-7410f9980a08",
+        "name": "Call 'Higgins: Notes update'"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"note\";\nconst keepFields = $('Sp Defaults').item.json.n8n_sharepoint.lists[objectType].fields;\n\nconst fields = $json?.fields ?? $json;\nconst ID = $json.id || $json.ID;\nconst JobNumber = fields.Title;\n\nconst item = Object.fromEntries(\n  Object.entries(fields).filter(([k]) => keepFields.includes(k))\n);\n\nreturn {\n  json: {\n    ID,\n    JobNumber,\n    [objectType]: {\n      ID,\n      JobNumber,\n      FolderSuffix: `${objectType}.${ID.padStart(6,'0')}`,\n      ...item\n    }\n  },\n  binary: $binary\n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1120,
+          -1200
+        ],
+        "id": "4f7fc4e7-401d-4923-b77a-ba630a0c13cc",
+        "name": "Wrap note"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "operation": "get",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "a87361c5-3794-4a2e-a72c-a9ca209b4d05",
+            "mode": "list",
+            "cachedResultName": "LISA - Notes"
+          },
+          "item": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          448,
+          -1200
+        ],
+        "id": "8f171dc0-7b7b-4dcd-acbd-a6dfab310e2d",
+        "name": "Get item"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "a87361c5-3794-4a2e-a72c-a9ca209b4d05",
+            "mode": "list",
+            "cachedResultName": "LISA - Notes"
+          },
+          "filter": "=fields/Title eq '{{ $json.jobNumber }}'",
+          "options": {
+            "fields": [
+              "fields"
+            ]
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          448,
+          -1008
+        ],
+        "id": "a1ecac0c-4d2c-4cd2-b2ea-e3df1c773430",
+        "name": "Get many items"
+      },
+      {
+        "parameters": {
+          "jsCode": "const binaries = $('EntryPoint').first().binary ?? {};\n\nreturn Object.entries(binaries)\n  .filter(([key]) => key.startsWith('notes.attachments'))\n  .map(([key, file]) => ({\n    json: {\n      ...$input.first().json,\n      binaryMetadata: {\n        folderId: $input.first().json.id,\n        binaryKey: key,\n        fileName: file.fileName,\n        mimeType: file.mimeType\n      }\n    },\n    binary: {\n      data: file,\n    },\n  }));"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1792,
+          -1264
+        ],
+        "id": "16e4dd0e-342b-4144-a40f-585e13fa8ba6",
+        "name": "Separate files"
+      },
+      {
+        "parameters": {
+          "operation": "upload",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "folder": {
+            "__rl": true,
+            "value": "={{ $('SP folder').item.json.id }}",
+            "mode": "id"
+          },
+          "fileName": "={{ $json.binaryMetadata.fileName }}",
+          "fileContents": "data",
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          2016,
+          -1264
+        ],
+        "id": "082d52a1-c25b-48c5-814b-1cac4b70b5f5",
+        "name": "Upload file"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "hkOcGa9t4l9ewaUJ",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/hkOcGa9t4l9ewaUJ",
+            "cachedResultName": "WfD Shared Project — Higgins: SP create/update folder"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "path": "={{ $json.fields.Title }}",
+              "timestamp": "={{ new Date().toISOString() }}",
+              "folderType": "note",
+              "itemId": "={{ $json.fields.id }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "path",
+                "displayName": "path",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "timestamp",
+                "displayName": "timestamp",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "metadata",
+                "displayName": "metadata",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "removed": true
+              },
+              {
+                "id": "folderType",
+                "displayName": "folderType",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "itemId",
+                "displayName": "itemId",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1568,
+          -1360
+        ],
+        "id": "65880ea8-bd40-46eb-94a2-21daa055f9d8",
+        "name": "SP folder"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "2ff4ad73-875e-49f5-9dce-f028c4080fde",
+                "leftValue": "={{ Object.keys($binary || {}).length }}",
+                "rightValue": 0,
+                "operator": {
+                  "type": "number",
+                  "operation": "gt"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1344,
+          -1264
+        ],
+        "id": "ae362504-db01-4c17-9cea-8e96b5bd5c82",
+        "name": "If(Files)"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.limit",
+        "typeVersion": 1,
+        "position": [
+          2240,
+          -1264
+        ],
+        "id": "ad84df8f-fc3b-473c-bab3-e0a24abe1677",
+        "name": "Limit"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "Dkd3fVOs3tYMZHkk",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/Dkd3fVOs3tYMZHkk",
+            "cachedResultName": "WfD Shared Project — Higgins: _Sharepoint Defaults"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          672,
+          -1200
+        ],
+        "id": "a7c9e65f-1c8e-46ca-bb99-43403505b454",
+        "name": "Sp Defaults"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "y1r7Zn5qxw9h7nKw",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/y1r7Zn5qxw9h7nKw",
+            "cachedResultName": "WfD Shared Project — Higgins: List attached files"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "ForceUpdate": true,
+              "JobNumber": "={{ $('Wrap note').item.json.note.JobNumber }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "JobNumber",
+                "displayName": "JobNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "ForceUpdate",
+                "displayName": "ForceUpdate",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "boolean"
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          2464,
+          -1264
+        ],
+        "id": "d46abc87-e6f0-4292-8b30-7bdfaa053fea",
+        "name": "Force SP files list update"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "xrnZPsybPvlsfnrH",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/xrnZPsybPvlsfnrH",
+            "cachedResultName": "WfD Shared Project — Higgins: Notes update"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          2912,
+          -1200
+        ],
+        "id": "661d4edc-c8d2-454d-be7a-a74d6be9c1ee",
+        "name": "Update note with new folder ID"
+      },
+      {
+        "parameters": {
+          "jsCode": "// Get EntryPoint item\nconst entry = $('EntryPoint').first();\n\n// Get all incoming items (job repo output)\nconst items = $input.all();\n\n// Conditions\nconst hasBinaryFlag = !!entry?.json?.binary;\nconst hasNote = !!entry?.json?.note;\nconst hasBinaryData = !!entry?.binary;\n\nif (hasBinaryFlag && hasNote && hasBinaryData && items.length > 0) {\n  // Clone first item to avoid mutation side-effects\n  const first = items[0];\n\n  items[0] = {\n    json: first.json,\n    binary: {\n      ...(first.binary || {}),\n      ...entry.binary // inject/merge binaries from EntryPoint\n    }\n  };\n}\n\n// Return all items\nreturn items;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          896,
+          -1200
+        ],
+        "id": "3d6ef209-7fbd-4e07-8bcc-ed2db214cfbb",
+        "name": "Inject binaries"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1568,
+          -1168
+        ],
+        "id": "7e5dcdd9-a4ee-4834-84cb-4915f567ef1d",
+        "name": "This is the return value"
+      },
+      {
+        "parameters": {
+          "mode": "chooseBranch"
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          2688,
+          -1360
+        ],
+        "id": "5895caeb-0474-48de-b865-af843e686771",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "  const input = $('Wrap note').item.json;\n\nreturn {\n  json: {\n    ...input,\n    note: {\n      SpFolderId: $json.id,\n      SpFolderUrl: $json.webUrl\n    }\n  }\n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2464,
+          -1456
+        ],
+        "id": "3afc3927-13bb-4f6f-a66d-fabee4b9946a",
+        "name": "Note metadata"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "rules": {
+              "values": [
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": true,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 3
+                    },
+                    "conditions": [
+                      {
+                        "id": "a9645937-852a-4876-b0dd-45c93ad6a4b2",
+                        "leftValue": "={{ $json.note }}",
+                        "rightValue": "",
+                        "operator": {
+                          "type": "object",
+                          "operation": "exists",
+                          "singleValue": true
+                        }
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "SAVE"
+                },
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": true,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 3
+                    },
+                    "conditions": [
+                      {
+                        "id": "65f7025d-fad0-43e4-b431-b87fb83a7739",
+                        "leftValue": "={{ $json.id }}",
+                        "rightValue": "",
+                        "operator": {
+                          "type": "string",
+                          "operation": "notEmpty",
+                          "singleValue": true
+                        }
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "GETBYID"
+                }
+              ]
+            },
+            "options": {
+              "fallbackOutput": "extra"
+            }
+          },
+          "type": "n8n-nodes-base.switch",
+          "typeVersion": 3.4,
+          "position": [
+            224,
+            -1216
+          ],
+          "id": "d24c321a-1ac6-4c5e-8fc3-804bf57fb903",
+          "name": "Switch"
+        },
+        {
+          "parameters": {
+            "workflowInputs": {
+              "values": [
+                {
+                  "name": "jobNumber"
+                },
+                {
+                  "name": "note",
+                  "type": "object"
+                },
+                {
+                  "name": "id"
+                },
+                {
+                  "name": "binary",
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            0,
+            -1200
+          ],
+          "id": "6e62de4f-2c70-41de-ae39-3d8039df1128",
+          "name": "EntryPoint"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "xrnZPsybPvlsfnrH",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/xrnZPsybPvlsfnrH",
+              "cachedResultName": "WfD Shared Project — Higgins: Notes update"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            448,
+            -1392
+          ],
+          "id": "aa96a3e0-d2ef-47cd-b965-7410f9980a08",
+          "name": "Call 'Higgins: Notes update'"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"note\";\nconst keepFields = $('Sp Defaults').item.json.n8n_sharepoint.lists[objectType].fields;\n\nconst fields = $json?.fields ?? $json;\nconst ID = $json.id || $json.ID;\nconst JobNumber = fields.Title;\n\nconst item = Object.fromEntries(\n  Object.entries(fields).filter(([k]) => keepFields.includes(k))\n);\n\nreturn {\n  json: {\n    ID,\n    JobNumber,\n    [objectType]: {\n      ID,\n      JobNumber,\n      FolderSuffix: `${objectType}.${ID.padStart(6,'0')}`,\n      ...item\n    }\n  },\n  binary: $binary\n};"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1120,
+            -1200
+          ],
+          "id": "4f7fc4e7-401d-4923-b77a-ba630a0c13cc",
+          "name": "Wrap note"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "operation": "get",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "a87361c5-3794-4a2e-a72c-a9ca209b4d05",
+              "mode": "list",
+              "cachedResultName": "LISA - Notes"
+            },
+            "item": {
+              "__rl": true,
+              "value": "={{ $json.id }}",
+              "mode": "id"
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            448,
+            -1200
+          ],
+          "id": "8f171dc0-7b7b-4dcd-acbd-a6dfab310e2d",
+          "name": "Get item"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "a87361c5-3794-4a2e-a72c-a9ca209b4d05",
+              "mode": "list",
+              "cachedResultName": "LISA - Notes"
+            },
+            "filter": "=fields/Title eq '{{ $json.jobNumber }}'",
+            "options": {
+              "fields": [
+                "fields"
+              ]
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            448,
+            -1008
+          ],
+          "id": "a1ecac0c-4d2c-4cd2-b2ea-e3df1c773430",
+          "name": "Get many items"
+        },
+        {
+          "parameters": {
+            "jsCode": "const binaries = $('EntryPoint').first().binary ?? {};\n\nreturn Object.entries(binaries)\n  .filter(([key]) => key.startsWith('notes.attachments'))\n  .map(([key, file]) => ({\n    json: {\n      ...$input.first().json,\n      binaryMetadata: {\n        folderId: $input.first().json.id,\n        binaryKey: key,\n        fileName: file.fileName,\n        mimeType: file.mimeType\n      }\n    },\n    binary: {\n      data: file,\n    },\n  }));"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1792,
+            -1264
+          ],
+          "id": "16e4dd0e-342b-4144-a40f-585e13fa8ba6",
+          "name": "Separate files"
+        },
+        {
+          "parameters": {
+            "operation": "upload",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "folder": {
+              "__rl": true,
+              "value": "={{ $('SP folder').item.json.id }}",
+              "mode": "id"
+            },
+            "fileName": "={{ $json.binaryMetadata.fileName }}",
+            "fileContents": "data",
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            2016,
+            -1264
+          ],
+          "id": "082d52a1-c25b-48c5-814b-1cac4b70b5f5",
+          "name": "Upload file"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "hkOcGa9t4l9ewaUJ",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/hkOcGa9t4l9ewaUJ",
+              "cachedResultName": "WfD Shared Project — Higgins: SP create/update folder"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "path": "={{ $json.fields.Title }}",
+                "timestamp": "={{ new Date().toISOString() }}",
+                "folderType": "note",
+                "itemId": "={{ $json.fields.id }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "path",
+                  "displayName": "path",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "timestamp",
+                  "displayName": "timestamp",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "metadata",
+                  "displayName": "metadata",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "removed": true
+                },
+                {
+                  "id": "folderType",
+                  "displayName": "folderType",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "itemId",
+                  "displayName": "itemId",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            1568,
+            -1360
+          ],
+          "id": "65880ea8-bd40-46eb-94a2-21daa055f9d8",
+          "name": "SP folder"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "2ff4ad73-875e-49f5-9dce-f028c4080fde",
+                  "leftValue": "={{ Object.keys($binary || {}).length }}",
+                  "rightValue": 0,
+                  "operator": {
+                    "type": "number",
+                    "operation": "gt"
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1344,
+            -1264
+          ],
+          "id": "ae362504-db01-4c17-9cea-8e96b5bd5c82",
+          "name": "If(Files)"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.limit",
+          "typeVersion": 1,
+          "position": [
+            2240,
+            -1264
+          ],
+          "id": "ad84df8f-fc3b-473c-bab3-e0a24abe1677",
+          "name": "Limit"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "Dkd3fVOs3tYMZHkk",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/Dkd3fVOs3tYMZHkk",
+              "cachedResultName": "WfD Shared Project — Higgins: _Sharepoint Defaults"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            672,
+            -1200
+          ],
+          "id": "a7c9e65f-1c8e-46ca-bb99-43403505b454",
+          "name": "Sp Defaults"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "y1r7Zn5qxw9h7nKw",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/y1r7Zn5qxw9h7nKw",
+              "cachedResultName": "WfD Shared Project — Higgins: List attached files"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "ForceUpdate": true,
+                "JobNumber": "={{ $('Wrap note').item.json.note.JobNumber }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "JobNumber",
+                  "displayName": "JobNumber",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                },
+                {
+                  "id": "ForceUpdate",
+                  "displayName": "ForceUpdate",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "boolean"
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            2464,
+            -1264
+          ],
+          "id": "d46abc87-e6f0-4292-8b30-7bdfaa053fea",
+          "name": "Force SP files list update"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "xrnZPsybPvlsfnrH",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/xrnZPsybPvlsfnrH",
+              "cachedResultName": "WfD Shared Project — Higgins: Notes update"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            2912,
+            -1200
+          ],
+          "id": "661d4edc-c8d2-454d-be7a-a74d6be9c1ee",
+          "name": "Update note with new folder ID"
+        },
+        {
+          "parameters": {
+            "jsCode": "// Get EntryPoint item\nconst entry = $('EntryPoint').first();\n\n// Get all incoming items (job repo output)\nconst items = $input.all();\n\n// Conditions\nconst hasBinaryFlag = !!entry?.json?.binary;\nconst hasNote = !!entry?.json?.note;\nconst hasBinaryData = !!entry?.binary;\n\nif (hasBinaryFlag && hasNote && hasBinaryData && items.length > 0) {\n  // Clone first item to avoid mutation side-effects\n  const first = items[0];\n\n  items[0] = {\n    json: first.json,\n    binary: {\n      ...(first.binary || {}),\n      ...entry.binary // inject/merge binaries from EntryPoint\n    }\n  };\n}\n\n// Return all items\nreturn items;"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            896,
+            -1200
+          ],
+          "id": "3d6ef209-7fbd-4e07-8bcc-ed2db214cfbb",
+          "name": "Inject binaries"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            1568,
+            -1168
+          ],
+          "id": "7e5dcdd9-a4ee-4834-84cb-4915f567ef1d",
+          "name": "This is the return value"
+        },
+        {
+          "parameters": {
+            "mode": "chooseBranch"
+          },
+          "type": "n8n-nodes-base.merge",
+          "typeVersion": 3.2,
+          "position": [
+            2688,
+            -1360
+          ],
+          "id": "5895caeb-0474-48de-b865-af843e686771",
+          "name": "Merge"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "  const input = $('Wrap note').item.json;\n\nreturn {\n  json: {\n    ...input,\n    note: {\n      SpFolderId: $json.id,\n      SpFolderUrl: $json.webUrl\n    }\n  }\n};"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2464,
+            -1456
+          ],
+          "id": "3afc3927-13bb-4f6f-a66d-fabee4b9946a",
+          "name": "Note metadata"
+        }
+      ],
+      "connections": {
+        "Switch": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: Notes update'",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Get item",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Get many items",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "EntryPoint": {
+          "main": [
+            [
+              {
+                "node": "Switch",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: Notes update'": {
+          "main": [
+            [
+              {
+                "node": "Sp Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap note": {
+          "main": [
+            [
+              {
+                "node": "If(Files)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get item": {
+          "main": [
+            [
+              {
+                "node": "Sp Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get many items": {
+          "main": [
+            [
+              {
+                "node": "Sp Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Separate files": {
+          "main": [
+            [
+              {
+                "node": "Upload file",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Upload file": {
+          "main": [
+            [
+              {
+                "node": "Limit",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "SP folder": {
+          "main": [
+            [
+              {
+                "node": "Separate files",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "Note metadata",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If(Files)": {
+          "main": [
+            [
+              {
+                "node": "SP folder",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "This is the return value",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Limit": {
+          "main": [
+            [
+              {
+                "node": "Force SP files list update",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Sp Defaults": {
+          "main": [
+            [
+              {
+                "node": "Inject binaries",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Force SP files list update": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 1
+              }
+            ]
+          ]
+        },
+        "Update note with new folder ID": {
+          "main": [
+            [
+              {
+                "node": "Wrap note",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Inject binaries": {
+          "main": [
+            [
+              {
+                "node": "Wrap note",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "This is the return value": {
+          "main": [
+            []
+          ]
+        },
+        "Merge": {
+          "main": [
+            [
+              {
+                "node": "Update note with new folder ID",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Note metadata": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

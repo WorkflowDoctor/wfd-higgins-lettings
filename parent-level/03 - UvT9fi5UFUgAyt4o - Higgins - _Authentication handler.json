@@ -1,0 +1,963 @@
+{
+  "workflow": {
+    "id": "UvT9fi5UFUgAyt4o",
+    "name": "Higgins: _Authentication handler",
+    "active": true,
+    "isArchived": false,
+    "versionId": "96d349fe-bea5-434e-9461-d54485caee4f",
+    "activeVersionId": "96d349fe-bea5-434e-9461-d54485caee4f",
+    "triggerCount": 2,
+    "createdAt": "2025-12-16T15:55:17.088Z",
+    "updatedAt": "2026-04-03T16:11:43.582Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true
+    },
+    "connections": {
+      "AuthCallback": {
+        "main": [
+          [
+            {
+              "node": "If missing(query.code)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Secrets": {
+        "main": [
+          [
+            {
+              "node": "Request Auth Token",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "HTML": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: HTML Render'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: HTML Render'": {
+        "main": [
+          [
+            {
+              "node": "HTML response to user",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Decode Auth Token",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If missing(query.code)": {
+        "main": [
+          [
+            {
+              "node": "HTML",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Secrets",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Request Auth Token": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Decode Auth Token": {
+        "main": [
+          [
+            {
+              "node": "Redirect to Calling Page",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "LogoutWebhook": {
+        "main": [
+          [
+            {
+              "node": "Secrets1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Secrets1": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "Redirect to Calling Page1",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "path": "higgins/auth-callback",
+          "responseMode": "responseNode",
+          "options": {
+            "rawBody": false
+          }
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          184
+        ],
+        "id": "6af133b4-2006-4df7-982e-a125996acb41",
+        "name": "AuthCallback",
+        "webhookId": "1e14b9b2-7c86-4515-b9ab-4a007936bbed"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "BN8XZNDtPswzUt9h",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/BN8XZNDtPswzUt9h",
+            "cachedResultName": "WfD Shared Project — Higgins: _Secrets"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          448,
+          280
+        ],
+        "id": "22cf50ca-6fb8-491a-a74e-42c706a5baa0",
+        "name": "Secrets"
+      },
+      {
+        "parameters": {
+          "html": "<!-- #pageTitle 'Login Failure' -->\n<div class=\"row mb-4\">\n    <div class=\"col-12\">\n        <div class=\"alert alert-danger\" role=\"alert\">\n            Login has failed\n          <div><code>{{ JSON.stringify($('AuthCallback').item.json.query, null, 3) }}</code></div>\n        </div>\n    </div>\n</div>"
+        },
+        "type": "n8n-nodes-base.html",
+        "typeVersion": 1.2,
+        "position": [
+          448,
+          16
+        ],
+        "id": "2ba102d4-d3f6-4400-a12e-673ad30d2962",
+        "name": "HTML"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "CPMBwF51nRpqmBzc",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/CPMBwF51nRpqmBzc",
+            "cachedResultName": "WfD Shared Project — Higgins: HTML Render"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          672,
+          16
+        ],
+        "id": "03a265e8-55bd-4c1e-b515-ce9ef3e8b70d",
+        "name": "Call 'Higgins: HTML Render'"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          896,
+          280
+        ],
+        "id": "6b127675-d1c7-4a84-b78a-34653a790c28",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "5f827763-18d8-49f5-bd1f-3d87ea176160",
+                "leftValue": "={{ $json.query.code }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notExists",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          224,
+          184
+        ],
+        "id": "65eed78e-3619-4fa5-9237-e196aa1872f6",
+        "name": "If missing(query.code)"
+      },
+      {
+        "parameters": {
+          "respondWith": "text",
+          "responseBody": "={{ $json.html }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          896,
+          16
+        ],
+        "id": "668d43ee-8df0-49e6-b91b-d3cda3a7307b",
+        "name": "HTML response to user"
+      },
+      {
+        "parameters": {
+          "method": "POST",
+          "url": "=https://login.microsoftonline.com/{{ $json.n8n_secrets.entra.tenant_id }}/oauth2/v2.0/token",
+          "sendBody": true,
+          "contentType": "form-urlencoded",
+          "bodyParameters": {
+            "parameters": [
+              {
+                "name": "grant_type",
+                "value": "authorization_code"
+              },
+              {
+                "name": "client_id",
+                "value": "={{ $json.n8n_secrets.entra.client_id }}"
+              },
+              {
+                "name": "client_secret",
+                "value": "={{ $json.n8n_secrets.entra.client_secret }}"
+              },
+              {
+                "name": "code",
+                "value": "={{ $json.query.code }}"
+              },
+              {
+                "name": "redirect_uri",
+                "value": "={{ $json.webhookUrl }}"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          672,
+          208
+        ],
+        "id": "5f66f4d6-236c-422e-addd-c3ca78a76109",
+        "name": "Request Auth Token"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "const crypto = require(\"crypto\");\n\n// Get state from the original call\nconst stateParam = $('AuthCallback').first().json.query?.state;\n\nlet returnTo = \"https://drflow.co.uk/\"; // safe fallback\n\nif (stateParam) {\n  try {\n    const decoded = JSON.parse(\n      globalThis.Buffer.from(stateParam, \"base64url\").toString(\"utf8\")\n    );\n    if (decoded.returnTo) {\n      returnTo = decoded.returnTo;\n    }\n  } catch (e) {\n    // ignore malformed state\n  }\n}\n\n// Get first input item safely\nconst input = $json;\n\n// --- decode auth id_token ---\nfunction base64urlDecode(input) {\n  input = input.replace(/-/g, \"+\").replace(/_/g, \"/\");\n  const pad = input.length % 4;\n  if (pad) input += \"=\".repeat(4 - pad);\n  return globalThis.Buffer.from(input, \"base64\").toString(\"utf8\");\n}\n\nconst idToken = input.id_token;\nconst claims = JSON.parse(base64urlDecode(idToken.split(\".\")[1]));\n\nconsole.log(`Claims`, claims);\n\n// --- create session payload ---\nconst payload = {\n  sub: claims.sub,\n  email: claims.email || claims.preferred_username,\n  tid: claims[\"https://workflowdoctor.co.uk/tenantid\"],\n  connection: claims[\"https://workflowdoctor.co.uk/connection\"],\n  exp: Math.floor(Date.now() / 1000) + (2 * 60 * 60) // 2 hours\n};\n\nconsole.log(`Payload`, payload);\n\n// --- sign payload ---\nconst payloadB64 = globalThis.Buffer\n  .from(JSON.stringify(payload))\n  .toString(\"base64url\");\n\nconst signature = crypto\n  .createHmac(\"sha256\", input.n8n_secrets.n8n_session_secret)\n  .update(payloadB64)\n  .digest(\"hex\");\n\nconst sessionToken = `${payloadB64}.${signature}`;\n\nlet response = {\n  statusCode: 303, \n  headers: { \n    \"Set-Cookie\": `${input.n8n_secrets.auth0.cookie_name}=${sessionToken}; HttpOnly; Secure; SameSite=Lax; Path=/`,\n    Location: returnTo\n  }\n};\n\nreturn response; "
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1120,
+          280
+        ],
+        "id": "2870c0ae-02c7-4819-9aa4-58f751b704c1",
+        "name": "Decode Auth Token"
+      },
+      {
+        "parameters": {
+          "path": "higgins/auth-logout",
+          "responseMode": "responseNode",
+          "options": {
+            "rawBody": false
+          }
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          -208
+        ],
+        "id": "8694077e-f87e-4a44-bd56-96c15f3dadfe",
+        "name": "LogoutWebhook",
+        "webhookId": "1e14b9b2-7c86-4515-b9ab-4a007936bbed"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "BN8XZNDtPswzUt9h",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/BN8XZNDtPswzUt9h",
+            "cachedResultName": "WfD Shared Project — Higgins: _Secrets"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          224,
+          -208
+        ],
+        "id": "7c389d5a-d65d-42aa-9d3d-b8dec98cc8e5",
+        "name": "Secrets1"
+      },
+      {
+        "parameters": {
+          "jsCode": "const item = $input.first().json;\n\nconst entra = item.n8n_secrets?.entra || {};\nconst tenantId = entra.tenant_id;\nconst cookieName = entra.cookie_name || \"session\";\n\n// Where to send the user after full logout\nconst postLogoutRedirect = item.query?.returnTo || \"https://drflow.co.uk/\"; // set a sensible default\n\nconst clearedCookie =\n  `${cookieName}=; Path=/; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT; ` +\n  `HttpOnly; Secure; SameSite=Lax`;\n\n// If you want Entra logout too:\nconst location = tenantId\n  ? `https://login.microsoftonline.com/${encodeURIComponent(tenantId)}/oauth2/v2.0/logout` +\n    `?post_logout_redirect_uri=${encodeURIComponent(postLogoutRedirect)}`\n  : postLogoutRedirect;\n\nreturn [{\n  json: {\n    statusCode: 303,\n    headers: {\n      \"Set-Cookie\": clearedCookie,\n      Location: location,\n      \"Cache-Control\": \"no-store\",\n    }\n  }\n}];\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          448,
+          -208
+        ],
+        "id": "e68f49a6-e176-42c8-998a-08f5f54308bd",
+        "name": "Code in JavaScript"
+      },
+      {
+        "parameters": {
+          "respondWith": "noData",
+          "options": {
+            "responseCode": "={{ $json.statusCode }}",
+            "responseHeaders": {
+              "entries": [
+                {
+                  "name": "Set-Cookie",
+                  "value": "={{ $json.headers['Set-Cookie'] }}"
+                },
+                {
+                  "name": "Location",
+                  "value": "={{ $json.headers.Location }}"
+                },
+                {
+                  "name": "Cache-Control",
+                  "value": "={{ $json.headers['Cache-Control'] }}"
+                }
+              ]
+            }
+          }
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.4,
+        "position": [
+          672,
+          -208
+        ],
+        "id": "91fceef4-c51d-4e93-bf99-4a297b309f5d",
+        "name": "Redirect to Calling Page1"
+      },
+      {
+        "parameters": {
+          "respondWith": "noData",
+          "options": {
+            "responseCode": "={{ $json.statusCode }}",
+            "responseHeaders": {
+              "entries": [
+                {
+                  "name": "Set-Cookie",
+                  "value": "={{ $json.headers['Set-Cookie'] }}"
+                },
+                {
+                  "name": "Location",
+                  "value": "={{ $json.headers.Location }}"
+                }
+              ]
+            }
+          }
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.4,
+        "position": [
+          1344,
+          280
+        ],
+        "id": "6a68117e-3d86-4ba3-aa91-d8fed7a735c2",
+        "name": "Redirect to Calling Page"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "path": "higgins/auth-callback",
+            "responseMode": "responseNode",
+            "options": {
+              "rawBody": false
+            }
+          },
+          "type": "n8n-nodes-base.webhook",
+          "typeVersion": 2.1,
+          "position": [
+            0,
+            184
+          ],
+          "id": "6af133b4-2006-4df7-982e-a125996acb41",
+          "name": "AuthCallback",
+          "webhookId": "1e14b9b2-7c86-4515-b9ab-4a007936bbed"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "BN8XZNDtPswzUt9h",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/BN8XZNDtPswzUt9h",
+              "cachedResultName": "WfD Shared Project — Higgins: _Secrets"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            448,
+            280
+          ],
+          "id": "22cf50ca-6fb8-491a-a74e-42c706a5baa0",
+          "name": "Secrets"
+        },
+        {
+          "parameters": {
+            "html": "<!-- #pageTitle 'Login Failure' -->\n<div class=\"row mb-4\">\n    <div class=\"col-12\">\n        <div class=\"alert alert-danger\" role=\"alert\">\n            Login has failed\n          <div><code>{{ JSON.stringify($('AuthCallback').item.json.query, null, 3) }}</code></div>\n        </div>\n    </div>\n</div>"
+          },
+          "type": "n8n-nodes-base.html",
+          "typeVersion": 1.2,
+          "position": [
+            448,
+            16
+          ],
+          "id": "2ba102d4-d3f6-4400-a12e-673ad30d2962",
+          "name": "HTML"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "CPMBwF51nRpqmBzc",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/CPMBwF51nRpqmBzc",
+              "cachedResultName": "WfD Shared Project — Higgins: HTML Render"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            672,
+            16
+          ],
+          "id": "03a265e8-55bd-4c1e-b515-ce9ef3e8b70d",
+          "name": "Call 'Higgins: HTML Render'"
+        },
+        {
+          "parameters": {
+            "mode": "combine",
+            "combineBy": "combineByPosition",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.merge",
+          "typeVersion": 3.2,
+          "position": [
+            896,
+            280
+          ],
+          "id": "6b127675-d1c7-4a84-b78a-34653a790c28",
+          "name": "Merge"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "5f827763-18d8-49f5-bd1f-3d87ea176160",
+                  "leftValue": "={{ $json.query.code }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "string",
+                    "operation": "notExists",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            224,
+            184
+          ],
+          "id": "65eed78e-3619-4fa5-9237-e196aa1872f6",
+          "name": "If missing(query.code)"
+        },
+        {
+          "parameters": {
+            "respondWith": "text",
+            "responseBody": "={{ $json.html }}",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.respondToWebhook",
+          "typeVersion": 1.5,
+          "position": [
+            896,
+            16
+          ],
+          "id": "668d43ee-8df0-49e6-b91b-d3cda3a7307b",
+          "name": "HTML response to user"
+        },
+        {
+          "parameters": {
+            "method": "POST",
+            "url": "=https://login.microsoftonline.com/{{ $json.n8n_secrets.entra.tenant_id }}/oauth2/v2.0/token",
+            "sendBody": true,
+            "contentType": "form-urlencoded",
+            "bodyParameters": {
+              "parameters": [
+                {
+                  "name": "grant_type",
+                  "value": "authorization_code"
+                },
+                {
+                  "name": "client_id",
+                  "value": "={{ $json.n8n_secrets.entra.client_id }}"
+                },
+                {
+                  "name": "client_secret",
+                  "value": "={{ $json.n8n_secrets.entra.client_secret }}"
+                },
+                {
+                  "name": "code",
+                  "value": "={{ $json.query.code }}"
+                },
+                {
+                  "name": "redirect_uri",
+                  "value": "={{ $json.webhookUrl }}"
+                }
+              ]
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            672,
+            208
+          ],
+          "id": "5f66f4d6-236c-422e-addd-c3ca78a76109",
+          "name": "Request Auth Token"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "const crypto = require(\"crypto\");\n\n// Get state from the original call\nconst stateParam = $('AuthCallback').first().json.query?.state;\n\nlet returnTo = \"https://drflow.co.uk/\"; // safe fallback\n\nif (stateParam) {\n  try {\n    const decoded = JSON.parse(\n      globalThis.Buffer.from(stateParam, \"base64url\").toString(\"utf8\")\n    );\n    if (decoded.returnTo) {\n      returnTo = decoded.returnTo;\n    }\n  } catch (e) {\n    // ignore malformed state\n  }\n}\n\n// Get first input item safely\nconst input = $json;\n\n// --- decode auth id_token ---\nfunction base64urlDecode(input) {\n  input = input.replace(/-/g, \"+\").replace(/_/g, \"/\");\n  const pad = input.length % 4;\n  if (pad) input += \"=\".repeat(4 - pad);\n  return globalThis.Buffer.from(input, \"base64\").toString(\"utf8\");\n}\n\nconst idToken = input.id_token;\nconst claims = JSON.parse(base64urlDecode(idToken.split(\".\")[1]));\n\nconsole.log(`Claims`, claims);\n\n// --- create session payload ---\nconst payload = {\n  sub: claims.sub,\n  email: claims.email || claims.preferred_username,\n  tid: claims[\"https://workflowdoctor.co.uk/tenantid\"],\n  connection: claims[\"https://workflowdoctor.co.uk/connection\"],\n  exp: Math.floor(Date.now() / 1000) + (2 * 60 * 60) // 2 hours\n};\n\nconsole.log(`Payload`, payload);\n\n// --- sign payload ---\nconst payloadB64 = globalThis.Buffer\n  .from(JSON.stringify(payload))\n  .toString(\"base64url\");\n\nconst signature = crypto\n  .createHmac(\"sha256\", input.n8n_secrets.n8n_session_secret)\n  .update(payloadB64)\n  .digest(\"hex\");\n\nconst sessionToken = `${payloadB64}.${signature}`;\n\nlet response = {\n  statusCode: 303, \n  headers: { \n    \"Set-Cookie\": `${input.n8n_secrets.auth0.cookie_name}=${sessionToken}; HttpOnly; Secure; SameSite=Lax; Path=/`,\n    Location: returnTo\n  }\n};\n\nreturn response; "
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1120,
+            280
+          ],
+          "id": "2870c0ae-02c7-4819-9aa4-58f751b704c1",
+          "name": "Decode Auth Token"
+        },
+        {
+          "parameters": {
+            "path": "higgins/auth-logout",
+            "responseMode": "responseNode",
+            "options": {
+              "rawBody": false
+            }
+          },
+          "type": "n8n-nodes-base.webhook",
+          "typeVersion": 2.1,
+          "position": [
+            0,
+            -208
+          ],
+          "id": "8694077e-f87e-4a44-bd56-96c15f3dadfe",
+          "name": "LogoutWebhook",
+          "webhookId": "1e14b9b2-7c86-4515-b9ab-4a007936bbed"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "BN8XZNDtPswzUt9h",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/BN8XZNDtPswzUt9h",
+              "cachedResultName": "WfD Shared Project — Higgins: _Secrets"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            224,
+            -208
+          ],
+          "id": "7c389d5a-d65d-42aa-9d3d-b8dec98cc8e5",
+          "name": "Secrets1"
+        },
+        {
+          "parameters": {
+            "jsCode": "const item = $input.first().json;\n\nconst entra = item.n8n_secrets?.entra || {};\nconst tenantId = entra.tenant_id;\nconst cookieName = entra.cookie_name || \"session\";\n\n// Where to send the user after full logout\nconst postLogoutRedirect = item.query?.returnTo || \"https://drflow.co.uk/\"; // set a sensible default\n\nconst clearedCookie =\n  `${cookieName}=; Path=/; Max-Age=0; Expires=Thu, 01 Jan 1970 00:00:00 GMT; ` +\n  `HttpOnly; Secure; SameSite=Lax`;\n\n// If you want Entra logout too:\nconst location = tenantId\n  ? `https://login.microsoftonline.com/${encodeURIComponent(tenantId)}/oauth2/v2.0/logout` +\n    `?post_logout_redirect_uri=${encodeURIComponent(postLogoutRedirect)}`\n  : postLogoutRedirect;\n\nreturn [{\n  json: {\n    statusCode: 303,\n    headers: {\n      \"Set-Cookie\": clearedCookie,\n      Location: location,\n      \"Cache-Control\": \"no-store\",\n    }\n  }\n}];\n"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            448,
+            -208
+          ],
+          "id": "e68f49a6-e176-42c8-998a-08f5f54308bd",
+          "name": "Code in JavaScript"
+        },
+        {
+          "parameters": {
+            "respondWith": "noData",
+            "options": {
+              "responseCode": "={{ $json.statusCode }}",
+              "responseHeaders": {
+                "entries": [
+                  {
+                    "name": "Set-Cookie",
+                    "value": "={{ $json.headers['Set-Cookie'] }}"
+                  },
+                  {
+                    "name": "Location",
+                    "value": "={{ $json.headers.Location }}"
+                  },
+                  {
+                    "name": "Cache-Control",
+                    "value": "={{ $json.headers['Cache-Control'] }}"
+                  }
+                ]
+              }
+            }
+          },
+          "type": "n8n-nodes-base.respondToWebhook",
+          "typeVersion": 1.4,
+          "position": [
+            672,
+            -208
+          ],
+          "id": "91fceef4-c51d-4e93-bf99-4a297b309f5d",
+          "name": "Redirect to Calling Page1"
+        },
+        {
+          "parameters": {
+            "respondWith": "noData",
+            "options": {
+              "responseCode": "={{ $json.statusCode }}",
+              "responseHeaders": {
+                "entries": [
+                  {
+                    "name": "Set-Cookie",
+                    "value": "={{ $json.headers['Set-Cookie'] }}"
+                  },
+                  {
+                    "name": "Location",
+                    "value": "={{ $json.headers.Location }}"
+                  }
+                ]
+              }
+            }
+          },
+          "type": "n8n-nodes-base.respondToWebhook",
+          "typeVersion": 1.4,
+          "position": [
+            1344,
+            280
+          ],
+          "id": "6a68117e-3d86-4ba3-aa91-d8fed7a735c2",
+          "name": "Redirect to Calling Page"
+        }
+      ],
+      "connections": {
+        "AuthCallback": {
+          "main": [
+            [
+              {
+                "node": "If missing(query.code)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Secrets": {
+          "main": [
+            [
+              {
+                "node": "Request Auth Token",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 1
+              }
+            ]
+          ]
+        },
+        "HTML": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: HTML Render'",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: HTML Render'": {
+          "main": [
+            [
+              {
+                "node": "HTML response to user",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Merge": {
+          "main": [
+            [
+              {
+                "node": "Decode Auth Token",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If missing(query.code)": {
+          "main": [
+            [
+              {
+                "node": "HTML",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Secrets",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Request Auth Token": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Decode Auth Token": {
+          "main": [
+            [
+              {
+                "node": "Redirect to Calling Page",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "LogoutWebhook": {
+          "main": [
+            [
+              {
+                "node": "Secrets1",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Secrets1": {
+          "main": [
+            [
+              {
+                "node": "Code in JavaScript",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Code in JavaScript": {
+          "main": [
+            [
+              {
+                "node": "Redirect to Calling Page1",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has the following trigger(s):\n\n\nWebhook trigger(s):\n\n\n\t\t\t\t<trigger 1>\n\t\t\t\t\t - Node name: AuthCallback\n\t\t\t\t\t - Base URL: https://drflow.app.n8n.cloud/\n\t\t\t\t\t - Production path: /webhook/higgins/auth-callback\n\t\t\t\t\t - Test path: /webhook-test/higgins/auth-callback\n\t\t\t\t\t - HTTP Method: GET\n\t\t\t\t\t - Response Mode: Webhook is configured to respond using \"Respond to Webhook\" node.\n\t\t\t\t\t - No credentials required for this webhook.\n\t\t\t\t</trigger 1>\n\n\n\t\t\t\t<trigger 2>\n\t\t\t\t\t - Node name: LogoutWebhook\n\t\t\t\t\t - Base URL: https://drflow.app.n8n.cloud/\n\t\t\t\t\t - Production path: /webhook/higgins/auth-logout\n\t\t\t\t\t - Test path: /webhook-test/higgins/auth-logout\n\t\t\t\t\t - HTTP Method: GET\n\t\t\t\t\t - Response Mode: Webhook is configured to respond using \"Respond to Webhook\" node.\n\t\t\t\t\t - No credentials required for this webhook.\n\t\t\t\t</trigger 2>"
+}

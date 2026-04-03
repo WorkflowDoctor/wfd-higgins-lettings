@@ -1,0 +1,2018 @@
+{
+  "workflow": {
+    "id": "dREiwBKuMg6WFXPa",
+    "name": "Higgins: Emails save to SP",
+    "active": true,
+    "isArchived": false,
+    "versionId": "64af9c8f-18e1-48b9-a664-0bacd8bc25e9",
+    "activeVersionId": "c4cf1294-e29d-4423-b30b-e46adaab45c4",
+    "triggerCount": 0,
+    "createdAt": "2026-01-12T16:54:30.737Z",
+    "updatedAt": "2026-04-03T16:22:02.103Z",
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": true
+    },
+    "connections": {
+      "Get MIME": {
+        "main": [
+          [
+            {
+              "node": "Convert to File",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          []
+        ]
+      },
+      "Convert to File": {
+        "main": [
+          [
+            {
+              "node": "Set filename",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create or update item (upsert)": {
+        "main": [
+          [
+            {
+              "node": "Return original email",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many attachments": {
+        "main": [
+          [
+            {
+              "node": "Filter (remove RSImage*)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Download an attachment": {
+        "main": [
+          [
+            {
+              "node": "Code in JavaScript",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Filter (remove RSImage*)": {
+        "main": [
+          [
+            {
+              "node": "Download an attachment",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When Executed by Another Workflow": {
+        "main": [
+          [
+            {
+              "node": "Generate Keyfields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Get works order emails",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get works order emails": {
+        "main": [
+          [
+            {
+              "node": "Generate Keyfields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Firebreak": {
+        "main": [
+          [
+            {
+              "node": "If HasAttachment",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Markdown",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap SP thread folder": {
+        "main": [
+          [
+            {
+              "node": "Firebreak",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If HasAttachment": {
+        "main": [
+          [
+            {
+              "node": "Get many attachments",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Dead end",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Markdown": {
+        "main": [
+          [
+            {
+              "node": "Create or update item (upsert)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Generate Keyfields": {
+        "main": [
+          [
+            {
+              "node": "Create SP thread folder",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Upload attachment": {
+        "main": [
+          [
+            {
+              "node": "Dead end",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Return original email": {
+        "main": [
+          []
+        ]
+      },
+      "Create SP thread folder": {
+        "main": [
+          [
+            {
+              "node": "Wrap SP thread folder",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Set filename": {
+        "main": [
+          [
+            {
+              "node": "Upload email",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [
+            {
+              "node": "Dead end",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get MIME",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Upload email": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Code in JavaScript": {
+        "main": [
+          [
+            {
+              "node": "Upload attachment",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "url": "=https://graph.microsoft.com/v1.0/me/messages/{{ $json.id }}/$value",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "microsoftOutlookOAuth2Api",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1904,
+          128
+        ],
+        "id": "5155fc73-edf5-441e-a1cf-d38a3e0f0231",
+        "name": "Get MIME"
+      },
+      {
+        "parameters": {
+          "operation": "toText",
+          "sourceProperty": "data",
+          "options": {
+            "fileName": "_originalEmail.eml"
+          }
+        },
+        "type": "n8n-nodes-base.convertToFile",
+        "typeVersion": 1.1,
+        "position": [
+          2128,
+          128
+        ],
+        "id": "9ba0a2c6-109d-443d-a700-5a5487fdedfd",
+        "name": "Convert to File"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "operation": "upsert",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "be45f44d-50b0-41cd-82ee-7ad2f30a0e94",
+            "mode": "list",
+            "cachedResultName": "LISA - Email"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "MessageId": "={{ $json.internetMessageId }}",
+              "OutlookUrl": "={{ $json.webLink }}",
+              "ReceivedDate": "={{ $json.receivedDateTime }}",
+              "ConversationId": "={{ $json.conversationId }}",
+              "Title": "={{ $json.subject }}",
+              "Thread": "={{ $json.sharepoint_thread_folder.json.webUrl }}",
+              "SpThreadId": "={{ $json.sharepoint_thread_folder.json.id }}",
+              "Body": "={{ $json.body.markdown }}",
+              "From": "={{ $json.from.emailAddress.address }}",
+              "Importance": "={{ $json.importance }}",
+              "Subject": "={{ $json.subject }}",
+              "To": "={{ $json.toRecipients.map(r => r.emailAddress?.address).filter(email => email).join(',') }}"
+            },
+            "matchingColumns": [
+              "MessageId"
+            ],
+            "schema": [
+              {
+                "id": "Title",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Title",
+                "readOnly": false,
+                "required": false,
+                "type": "string"
+              },
+              {
+                "id": "MessageId",
+                "canBeUsedToMatch": true,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "MessageId",
+                "readOnly": false,
+                "required": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "ConversationId",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ConversationId",
+                "readOnly": false,
+                "required": false,
+                "type": "string"
+              },
+              {
+                "id": "ReceivedDate",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ReceivedDate",
+                "readOnly": false,
+                "required": false,
+                "type": "dateTime"
+              },
+              {
+                "id": "OutlookUrl",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "OutlookUrl",
+                "readOnly": false,
+                "required": false,
+                "type": "string"
+              },
+              {
+                "id": "JobNumber",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "JobNumber",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "Status",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Status",
+                "readOnly": false,
+                "required": false,
+                "type": "options",
+                "options": [
+                  {
+                    "name": "New",
+                    "value": "New"
+                  },
+                  {
+                    "name": "Quoted",
+                    "value": "Quoted"
+                  },
+                  {
+                    "name": "Approved",
+                    "value": "Approved"
+                  },
+                  {
+                    "name": "Complete",
+                    "value": "Complete"
+                  }
+                ],
+                "removed": true
+              },
+              {
+                "id": "Thread",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Thread",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "SpThreadId",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "SpThreadId",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "AiDone",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "AiDone",
+                "readOnly": false,
+                "required": false,
+                "type": "boolean",
+                "removed": true
+              },
+              {
+                "id": "Body",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Body",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "From",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "From",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Importance",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Importance",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "Subject",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Subject",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "ThreadSummary",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ThreadSummary",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "To",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "To",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          1904,
+          416
+        ],
+        "id": "b7c3315d-b73b-481c-8bea-4e0bbbe2c0a8",
+        "name": "Create or update item (upsert)"
+      },
+      {
+        "parameters": {
+          "resource": "messageAttachment",
+          "operation": "getAll",
+          "messageId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          },
+          "returnAll": true,
+          "options": {
+            "fields": [
+              "name",
+              "isInline"
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.microsoftOutlook",
+        "typeVersion": 2,
+        "position": [
+          1904,
+          -256
+        ],
+        "id": "16a8bb0f-5e9f-49ca-bf14-4693ba124b98",
+        "name": "Get many attachments",
+        "webhookId": "4c873d08-3073-4357-9517-45dccb153f97",
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "resource": "messageAttachment",
+          "operation": "download",
+          "messageId": {
+            "__rl": true,
+            "value": "={{ $('Wrap SP thread folder').first().json.id }}",
+            "mode": "id"
+          },
+          "attachmentId": {
+            "__rl": true,
+            "value": "={{ $('Get many attachments').item.json.id }}",
+            "mode": "id"
+          }
+        },
+        "type": "n8n-nodes-base.microsoftOutlook",
+        "typeVersion": 2,
+        "position": [
+          2352,
+          -256
+        ],
+        "id": "86bdd424-fe13-4017-a335-87398ae69a29",
+        "name": "Download an attachment",
+        "webhookId": "4e790125-2066-4218-96c6-781d70674310",
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "71398b20-2e32-4ef1-a942-277b301789d9",
+                "leftValue": "={{ $json.name }}",
+                "rightValue": "RSImage",
+                "operator": {
+                  "type": "string",
+                  "operation": "notStartsWith"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.3,
+        "position": [
+          2128,
+          -256
+        ],
+        "id": "3b6edaf4-8332-4fda-afae-f8a726738932",
+        "name": "Filter (remove RSImage*)"
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          560,
+          224
+        ],
+        "id": "4be17b74-ee94-4c55-b06d-e781c76293e3",
+        "name": "When Executed by Another Workflow"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          336,
+          32
+        ],
+        "id": "77fdf2da-dc8c-4d8d-8aa6-1354a1cc0b95",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "limit": 1,
+          "output": "fields",
+          "fields": "={{ [\"body\",\"hasAttachments\",\"categories\",\"conversationId\",\"importance\",\"isRead\",\"parentFolderId\",\"receivedDateTime\",\"sender\",\"subject\",\"webLink\",\"bodyPreview\",\"flag\",\"from\",\"internetMessageId\",\"toRecipients\"] }}",
+          "filtersUI": {
+            "values": {
+              "filters": {
+                "custom": "startswith(subject,'Works order for')",
+                "hasAttachments": true
+              }
+            }
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.microsoftOutlook",
+        "typeVersion": 2,
+        "position": [
+          560,
+          32
+        ],
+        "id": "3052500d-65a4-4729-9e18-11bcfe97f8c4",
+        "name": "Get works order emails",
+        "webhookId": "1b61df90-e9d7-4548-9338-6a5556914dc1"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1456,
+          128
+        ],
+        "id": "be3c9330-7c0d-4a73-bee3-d16c8c329983",
+        "name": "Firebreak",
+        "notes": "This node is just do we can disconnect the further actions"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "\nreturn {  \n  ...$('Generate Keyfields').item.json,\n  \"n8n_sharepoint\": $input.item.json.n8n_sharepoint,\n  \"sharepoint_thread_folder\": $input.item \n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1232,
+          128
+        ],
+        "id": "c0b1a1e7-f0aa-476d-99f8-bb5d0b3c1002",
+        "name": "Wrap SP thread folder"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "70d289fd-55f0-4cf1-b22e-0a52441ef295",
+                "leftValue": "={{ $json.hasAttachments }}",
+                "rightValue": false,
+                "operator": {
+                  "type": "boolean",
+                  "operation": "true",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1680,
+          -208
+        ],
+        "id": "8df22a1e-42d1-40f5-96cc-0b3dbcb7f80f",
+        "name": "If HasAttachment"
+      },
+      {
+        "parameters": {
+          "html": "={{ $json.body.content }}",
+          "destinationKey": "body.markdown",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.markdown",
+        "typeVersion": 1,
+        "position": [
+          1680,
+          416
+        ],
+        "id": "c23112fd-d793-4296-8ac9-15b3715f7333",
+        "name": "Markdown"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "2dXcyLGU1LwKylNx",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/2dXcyLGU1LwKylNx",
+            "cachedResultName": "WfD Shared Project — Higgins: Generate email keys"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.2,
+        "position": [
+          784,
+          128
+        ],
+        "name": "Generate Keyfields",
+        "id": "c4a907c8-d5e4-4665-ab38-86d54c930542"
+      },
+      {
+        "parameters": {
+          "operation": "upload",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "folder": {
+            "__rl": true,
+            "value": "={{ $('Wrap SP thread folder').first().json.sharepoint_thread_folder.json.id }}",
+            "mode": "id"
+          },
+          "fileName": "={{ $('Wrap SP thread folder').first().json.keyFields.filePrefix }}{{ $json.name }}",
+          "fileContents": "data",
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          2800,
+          -256
+        ],
+        "id": "af8e5375-b4ef-47e8-9470-913e395e4e39",
+        "name": "Upload attachment"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "return $('Markdown').item.json;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2128,
+          416
+        ],
+        "id": "0b2b249e-fab0-48e8-bb00-da7237c30c89",
+        "name": "Return original email"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "hkOcGa9t4l9ewaUJ",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/hkOcGa9t4l9ewaUJ",
+            "cachedResultName": "WfD Shared Project — Higgins: SP create/update folder"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "path": "={{ $json.keyFields.threadFolderName }}",
+              "metadata": "={\n\"ConversationId\": \"{{ $json.conversationId }}\",\n\"Subject\": \"{{ $json.keyFields.subjectClean }}\"\n}",
+              "timestamp": "={{ $json.receivedDateTime }}",
+              "folderType": "email"
+            },
+            "matchingColumns": [
+              "n8n_sharepoint_driveId",
+              "n8n_sharepoint_siteId",
+              "n8n_sharepoint_listId",
+              "n8n_sharepoint_emailFields_subject",
+              "n8n_sharepoint_columns_timestamp",
+              "n8n_sharepoint_columns_comment",
+              "receivedDateTime",
+              "conversationId",
+              "subject",
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "path",
+                "displayName": "path",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "timestamp",
+                "displayName": "timestamp",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "metadata",
+                "displayName": "metadata",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "folderType",
+                "displayName": "folderType",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {
+            "waitForSubWorkflow": true
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.2,
+        "position": [
+          1008,
+          128
+        ],
+        "name": "Create SP thread folder",
+        "id": "ed33c19a-7672-4dee-a160-05d9a8316643"
+      },
+      {
+        "parameters": {
+          "jsCode": "return [];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          3024,
+          -144
+        ],
+        "id": "76fa215d-f7db-46e8-8b73-38e9354551fe",
+        "name": "Dead end",
+        "notesInFlow": true,
+        "notes": "Return an empty node so that these branches do not return anything from the workflow"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "28901938-d84f-4923-93a6-fdc15ba6e377",
+                "name": "name",
+                "value": "_original.eml",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          2352,
+          128
+        ],
+        "id": "fd38aec8-f326-4609-a1d0-545248ff0a95",
+        "name": "Set filename"
+      },
+      {
+        "parameters": {
+          "batchSize": 4,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          1680,
+          128
+        ],
+        "id": "55610741-dabe-4242-9e22-c4ed2e54f9e5",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {
+          "operation": "upload",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "folder": {
+            "__rl": true,
+            "value": "={{ $('Wrap SP thread folder').first().json.sharepoint_thread_folder.json.id }}",
+            "mode": "id"
+          },
+          "fileName": "={{ $('Wrap SP thread folder').first().json.keyFields.filePrefix }}{{ $json.name }}",
+          "fileContents": "data",
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          2576,
+          176
+        ],
+        "id": "a75cd749-786e-4f71-9143-f825d9cf2c2a",
+        "name": "Upload email"
+      },
+      {
+        "parameters": {
+          "jsCode": "const MIN_SIZE = 30 * 1024; // 50 KB\n\nfunction sizeToBytes(sizeText) {\n  if (sizeText == null) return 0;\n  const s = String(sizeText).trim();\n\n  // supports: \"32.2 kB\", \"1.72 MB\", \"512 B\", \"2 GB\"\n  const m = s.match(/^([\\d.]+)\\s*([KMGTP]?B)$/i);\n  if (!m) return Number(s) || 0;\n\n  const value = Number(m[1]);\n  const unit = m[2].toUpperCase();\n\n  const mult = {\n    B: 1,\n    KB: 1024,\n    MB: 1024 ** 2,\n    GB: 1024 ** 3,\n    TB: 1024 ** 4,\n    PB: 1024 ** 5,\n  }[unit] ?? 1;\n\n  return Math.round(value * mult);\n}\n\nconst out = [];\n\nfor (const item of $input.all()) {\n  const bins = item.binary ?? {};\n  const json = item.json ?? {};\n\n  for (const [k, file] of Object.entries(bins)) {\n    const bytes = sizeToBytes(file.fileSize); // if fileSize is \"32.2 kB\"\n\n    console.log(file.fileName, file.fileSize, bytes);\n    if (bytes < MIN_SIZE) continue;\n\n    out.push({\n      json: {\n        ...json,\n        fileName: file.fileName,\n        fileSize: bytes,\n        mimeType: file.mimeType,\n      },\n      binary: { data: file },\n    });\n  }\n}\n\nreturn out;"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          2576,
+          -256
+        ],
+        "id": "837d74bd-61c8-40da-84f4-ccea39daac1c",
+        "name": "Code in JavaScript"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "url": "=https://graph.microsoft.com/v1.0/me/messages/{{ $json.id }}/$value",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "microsoftOutlookOAuth2Api",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1904,
+            128
+          ],
+          "id": "5155fc73-edf5-441e-a1cf-d38a3e0f0231",
+          "name": "Get MIME"
+        },
+        {
+          "parameters": {
+            "operation": "toText",
+            "sourceProperty": "data",
+            "options": {
+              "fileName": "_originalEmail.eml"
+            }
+          },
+          "type": "n8n-nodes-base.convertToFile",
+          "typeVersion": 1.1,
+          "position": [
+            2128,
+            128
+          ],
+          "id": "9ba0a2c6-109d-443d-a700-5a5487fdedfd",
+          "name": "Convert to File"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "operation": "upsert",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "be45f44d-50b0-41cd-82ee-7ad2f30a0e94",
+              "mode": "list",
+              "cachedResultName": "LISA - Email"
+            },
+            "columns": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "MessageId": "={{ $json.internetMessageId }}",
+                "OutlookUrl": "={{ $json.webLink }}",
+                "ReceivedDate": "={{ $json.receivedDateTime }}",
+                "ConversationId": "={{ $json.conversationId }}",
+                "Title": "={{ $json.subject }}",
+                "Thread": "={{ $json.sharepoint_thread_folder.json.webUrl }}",
+                "SpThreadId": "={{ $json.sharepoint_thread_folder.json.id }}",
+                "Body": "={{ $json.body.markdown }}",
+                "From": "={{ $json.from.emailAddress.address }}",
+                "Importance": "={{ $json.importance }}",
+                "Subject": "={{ $json.subject }}",
+                "To": "={{ $json.toRecipients.map(r => r.emailAddress?.address).filter(email => email).join(',') }}"
+              },
+              "matchingColumns": [
+                "MessageId"
+              ],
+              "schema": [
+                {
+                  "id": "Title",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Title",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "id": "MessageId",
+                  "canBeUsedToMatch": true,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "MessageId",
+                  "readOnly": false,
+                  "required": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "ConversationId",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ConversationId",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "id": "ReceivedDate",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ReceivedDate",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "dateTime"
+                },
+                {
+                  "id": "OutlookUrl",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "OutlookUrl",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "id": "JobNumber",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "JobNumber",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "Status",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Status",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "options",
+                  "options": [
+                    {
+                      "name": "New",
+                      "value": "New"
+                    },
+                    {
+                      "name": "Quoted",
+                      "value": "Quoted"
+                    },
+                    {
+                      "name": "Approved",
+                      "value": "Approved"
+                    },
+                    {
+                      "name": "Complete",
+                      "value": "Complete"
+                    }
+                  ],
+                  "removed": true
+                },
+                {
+                  "id": "Thread",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Thread",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "SpThreadId",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "SpThreadId",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "AiDone",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "AiDone",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "boolean",
+                  "removed": true
+                },
+                {
+                  "id": "Body",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Body",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "From",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "From",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "Importance",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Importance",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "Subject",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Subject",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "ThreadSummary",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ThreadSummary",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "To",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "To",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": false
+            },
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            1904,
+            416
+          ],
+          "id": "b7c3315d-b73b-481c-8bea-4e0bbbe2c0a8",
+          "name": "Create or update item (upsert)"
+        },
+        {
+          "parameters": {
+            "resource": "messageAttachment",
+            "operation": "getAll",
+            "messageId": {
+              "__rl": true,
+              "value": "={{ $json.id }}",
+              "mode": "id"
+            },
+            "returnAll": true,
+            "options": {
+              "fields": [
+                "name",
+                "isInline"
+              ]
+            }
+          },
+          "type": "n8n-nodes-base.microsoftOutlook",
+          "typeVersion": 2,
+          "position": [
+            1904,
+            -256
+          ],
+          "id": "16a8bb0f-5e9f-49ca-bf14-4693ba124b98",
+          "name": "Get many attachments",
+          "webhookId": "4c873d08-3073-4357-9517-45dccb153f97",
+          "alwaysOutputData": true
+        },
+        {
+          "parameters": {
+            "resource": "messageAttachment",
+            "operation": "download",
+            "messageId": {
+              "__rl": true,
+              "value": "={{ $('Wrap SP thread folder').first().json.id }}",
+              "mode": "id"
+            },
+            "attachmentId": {
+              "__rl": true,
+              "value": "={{ $('Get many attachments').item.json.id }}",
+              "mode": "id"
+            }
+          },
+          "type": "n8n-nodes-base.microsoftOutlook",
+          "typeVersion": 2,
+          "position": [
+            2352,
+            -256
+          ],
+          "id": "86bdd424-fe13-4017-a335-87398ae69a29",
+          "name": "Download an attachment",
+          "webhookId": "4e790125-2066-4218-96c6-781d70674310",
+          "alwaysOutputData": true
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "71398b20-2e32-4ef1-a942-277b301789d9",
+                  "leftValue": "={{ $json.name }}",
+                  "rightValue": "RSImage",
+                  "operator": {
+                    "type": "string",
+                    "operation": "notStartsWith"
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.filter",
+          "typeVersion": 2.3,
+          "position": [
+            2128,
+            -256
+          ],
+          "id": "3b6edaf4-8332-4fda-afae-f8a726738932",
+          "name": "Filter (remove RSImage*)"
+        },
+        {
+          "parameters": {
+            "inputSource": "passthrough"
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            560,
+            224
+          ],
+          "id": "4be17b74-ee94-4c55-b06d-e781c76293e3",
+          "name": "When Executed by Another Workflow"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.manualTrigger",
+          "typeVersion": 1,
+          "position": [
+            336,
+            32
+          ],
+          "id": "77fdf2da-dc8c-4d8d-8aa6-1354a1cc0b95",
+          "name": "When clicking ‘Execute workflow’"
+        },
+        {
+          "parameters": {
+            "operation": "getAll",
+            "limit": 1,
+            "output": "fields",
+            "fields": "={{ [\"body\",\"hasAttachments\",\"categories\",\"conversationId\",\"importance\",\"isRead\",\"parentFolderId\",\"receivedDateTime\",\"sender\",\"subject\",\"webLink\",\"bodyPreview\",\"flag\",\"from\",\"internetMessageId\",\"toRecipients\"] }}",
+            "filtersUI": {
+              "values": {
+                "filters": {
+                  "custom": "startswith(subject,'Works order for')",
+                  "hasAttachments": true
+                }
+              }
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.microsoftOutlook",
+          "typeVersion": 2,
+          "position": [
+            560,
+            32
+          ],
+          "id": "3052500d-65a4-4729-9e18-11bcfe97f8c4",
+          "name": "Get works order emails",
+          "webhookId": "1b61df90-e9d7-4548-9338-6a5556914dc1"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            1456,
+            128
+          ],
+          "id": "be3c9330-7c0d-4a73-bee3-d16c8c329983",
+          "name": "Firebreak",
+          "notes": "This node is just do we can disconnect the further actions"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "\nreturn {  \n  ...$('Generate Keyfields').item.json,\n  \"n8n_sharepoint\": $input.item.json.n8n_sharepoint,\n  \"sharepoint_thread_folder\": $input.item \n};"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1232,
+            128
+          ],
+          "id": "c0b1a1e7-f0aa-476d-99f8-bb5d0b3c1002",
+          "name": "Wrap SP thread folder"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "70d289fd-55f0-4cf1-b22e-0a52441ef295",
+                  "leftValue": "={{ $json.hasAttachments }}",
+                  "rightValue": false,
+                  "operator": {
+                    "type": "boolean",
+                    "operation": "true",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1680,
+            -208
+          ],
+          "id": "8df22a1e-42d1-40f5-96cc-0b3dbcb7f80f",
+          "name": "If HasAttachment"
+        },
+        {
+          "parameters": {
+            "html": "={{ $json.body.content }}",
+            "destinationKey": "body.markdown",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.markdown",
+          "typeVersion": 1,
+          "position": [
+            1680,
+            416
+          ],
+          "id": "c23112fd-d793-4296-8ac9-15b3715f7333",
+          "name": "Markdown"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "2dXcyLGU1LwKylNx",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/2dXcyLGU1LwKylNx",
+              "cachedResultName": "WfD Shared Project — Higgins: Generate email keys"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.2,
+          "position": [
+            784,
+            128
+          ],
+          "name": "Generate Keyfields",
+          "id": "c4a907c8-d5e4-4665-ab38-86d54c930542"
+        },
+        {
+          "parameters": {
+            "operation": "upload",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "folder": {
+              "__rl": true,
+              "value": "={{ $('Wrap SP thread folder').first().json.sharepoint_thread_folder.json.id }}",
+              "mode": "id"
+            },
+            "fileName": "={{ $('Wrap SP thread folder').first().json.keyFields.filePrefix }}{{ $json.name }}",
+            "fileContents": "data",
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            2800,
+            -256
+          ],
+          "id": "af8e5375-b4ef-47e8-9470-913e395e4e39",
+          "name": "Upload attachment"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "return $('Markdown').item.json;"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2128,
+            416
+          ],
+          "id": "0b2b249e-fab0-48e8-bb00-da7237c30c89",
+          "name": "Return original email"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "hkOcGa9t4l9ewaUJ",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/hkOcGa9t4l9ewaUJ",
+              "cachedResultName": "WfD Shared Project — Higgins: Create or update SP folder"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "path": "={{ $json.keyFields.threadFolderName }}",
+                "metadata": "={\n\"ConversationId\": \"{{ $json.conversationId }}\",\n\"Subject\": \"{{ $json.keyFields.subjectClean }}\"\n}",
+                "timestamp": "={{ $json.receivedDateTime }}",
+                "folderType": "email"
+              },
+              "matchingColumns": [
+                "n8n_sharepoint_driveId",
+                "n8n_sharepoint_siteId",
+                "n8n_sharepoint_listId",
+                "n8n_sharepoint_emailFields_subject",
+                "n8n_sharepoint_columns_timestamp",
+                "n8n_sharepoint_columns_comment",
+                "receivedDateTime",
+                "conversationId",
+                "subject",
+                "id"
+              ],
+              "schema": [
+                {
+                  "id": "path",
+                  "displayName": "path",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "timestamp",
+                  "displayName": "timestamp",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "metadata",
+                  "displayName": "metadata",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "removed": false
+                },
+                {
+                  "id": "folderType",
+                  "displayName": "folderType",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {
+              "waitForSubWorkflow": true
+            }
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.2,
+          "position": [
+            1008,
+            128
+          ],
+          "name": "Create SP thread folder",
+          "id": "ed33c19a-7672-4dee-a160-05d9a8316643"
+        },
+        {
+          "parameters": {
+            "jsCode": "return [];"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            3024,
+            -144
+          ],
+          "id": "76fa215d-f7db-46e8-8b73-38e9354551fe",
+          "name": "Dead end",
+          "notesInFlow": true,
+          "notes": "Return an empty node so that these branches do not return anything from the workflow"
+        },
+        {
+          "parameters": {
+            "assignments": {
+              "assignments": [
+                {
+                  "id": "28901938-d84f-4923-93a6-fdc15ba6e377",
+                  "name": "name",
+                  "value": "_original.eml",
+                  "type": "string"
+                }
+              ]
+            },
+            "includeOtherFields": true,
+            "options": {}
+          },
+          "type": "n8n-nodes-base.set",
+          "typeVersion": 3.4,
+          "position": [
+            2352,
+            128
+          ],
+          "id": "fd38aec8-f326-4609-a1d0-545248ff0a95",
+          "name": "Set filename"
+        },
+        {
+          "parameters": {
+            "batchSize": 4,
+            "options": {}
+          },
+          "type": "n8n-nodes-base.splitInBatches",
+          "typeVersion": 3,
+          "position": [
+            1680,
+            128
+          ],
+          "id": "55610741-dabe-4242-9e22-c4ed2e54f9e5",
+          "name": "Loop Over Items"
+        },
+        {
+          "parameters": {
+            "operation": "upload",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "folder": {
+              "__rl": true,
+              "value": "={{ $('Wrap SP thread folder').first().json.sharepoint_thread_folder.json.id }}",
+              "mode": "id"
+            },
+            "fileName": "={{ $('Wrap SP thread folder').first().json.keyFields.filePrefix }}{{ $json.name }}",
+            "fileContents": "data",
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            2576,
+            176
+          ],
+          "id": "a75cd749-786e-4f71-9143-f825d9cf2c2a",
+          "name": "Upload email"
+        },
+        {
+          "parameters": {
+            "jsCode": "const MIN_SIZE = 30 * 1024; // 50 KB\n\nfunction sizeToBytes(sizeText) {\n  if (sizeText == null) return 0;\n  const s = String(sizeText).trim();\n\n  // supports: \"32.2 kB\", \"1.72 MB\", \"512 B\", \"2 GB\"\n  const m = s.match(/^([\\d.]+)\\s*([KMGTP]?B)$/i);\n  if (!m) return Number(s) || 0;\n\n  const value = Number(m[1]);\n  const unit = m[2].toUpperCase();\n\n  const mult = {\n    B: 1,\n    KB: 1024,\n    MB: 1024 ** 2,\n    GB: 1024 ** 3,\n    TB: 1024 ** 4,\n    PB: 1024 ** 5,\n  }[unit] ?? 1;\n\n  return Math.round(value * mult);\n}\n\nconst out = [];\n\nfor (const item of $input.all()) {\n  const bins = item.binary ?? {};\n  const json = item.json ?? {};\n\n  for (const [k, file] of Object.entries(bins)) {\n    const bytes = sizeToBytes(file.fileSize); // if fileSize is \"32.2 kB\"\n\n    console.log(file.fileName, file.fileSize, bytes);\n    if (bytes < MIN_SIZE) continue;\n\n    out.push({\n      json: {\n        ...json,\n        fileName: file.fileName,\n        fileSize: bytes,\n        mimeType: file.mimeType,\n      },\n      binary: { data: file },\n    });\n  }\n}\n\nreturn out;"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            2576,
+            -256
+          ],
+          "id": "837d74bd-61c8-40da-84f4-ccea39daac1c",
+          "name": "Code in JavaScript"
+        }
+      ],
+      "connections": {
+        "Get MIME": {
+          "main": [
+            [
+              {
+                "node": "Convert to File",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            []
+          ]
+        },
+        "Convert to File": {
+          "main": [
+            [
+              {
+                "node": "Set filename",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Create or update item (upsert)": {
+          "main": [
+            [
+              {
+                "node": "Return original email",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get many attachments": {
+          "main": [
+            [
+              {
+                "node": "Filter (remove RSImage*)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Download an attachment": {
+          "main": [
+            [
+              {
+                "node": "Code in JavaScript",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Filter (remove RSImage*)": {
+          "main": [
+            [
+              {
+                "node": "Download an attachment",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "When Executed by Another Workflow": {
+          "main": [
+            [
+              {
+                "node": "Generate Keyfields",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "When clicking ‘Execute workflow’": {
+          "main": [
+            [
+              {
+                "node": "Get works order emails",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get works order emails": {
+          "main": [
+            [
+              {
+                "node": "Generate Keyfields",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Firebreak": {
+          "main": [
+            [
+              {
+                "node": "If HasAttachment",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "Markdown",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "Loop Over Items",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap SP thread folder": {
+          "main": [
+            [
+              {
+                "node": "Firebreak",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If HasAttachment": {
+          "main": [
+            [
+              {
+                "node": "Get many attachments",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Dead end",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Markdown": {
+          "main": [
+            [
+              {
+                "node": "Create or update item (upsert)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Generate Keyfields": {
+          "main": [
+            [
+              {
+                "node": "Create SP thread folder",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Upload attachment": {
+          "main": [
+            [
+              {
+                "node": "Dead end",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Return original email": {
+          "main": [
+            []
+          ]
+        },
+        "Create SP thread folder": {
+          "main": [
+            [
+              {
+                "node": "Wrap SP thread folder",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Set filename": {
+          "main": [
+            [
+              {
+                "node": "Upload email",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Loop Over Items": {
+          "main": [
+            [
+              {
+                "node": "Dead end",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Get MIME",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Upload email": {
+          "main": [
+            [
+              {
+                "node": "Loop Over Items",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Code in JavaScript": {
+          "main": [
+            [
+              {
+                "node": "Upload attachment",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has the following trigger(s):\n"
+}

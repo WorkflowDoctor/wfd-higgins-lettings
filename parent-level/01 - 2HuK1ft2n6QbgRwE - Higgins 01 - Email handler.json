@@ -1,0 +1,2136 @@
+{
+  "workflow": {
+    "id": "2HuK1ft2n6QbgRwE",
+    "name": "Higgins 01: Email handler",
+    "active": true,
+    "isArchived": false,
+    "versionId": "dc8af527-667b-4b00-bf3c-2b4280ece719",
+    "activeVersionId": "dc8af527-667b-4b00-bf3c-2b4280ece719",
+    "triggerCount": 1,
+    "createdAt": "2025-12-02T21:40:20.883Z",
+    "updatedAt": "2026-04-03T16:20:57.748Z",
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": true
+    },
+    "connections": {
+      "Execute AI Extract": {
+        "main": [
+          [
+            {
+              "node": "If JOBNUMBER",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "When clicking ‘Execute workflow’": {
+        "main": [
+          [
+            {
+              "node": "Get emails",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Move to _Lisa",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Move a message",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Move works orders": {
+        "main": [
+          [
+            {
+              "node": "Get many messages",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Exclude FROM higginslettings.co.uk": {
+        "main": [
+          [
+            {
+              "node": "Execute AI Extract",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get emails": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Verify job details": {
+        "main": [
+          [
+            {
+              "node": "End",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "If JOBNUMBER": {
+        "main": [
+          [
+            {
+              "node": "Verify job details",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "No Job Number, do nothing",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many messages": {
+        "main": [
+          [
+            {
+              "node": "Update item in a list",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [
+            {
+              "node": "Done",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Save Emails to SP",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Update item in a list": {
+        "main": [
+          [
+            {
+              "node": "Exclude FROM higginslettings.co.uk",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Save Emails to SP": {
+        "main": [
+          [
+            {
+              "node": "Move works orders",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "No Job Number, do nothing": {
+        "main": [
+          [
+            {
+              "node": "End",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "End": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Move a message": {
+        "main": [
+          [
+            {
+              "node": "Done",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Move to _Quotes": {
+        "main": [
+          [
+            {
+              "node": "Done",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Move to _Lisa": {
+        "main": [
+          [
+            {
+              "node": "Done",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Microsoft Outlook Trigger": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "4FUBRJxX8kq8CAIQ",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/4FUBRJxX8kq8CAIQ",
+            "cachedResultName": "WfD Shared Project — Higgins: AI Data extract"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "subject": "={{ $json.fields?.Subject }}",
+              "from": "={{ $json.fields?.From }}",
+              "body": "={{ $json.fields?.Body }}",
+              "importance": "={{ $json.fields?.Importance }}",
+              "id": "={{ $json.fields?.MessageId }}",
+              "conversationId": "={{ $json.fields?.ConversationId }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "conversationId",
+                "displayName": "conversationId",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "importance",
+                "displayName": "importance",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "from",
+                "displayName": "from",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "subject",
+                "displayName": "subject",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "body",
+                "displayName": "body",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1536,
+          -208
+        ],
+        "id": "8ace4875-7cbf-4f98-89d5-4b8122130822",
+        "name": "Execute AI Extract"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.manualTrigger",
+        "typeVersion": 1,
+        "position": [
+          -480,
+          -640
+        ],
+        "id": "b77261e3-9a9d-4515-a788-a1d9c3b8c673",
+        "name": "When clicking ‘Execute workflow’"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": false,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "0626839a-aa44-406e-9a89-e593acb212c9",
+                      "leftValue": "={{ $json.sender.emailAddress.address }}",
+                      "rightValue": "lisa@higginslettings.co.uk",
+                      "operator": {
+                        "type": "string",
+                        "operation": "equals",
+                        "name": "filter.operator.equals"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "LISA"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": false,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "8fc46579-ffc1-4001-88b8-1f58a0ec16d2",
+                      "leftValue": "={{ $json.subject }}",
+                      "rightValue": "Quote",
+                      "operator": {
+                        "type": "string",
+                        "operation": "contains"
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "QUOTE"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": false,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.subject }}",
+                      "rightValue": "Works order for",
+                      "operator": {
+                        "type": "string",
+                        "operation": "contains"
+                      },
+                      "id": "cc34de9f-80e3-409d-886a-79b9b6edb9c2"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "WORKS ORDER"
+              }
+            ]
+          },
+          "options": {
+            "fallbackOutput": "extra",
+            "ignoreCase": true
+          }
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          -32,
+          -576
+        ],
+        "id": "bbbf41e2-2c50-4478-873d-3c1419fc995a",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "operation": "move",
+          "messageId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa-jkJWO_YxrAABUmDLHAAA=",
+            "mode": "list",
+            "cachedResultName": "_Works Order",
+            "cachedResultUrl": "https://outlook.office365.com/mail/AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa%2FjkJWO_YxrAABUmDLHAAA%3D"
+          }
+        },
+        "type": "n8n-nodes-base.microsoftOutlook",
+        "typeVersion": 2,
+        "position": [
+          640,
+          -208
+        ],
+        "id": "e6de3f1a-0eb0-4d52-84c1-3f0749c4f6d2",
+        "name": "Move works orders",
+        "webhookId": "b9960312-6216-4414-a834-60cd2a59d2d9"
+      },
+      {
+        "parameters": {
+          "operation": "move",
+          "messageId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa-jkJWO_YxrAABUmDLIAAA=",
+            "mode": "list",
+            "cachedResultName": "_Manual review",
+            "cachedResultUrl": "https://outlook.office365.com/mail/AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa%2FjkJWO_YxrAABUmDLIAAA%3D"
+          }
+        },
+        "type": "n8n-nodes-base.microsoftOutlook",
+        "typeVersion": 2,
+        "position": [
+          192,
+          -400
+        ],
+        "id": "5c62fee5-ff39-49c3-8353-4d22c17589c6",
+        "name": "Move a message",
+        "webhookId": "b9960312-6216-4414-a834-60cd2a59d2d9"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": false,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "8516e891-5757-44f0-a1ba-9f6b594e3e4f",
+                "leftValue": "={{ $json.fields.From }}",
+                "rightValue": "@higginslettings.co.uk",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEndsWith"
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {
+            "ignoreCase": true
+          }
+        },
+        "type": "n8n-nodes-base.filter",
+        "typeVersion": 2.3,
+        "position": [
+          1312,
+          -208
+        ],
+        "id": "744be082-bf6b-48a9-9ea4-8f262cca1bc6",
+        "name": "Exclude FROM higginslettings.co.uk"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "limit": 5,
+          "output": "fields",
+          "fields": "={{ [\"body\",\"hasAttachments\",\"categories\",\"conversationId\",\"importance\",\"isRead\",\"parentFolderId\",\"receivedDateTime\",\"sender\",\"subject\",\"webLink\",\"bodyPreview\",\"flag\",\"from\",\"internetMessageId\",\"toRecipients\"] }}",
+          "filtersUI": {
+            "values": {
+              "filters": {
+                "custom": "from/emailAddress/address ne 'lisa@higginslettings.co.uk'",
+                "foldersToInclude": [
+                  "AQMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAADIfsX7uwc0Ey_AJNWzuO8VQEAQ9CIK-jb-Emv45CVjvmMawAAAgEMAAAA"
+                ]
+              }
+            }
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.microsoftOutlook",
+        "typeVersion": 2,
+        "position": [
+          -256,
+          -640
+        ],
+        "id": "9781bc27-81a0-4ec4-8591-25b120b5e663",
+        "name": "Get emails",
+        "webhookId": "1b61df90-e9d7-4548-9338-6a5556914dc1",
+        "notes": "startswith(subject,'Works order for')"
+      },
+      {
+        "parameters": {
+          "operation": "move",
+          "messageId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa-jkJWO_YxrAABUmDLNAAA=",
+            "mode": "list",
+            "cachedResultName": "_Quotes",
+            "cachedResultUrl": "https://outlook.office365.com/mail/AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa%2FjkJWO_YxrAABUmDLNAAA%3D"
+          }
+        },
+        "type": "n8n-nodes-base.microsoftOutlook",
+        "typeVersion": 2,
+        "position": [
+          192,
+          -592
+        ],
+        "id": "f738d943-bdcf-41b6-8213-999f06dc3df1",
+        "name": "Move to _Quotes",
+        "webhookId": "b9960312-6216-4414-a834-60cd2a59d2d9"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "HLTvEjno9haFrNfC",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/HLTvEjno9haFrNfC",
+            "cachedResultName": "WfD Shared Project — Higgins: Send verification email to job originator"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "jobNumber": "={{ $json.job.JobNumber }}",
+              "action": "CONFIRM"
+            },
+            "matchingColumns": [
+              "id"
+            ],
+            "schema": [
+              {
+                "id": "jobNumber",
+                "displayName": "jobNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "recipient",
+                "displayName": "recipient",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "action",
+                "displayName": "action",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          1984,
+          -304
+        ],
+        "id": "44abb2ae-1b32-454a-aa7a-9cb399562611",
+        "name": "Verify job details"
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "loose",
+              "version": 3
+            },
+            "conditions": [
+              {
+                "id": "be883cd4-101b-4bf4-8faf-c7d18ec526bd",
+                "leftValue": "={{ $json.job.JobNumber }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "looseTypeValidation": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.3,
+        "position": [
+          1760,
+          -208
+        ],
+        "id": "d9e354a9-b27d-4b4b-9ba7-97464b42155e",
+        "name": "If JOBNUMBER"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1984,
+          -112
+        ],
+        "id": "4b1c69bd-d5b9-4b5d-8c55-83f0d90522b4",
+        "name": "No Job Number, do nothing"
+      },
+      {
+        "parameters": {
+          "operation": "getAll",
+          "returnAll": true,
+          "output": "fields",
+          "fields": [
+            "webLink",
+            "internetMessageId"
+          ],
+          "filtersUI": {
+            "values": {
+              "filters": {
+                "custom": "=internetMessageId eq '{{ $('Save Emails to SP').item.json.internetMessageId }}'"
+              }
+            }
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.microsoftOutlook",
+        "typeVersion": 2,
+        "position": [
+          864,
+          -208
+        ],
+        "id": "0ab1505a-6efd-4269-9450-6c1be9858b7c",
+        "name": "Get many messages",
+        "webhookId": "01060437-3a0c-45db-ac74-b4a25f05c2b7"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "operation": "update",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "be45f44d-50b0-41cd-82ee-7ad2f30a0e94",
+            "mode": "list",
+            "cachedResultName": "LISA - Email"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "MessageId": "={{ $json.internetMessageId }}",
+              "OutlookUrl": "={{ $json.webLink }}"
+            },
+            "matchingColumns": [
+              "MessageId"
+            ],
+            "schema": [
+              {
+                "id": "Title",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Title",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "MessageId",
+                "canBeUsedToMatch": true,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "MessageId",
+                "readOnly": false,
+                "required": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "ConversationId",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ConversationId",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "ReceivedDate",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ReceivedDate",
+                "readOnly": false,
+                "required": false,
+                "type": "dateTime",
+                "removed": true
+              },
+              {
+                "id": "OutlookUrl",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "OutlookUrl",
+                "readOnly": false,
+                "required": false,
+                "type": "string"
+              },
+              {
+                "id": "JobNumber",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "JobNumber",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "Status",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Status",
+                "readOnly": false,
+                "required": false,
+                "type": "options",
+                "options": [
+                  {
+                    "name": "New",
+                    "value": "New"
+                  },
+                  {
+                    "name": "Quoted",
+                    "value": "Quoted"
+                  },
+                  {
+                    "name": "Approved",
+                    "value": "Approved"
+                  },
+                  {
+                    "name": "Complete",
+                    "value": "Complete"
+                  }
+                ],
+                "removed": true
+              },
+              {
+                "id": "Thread",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Thread",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "SpThreadId",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "SpThreadId",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "AiDone",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "AiDone",
+                "readOnly": false,
+                "required": false,
+                "type": "boolean",
+                "removed": true
+              },
+              {
+                "id": "Body",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Body",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "From",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "From",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "Importance",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Importance",
+                "readOnly": false,
+                "required": false,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "id",
+                "canBeUsedToMatch": true,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "ID",
+                "readOnly": true,
+                "required": true,
+                "type": "string",
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          1088,
+          -208
+        ],
+        "id": "d9cfdbdd-6410-42d2-8d57-2a08d444fa91",
+        "name": "Update item in a list"
+      },
+      {
+        "parameters": {
+          "batchSize": 10,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          192,
+          -208
+        ],
+        "id": "6e656e01-9c1a-45b1-bdc3-a8e35ddd0c95",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {
+          "operation": "move",
+          "messageId": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          },
+          "folderId": {
+            "__rl": true,
+            "value": "AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa-jkJWO_YxrAABqRqWkAAA=",
+            "mode": "list",
+            "cachedResultName": "_From LISA",
+            "cachedResultUrl": "https://outlook.office365.com/mail/AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa%2FjkJWO_YxrAABqRqWkAAA%3D"
+          }
+        },
+        "type": "n8n-nodes-base.microsoftOutlook",
+        "typeVersion": 2,
+        "position": [
+          192,
+          -784
+        ],
+        "id": "793ff0f7-d16e-453b-bfb9-9f24e317a666",
+        "name": "Move to _Lisa",
+        "webhookId": "b9960312-6216-4414-a834-60cd2a59d2d9"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "dREiwBKuMg6WFXPa",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/dREiwBKuMg6WFXPa",
+            "cachedResultName": "WfD Shared Project — Higgins: Save Emails to SP"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [
+              "items"
+            ],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {
+            "waitForSubWorkflow": true
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          416,
+          -208
+        ],
+        "id": "97f0919f-d4d8-45e1-9ac8-13a7bf96cd52",
+        "name": "Save Emails to SP"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          2208,
+          -144
+        ],
+        "id": "c84f6342-ae75-46d6-8ae3-f034393b1729",
+        "name": "End"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          416,
+          -496
+        ],
+        "id": "047cbb1e-66fd-48be-bce9-1ff2846b1cbe",
+        "name": "Done"
+      },
+      {
+        "parameters": {
+          "pollTimes": {
+            "item": [
+              {
+                "mode": "everyMinute"
+              }
+            ]
+          },
+          "output": "fields",
+          "fields": "={{ [\"body\",\"hasAttachments\",\"categories\",\"conversationId\",\"importance\",\"isRead\",\"parentFolderId\",\"receivedDateTime\",\"sender\",\"subject\",\"webLink\",\"bodyPreview\",\"flag\",\"from\",\"internetMessageId\",\"toRecipients\"] }}",
+          "filters": {
+            "custom": "from/emailAddress/address ne 'lisa@higginslettings.co.uk'",
+            "foldersToInclude": [
+              "AQMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAADIfsX7uwc0Ey_AJNWzuO8VQEAQ9CIK-jb-Emv45CVjvmMawAAAgEMAAAA"
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.microsoftOutlookTrigger",
+        "typeVersion": 1,
+        "position": [
+          -256,
+          -448
+        ],
+        "id": "5eabf9b9-a189-457e-ae97-c6779844a72d",
+        "name": "Microsoft Outlook Trigger"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "4FUBRJxX8kq8CAIQ",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/4FUBRJxX8kq8CAIQ",
+              "cachedResultName": "WfD Shared Project — Higgins: AI Data extract"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "subject": "={{ $json.fields?.Subject }}",
+                "from": "={{ $json.fields?.From }}",
+                "body": "={{ $json.fields?.Body }}",
+                "importance": "={{ $json.fields?.Importance }}",
+                "id": "={{ $json.fields?.MessageId }}",
+                "conversationId": "={{ $json.fields?.ConversationId }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "id",
+                  "displayName": "id",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "conversationId",
+                  "displayName": "conversationId",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "importance",
+                  "displayName": "importance",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                },
+                {
+                  "id": "from",
+                  "displayName": "from",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                },
+                {
+                  "id": "subject",
+                  "displayName": "subject",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                },
+                {
+                  "id": "body",
+                  "displayName": "body",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            1536,
+            -208
+          ],
+          "id": "8ace4875-7cbf-4f98-89d5-4b8122130822",
+          "name": "Execute AI Extract"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.manualTrigger",
+          "typeVersion": 1,
+          "position": [
+            -480,
+            -640
+          ],
+          "id": "b77261e3-9a9d-4515-a788-a1d9c3b8c673",
+          "name": "When clicking ‘Execute workflow’"
+        },
+        {
+          "parameters": {
+            "rules": {
+              "values": [
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": false,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 3
+                    },
+                    "conditions": [
+                      {
+                        "id": "0626839a-aa44-406e-9a89-e593acb212c9",
+                        "leftValue": "={{ $json.sender.emailAddress.address }}",
+                        "rightValue": "lisa@higginslettings.co.uk",
+                        "operator": {
+                          "type": "string",
+                          "operation": "equals",
+                          "name": "filter.operator.equals"
+                        }
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "LISA"
+                },
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": false,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 3
+                    },
+                    "conditions": [
+                      {
+                        "id": "8fc46579-ffc1-4001-88b8-1f58a0ec16d2",
+                        "leftValue": "={{ $json.subject }}",
+                        "rightValue": "Quote",
+                        "operator": {
+                          "type": "string",
+                          "operation": "contains"
+                        }
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "QUOTE"
+                },
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": false,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 3
+                    },
+                    "conditions": [
+                      {
+                        "leftValue": "={{ $json.subject }}",
+                        "rightValue": "Works order for",
+                        "operator": {
+                          "type": "string",
+                          "operation": "contains"
+                        },
+                        "id": "cc34de9f-80e3-409d-886a-79b9b6edb9c2"
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "WORKS ORDER"
+                }
+              ]
+            },
+            "options": {
+              "fallbackOutput": "extra",
+              "ignoreCase": true
+            }
+          },
+          "type": "n8n-nodes-base.switch",
+          "typeVersion": 3.4,
+          "position": [
+            -32,
+            -576
+          ],
+          "id": "bbbf41e2-2c50-4478-873d-3c1419fc995a",
+          "name": "Switch"
+        },
+        {
+          "parameters": {
+            "operation": "move",
+            "messageId": {
+              "__rl": true,
+              "value": "={{ $json.id }}",
+              "mode": "id"
+            },
+            "folderId": {
+              "__rl": true,
+              "value": "AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa-jkJWO_YxrAABUmDLHAAA=",
+              "mode": "list",
+              "cachedResultName": "_Works Order",
+              "cachedResultUrl": "https://outlook.office365.com/mail/AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa%2FjkJWO_YxrAABUmDLHAAA%3D"
+            }
+          },
+          "type": "n8n-nodes-base.microsoftOutlook",
+          "typeVersion": 2,
+          "position": [
+            640,
+            -208
+          ],
+          "id": "e6de3f1a-0eb0-4d52-84c1-3f0749c4f6d2",
+          "name": "Move works orders",
+          "webhookId": "b9960312-6216-4414-a834-60cd2a59d2d9"
+        },
+        {
+          "parameters": {
+            "operation": "move",
+            "messageId": {
+              "__rl": true,
+              "value": "={{ $json.id }}",
+              "mode": "id"
+            },
+            "folderId": {
+              "__rl": true,
+              "value": "AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa-jkJWO_YxrAABUmDLIAAA=",
+              "mode": "list",
+              "cachedResultName": "_Manual review",
+              "cachedResultUrl": "https://outlook.office365.com/mail/AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa%2FjkJWO_YxrAABUmDLIAAA%3D"
+            }
+          },
+          "type": "n8n-nodes-base.microsoftOutlook",
+          "typeVersion": 2,
+          "position": [
+            192,
+            -400
+          ],
+          "id": "5c62fee5-ff39-49c3-8353-4d22c17589c6",
+          "name": "Move a message",
+          "webhookId": "b9960312-6216-4414-a834-60cd2a59d2d9"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": false,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "8516e891-5757-44f0-a1ba-9f6b594e3e4f",
+                  "leftValue": "={{ $json.fields.From }}",
+                  "rightValue": "@higginslettings.co.uk",
+                  "operator": {
+                    "type": "string",
+                    "operation": "notEndsWith"
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {
+              "ignoreCase": true
+            }
+          },
+          "type": "n8n-nodes-base.filter",
+          "typeVersion": 2.3,
+          "position": [
+            1312,
+            -208
+          ],
+          "id": "744be082-bf6b-48a9-9ea4-8f262cca1bc6",
+          "name": "Exclude FROM higginslettings.co.uk"
+        },
+        {
+          "parameters": {
+            "operation": "getAll",
+            "limit": 5,
+            "output": "fields",
+            "fields": "={{ [\"body\",\"hasAttachments\",\"categories\",\"conversationId\",\"importance\",\"isRead\",\"parentFolderId\",\"receivedDateTime\",\"sender\",\"subject\",\"webLink\",\"bodyPreview\",\"flag\",\"from\",\"internetMessageId\",\"toRecipients\"] }}",
+            "filtersUI": {
+              "values": {
+                "filters": {
+                  "custom": "from/emailAddress/address ne 'lisa@higginslettings.co.uk'",
+                  "foldersToInclude": [
+                    "AQMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAADIfsX7uwc0Ey_AJNWzuO8VQEAQ9CIK-jb-Emv45CVjvmMawAAAgEMAAAA"
+                  ]
+                }
+              }
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.microsoftOutlook",
+          "typeVersion": 2,
+          "position": [
+            -256,
+            -640
+          ],
+          "id": "9781bc27-81a0-4ec4-8591-25b120b5e663",
+          "name": "Get emails",
+          "webhookId": "1b61df90-e9d7-4548-9338-6a5556914dc1",
+          "notes": "startswith(subject,'Works order for')"
+        },
+        {
+          "parameters": {
+            "operation": "move",
+            "messageId": {
+              "__rl": true,
+              "value": "={{ $json.id }}",
+              "mode": "id"
+            },
+            "folderId": {
+              "__rl": true,
+              "value": "AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa-jkJWO_YxrAABUmDLNAAA=",
+              "mode": "list",
+              "cachedResultName": "_Quotes",
+              "cachedResultUrl": "https://outlook.office365.com/mail/AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa%2FjkJWO_YxrAABUmDLNAAA%3D"
+            }
+          },
+          "type": "n8n-nodes-base.microsoftOutlook",
+          "typeVersion": 2,
+          "position": [
+            192,
+            -592
+          ],
+          "id": "f738d943-bdcf-41b6-8213-999f06dc3df1",
+          "name": "Move to _Quotes",
+          "webhookId": "b9960312-6216-4414-a834-60cd2a59d2d9"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "HLTvEjno9haFrNfC",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/HLTvEjno9haFrNfC",
+              "cachedResultName": "WfD Shared Project — Higgins: Send verification email to job originator"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "jobNumber": "={{ $json.job.JobNumber }}",
+                "action": "CONFIRM"
+              },
+              "matchingColumns": [
+                "id"
+              ],
+              "schema": [
+                {
+                  "id": "jobNumber",
+                  "displayName": "jobNumber",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "recipient",
+                  "displayName": "recipient",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "action",
+                  "displayName": "action",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            1984,
+            -304
+          ],
+          "id": "44abb2ae-1b32-454a-aa7a-9cb399562611",
+          "name": "Verify job details"
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "loose",
+                "version": 3
+              },
+              "conditions": [
+                {
+                  "id": "be883cd4-101b-4bf4-8faf-c7d18ec526bd",
+                  "leftValue": "={{ $json.job.JobNumber }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "string",
+                    "operation": "notEmpty",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "looseTypeValidation": true,
+            "options": {}
+          },
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.3,
+          "position": [
+            1760,
+            -208
+          ],
+          "id": "d9e354a9-b27d-4b4b-9ba7-97464b42155e",
+          "name": "If JOBNUMBER"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            1984,
+            -112
+          ],
+          "id": "4b1c69bd-d5b9-4b5d-8c55-83f0d90522b4",
+          "name": "No Job Number, do nothing"
+        },
+        {
+          "parameters": {
+            "operation": "getAll",
+            "returnAll": true,
+            "output": "fields",
+            "fields": [
+              "webLink",
+              "internetMessageId"
+            ],
+            "filtersUI": {
+              "values": {
+                "filters": {
+                  "custom": "=internetMessageId eq '{{ $('Save Emails to SP').item.json.internetMessageId }}'"
+                }
+              }
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.microsoftOutlook",
+          "typeVersion": 2,
+          "position": [
+            864,
+            -208
+          ],
+          "id": "0ab1505a-6efd-4269-9450-6c1be9858b7c",
+          "name": "Get many messages",
+          "webhookId": "01060437-3a0c-45db-ac74-b4a25f05c2b7"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "operation": "update",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "be45f44d-50b0-41cd-82ee-7ad2f30a0e94",
+              "mode": "list",
+              "cachedResultName": "LISA - Email"
+            },
+            "columns": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "MessageId": "={{ $json.internetMessageId }}",
+                "OutlookUrl": "={{ $json.webLink }}"
+              },
+              "matchingColumns": [
+                "MessageId"
+              ],
+              "schema": [
+                {
+                  "id": "Title",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Title",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "MessageId",
+                  "canBeUsedToMatch": true,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "MessageId",
+                  "readOnly": false,
+                  "required": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "ConversationId",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ConversationId",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "ReceivedDate",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ReceivedDate",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "dateTime",
+                  "removed": true
+                },
+                {
+                  "id": "OutlookUrl",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "OutlookUrl",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "id": "JobNumber",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "JobNumber",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "Status",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Status",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "options",
+                  "options": [
+                    {
+                      "name": "New",
+                      "value": "New"
+                    },
+                    {
+                      "name": "Quoted",
+                      "value": "Quoted"
+                    },
+                    {
+                      "name": "Approved",
+                      "value": "Approved"
+                    },
+                    {
+                      "name": "Complete",
+                      "value": "Complete"
+                    }
+                  ],
+                  "removed": true
+                },
+                {
+                  "id": "Thread",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Thread",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "SpThreadId",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "SpThreadId",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "AiDone",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "AiDone",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "boolean",
+                  "removed": true
+                },
+                {
+                  "id": "Body",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Body",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "From",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "From",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "Importance",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Importance",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "id",
+                  "canBeUsedToMatch": true,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "ID",
+                  "readOnly": true,
+                  "required": true,
+                  "type": "string",
+                  "removed": true
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": false
+            },
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            1088,
+            -208
+          ],
+          "id": "d9cfdbdd-6410-42d2-8d57-2a08d444fa91",
+          "name": "Update item in a list"
+        },
+        {
+          "parameters": {
+            "batchSize": 10,
+            "options": {}
+          },
+          "type": "n8n-nodes-base.splitInBatches",
+          "typeVersion": 3,
+          "position": [
+            192,
+            -208
+          ],
+          "id": "6e656e01-9c1a-45b1-bdc3-a8e35ddd0c95",
+          "name": "Loop Over Items"
+        },
+        {
+          "parameters": {
+            "operation": "move",
+            "messageId": {
+              "__rl": true,
+              "value": "={{ $json.id }}",
+              "mode": "id"
+            },
+            "folderId": {
+              "__rl": true,
+              "value": "AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa-jkJWO_YxrAABqRqWkAAA=",
+              "mode": "list",
+              "cachedResultName": "_From LISA",
+              "cachedResultUrl": "https://outlook.office365.com/mail/AAMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAAAAAAh_xfu7BzQTL4Ak1bO47xVAQBD0Igr_Nv8Sa%2FjkJWO_YxrAABqRqWkAAA%3D"
+            }
+          },
+          "type": "n8n-nodes-base.microsoftOutlook",
+          "typeVersion": 2,
+          "position": [
+            192,
+            -784
+          ],
+          "id": "793ff0f7-d16e-453b-bfb9-9f24e317a666",
+          "name": "Move to _Lisa",
+          "webhookId": "b9960312-6216-4414-a834-60cd2a59d2d9"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "dREiwBKuMg6WFXPa",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/dREiwBKuMg6WFXPa",
+              "cachedResultName": "WfD Shared Project — Higgins: Save Emails to SP"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [
+                "items"
+              ],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {
+              "waitForSubWorkflow": true
+            }
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            416,
+            -208
+          ],
+          "id": "97f0919f-d4d8-45e1-9ac8-13a7bf96cd52",
+          "name": "Save Emails to SP"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            2208,
+            -144
+          ],
+          "id": "c84f6342-ae75-46d6-8ae3-f034393b1729",
+          "name": "End"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            416,
+            -496
+          ],
+          "id": "047cbb1e-66fd-48be-bce9-1ff2846b1cbe",
+          "name": "Done"
+        },
+        {
+          "parameters": {
+            "pollTimes": {
+              "item": [
+                {
+                  "mode": "everyMinute"
+                }
+              ]
+            },
+            "output": "fields",
+            "fields": "={{ [\"body\",\"hasAttachments\",\"categories\",\"conversationId\",\"importance\",\"isRead\",\"parentFolderId\",\"receivedDateTime\",\"sender\",\"subject\",\"webLink\",\"bodyPreview\",\"flag\",\"from\",\"internetMessageId\",\"toRecipients\"] }}",
+            "filters": {
+              "custom": "from/emailAddress/address ne 'lisa@higginslettings.co.uk'",
+              "foldersToInclude": [
+                "AQMkAGQ4ZjA5YjRjLWYwNDctNGFmNC1hOGM0LTE2MjlkNjJhZTUyZAAuAAADIfsX7uwc0Ey_AJNWzuO8VQEAQ9CIK-jb-Emv45CVjvmMawAAAgEMAAAA"
+              ]
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.microsoftOutlookTrigger",
+          "typeVersion": 1,
+          "position": [
+            -256,
+            -448
+          ],
+          "id": "5eabf9b9-a189-457e-ae97-c6779844a72d",
+          "name": "Microsoft Outlook Trigger"
+        }
+      ],
+      "connections": {
+        "Execute AI Extract": {
+          "main": [
+            [
+              {
+                "node": "If JOBNUMBER",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "When clicking ‘Execute workflow’": {
+          "main": [
+            [
+              {
+                "node": "Get emails",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Switch": {
+          "main": [
+            [
+              {
+                "node": "Move to _Lisa",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Loop Over Items",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Loop Over Items",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Move a message",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Move works orders": {
+          "main": [
+            [
+              {
+                "node": "Get many messages",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Exclude FROM higginslettings.co.uk": {
+          "main": [
+            [
+              {
+                "node": "Execute AI Extract",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get emails": {
+          "main": [
+            [
+              {
+                "node": "Switch",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Verify job details": {
+          "main": [
+            [
+              {
+                "node": "End",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "If JOBNUMBER": {
+          "main": [
+            [
+              {
+                "node": "Verify job details",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "No Job Number, do nothing",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get many messages": {
+          "main": [
+            [
+              {
+                "node": "Update item in a list",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Loop Over Items": {
+          "main": [
+            [
+              {
+                "node": "Done",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Save Emails to SP",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Update item in a list": {
+          "main": [
+            [
+              {
+                "node": "Exclude FROM higginslettings.co.uk",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Save Emails to SP": {
+          "main": [
+            [
+              {
+                "node": "Move works orders",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "No Job Number, do nothing": {
+          "main": [
+            [
+              {
+                "node": "End",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "End": {
+          "main": [
+            [
+              {
+                "node": "Loop Over Items",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Move a message": {
+          "main": [
+            [
+              {
+                "node": "Done",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Move to _Quotes": {
+          "main": [
+            [
+              {
+                "node": "Done",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Move to _Lisa": {
+          "main": [
+            [
+              {
+                "node": "Done",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Microsoft Outlook Trigger": {
+          "main": [
+            [
+              {
+                "node": "Switch",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has the following trigger(s):\n"
+}

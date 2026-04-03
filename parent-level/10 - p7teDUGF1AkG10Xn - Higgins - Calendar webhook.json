@@ -1,0 +1,665 @@
+{
+  "workflow": {
+    "id": "p7teDUGF1AkG10Xn",
+    "name": "Higgins: Calendar webhook",
+    "active": true,
+    "isArchived": false,
+    "versionId": "f67b34e1-9857-41fa-bc76-8729122b7f62",
+    "activeVersionId": "f67b34e1-9857-41fa-bc76-8729122b7f62",
+    "triggerCount": 1,
+    "createdAt": "2026-02-27T10:24:28.881Z",
+    "updatedAt": "2026-04-03T16:12:25.915Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true
+    },
+    "connections": {
+      "Webhook": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: Create calendar content'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: Create calendar content'": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: Create calendar entry'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTML": {
+        "main": [
+          [
+            {
+              "node": "Call 'Higgins: HTML Render'",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: Create calendar entry'": {
+        "main": [
+          [
+            {
+              "node": "HTML",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Call 'Higgins: HTML Render'": {
+        "main": [
+          [
+            {
+              "node": "Respond to Webhook",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "path": "higgins/job/calendar",
+          "responseMode": "responseNode",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.webhook",
+        "typeVersion": 2.1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "b2bdf8f9-b81f-4819-875c-15ebfa9ede6e",
+        "name": "Webhook",
+        "webhookId": "76b28b31-7560-415b-b04f-9c3bbb1a08b9"
+      },
+      {
+        "parameters": {
+          "respondWith": "text",
+          "responseBody": "={{ $json.html }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.respondToWebhook",
+        "typeVersion": 1.5,
+        "position": [
+          1040,
+          0
+        ],
+        "id": "ff4236fc-295f-49f8-93c4-a0ed2a766f8c",
+        "name": "Respond to Webhook"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "umfP00229ZCt0tyO",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/umfP00229ZCt0tyO",
+            "cachedResultName": "WfD Shared Project — Higgins: Create calendar content"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "JobNumber": "={{ $json.query.number }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "JobNumber",
+                "displayName": "JobNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "action",
+                "displayName": "action",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          208,
+          0
+        ],
+        "id": "51b6c340-87f7-43e7-8425-46cb91ed8cca",
+        "name": "Call 'Higgins: Create calendar content'"
+      },
+      {
+        "parameters": {
+          "html": "<!-- #pageTitle 'Job #{{ $('Webhook').item.json.query.number }}' -->\n\n<ul>\n  <li>\n    <a href=\"{{ $json.webLink }}\" target=\"_blank\">\n      Open calendar event\n    </a>\n  </li>\n</ul>"
+        },
+        "type": "n8n-nodes-base.html",
+        "typeVersion": 1.2,
+        "position": [
+          624,
+          0
+        ],
+        "id": "f6ae1c48-2888-4b3d-abba-a47f80acc14c",
+        "name": "HTML"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "0pcNOE6vWgySHRsy",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/0pcNOE6vWgySHRsy",
+            "cachedResultName": "WfD Shared Project — Higgins: Create calendar entry"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "body": "={{ $json.body }}",
+              "startTime": "={{ $json.startTime }}",
+              "endTime": "={{ $json.endTime }}",
+              "durationHours": "={{ $json.durationHours }}",
+              "embedMap": "={{ $json.embedMap }}",
+              "imgMap": "={{ $json.imgMap }}",
+              "location": "={{ $json.location }}",
+              "subject": "={{ $json.subject }}",
+              "categories": "={{ $json.categories }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "attendees",
+                "displayName": "attendees",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "array",
+                "removed": true
+              },
+              {
+                "id": "categories",
+                "displayName": "categories",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "array",
+                "removed": false
+              },
+              {
+                "id": "subject",
+                "displayName": "subject",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "location",
+                "displayName": "location",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "imgMap",
+                "displayName": "imgMap",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "embedMap",
+                "displayName": "embedMap",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "startTime",
+                "displayName": "startTime",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "durationHours",
+                "displayName": "durationHours",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "endTime",
+                "displayName": "endTime",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              },
+              {
+                "id": "body",
+                "displayName": "body",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string"
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          416,
+          0
+        ],
+        "id": "eb0cfc56-1383-4071-9379-05e559b68617",
+        "name": "Call 'Higgins: Create calendar entry'"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "CPMBwF51nRpqmBzc",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/CPMBwF51nRpqmBzc",
+            "cachedResultName": "WfD Shared Project — Higgins: HTML Render"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          832,
+          0
+        ],
+        "id": "676a3111-8f77-4632-b29a-1368e2d0d3f3",
+        "name": "Call 'Higgins: HTML Render'"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "path": "higgins/job/calendar",
+            "responseMode": "responseNode",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.webhook",
+          "typeVersion": 2.1,
+          "position": [
+            0,
+            0
+          ],
+          "id": "b2bdf8f9-b81f-4819-875c-15ebfa9ede6e",
+          "name": "Webhook",
+          "webhookId": "76b28b31-7560-415b-b04f-9c3bbb1a08b9"
+        },
+        {
+          "parameters": {
+            "respondWith": "text",
+            "responseBody": "={{ $json.html }}",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.respondToWebhook",
+          "typeVersion": 1.5,
+          "position": [
+            1040,
+            0
+          ],
+          "id": "ff4236fc-295f-49f8-93c4-a0ed2a766f8c",
+          "name": "Respond to Webhook"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "umfP00229ZCt0tyO",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/umfP00229ZCt0tyO",
+              "cachedResultName": "WfD Shared Project — Higgins: Create calendar content"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "JobNumber": "={{ $json.query.number }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "JobNumber",
+                  "displayName": "JobNumber",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "action",
+                  "displayName": "action",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": true
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            208,
+            0
+          ],
+          "id": "51b6c340-87f7-43e7-8425-46cb91ed8cca",
+          "name": "Call 'Higgins: Create calendar content'"
+        },
+        {
+          "parameters": {
+            "html": "<!-- #pageTitle 'Job #{{ $('Webhook').item.json.query.number }}' -->\n\n<ul>\n  <li>\n    <a href=\"{{ $json.webLink }}\" target=\"_blank\">\n      Open calendar event\n    </a>\n  </li>\n</ul>"
+          },
+          "type": "n8n-nodes-base.html",
+          "typeVersion": 1.2,
+          "position": [
+            624,
+            0
+          ],
+          "id": "f6ae1c48-2888-4b3d-abba-a47f80acc14c",
+          "name": "HTML"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "0pcNOE6vWgySHRsy",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/0pcNOE6vWgySHRsy",
+              "cachedResultName": "WfD Shared Project — Higgins: Create calendar entry"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "body": "={{ $json.body }}",
+                "startTime": "={{ $json.startTime }}",
+                "endTime": "={{ $json.endTime }}",
+                "durationHours": "={{ $json.durationHours }}",
+                "embedMap": "={{ $json.embedMap }}",
+                "imgMap": "={{ $json.imgMap }}",
+                "location": "={{ $json.location }}",
+                "subject": "={{ $json.subject }}",
+                "categories": "={{ $json.categories }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "attendees",
+                  "displayName": "attendees",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "array",
+                  "removed": true
+                },
+                {
+                  "id": "categories",
+                  "displayName": "categories",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "array",
+                  "removed": false
+                },
+                {
+                  "id": "subject",
+                  "displayName": "subject",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                },
+                {
+                  "id": "location",
+                  "displayName": "location",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                },
+                {
+                  "id": "imgMap",
+                  "displayName": "imgMap",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                },
+                {
+                  "id": "embedMap",
+                  "displayName": "embedMap",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                },
+                {
+                  "id": "startTime",
+                  "displayName": "startTime",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                },
+                {
+                  "id": "durationHours",
+                  "displayName": "durationHours",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                },
+                {
+                  "id": "endTime",
+                  "displayName": "endTime",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                },
+                {
+                  "id": "body",
+                  "displayName": "body",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string"
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            416,
+            0
+          ],
+          "id": "eb0cfc56-1383-4071-9379-05e559b68617",
+          "name": "Call 'Higgins: Create calendar entry'"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "CPMBwF51nRpqmBzc",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/CPMBwF51nRpqmBzc",
+              "cachedResultName": "WfD Shared Project — Higgins: HTML Render"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            832,
+            0
+          ],
+          "id": "676a3111-8f77-4632-b29a-1368e2d0d3f3",
+          "name": "Call 'Higgins: HTML Render'"
+        }
+      ],
+      "connections": {
+        "Webhook": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: Create calendar content'",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: Create calendar content'": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: Create calendar entry'",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "HTML": {
+          "main": [
+            [
+              {
+                "node": "Call 'Higgins: HTML Render'",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: Create calendar entry'": {
+          "main": [
+            [
+              {
+                "node": "HTML",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Call 'Higgins: HTML Render'": {
+          "main": [
+            [
+              {
+                "node": "Respond to Webhook",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has the following trigger(s):\n\n\nWebhook trigger(s):\n\n\n\t\t\t\t<trigger 1>\n\t\t\t\t\t - Node name: Webhook\n\t\t\t\t\t - Base URL: https://drflow.app.n8n.cloud/\n\t\t\t\t\t - Production path: /webhook/higgins/job/calendar\n\t\t\t\t\t - Test path: /webhook-test/higgins/job/calendar\n\t\t\t\t\t - HTTP Method: GET\n\t\t\t\t\t - Response Mode: Webhook is configured to respond using \"Respond to Webhook\" node.\n\t\t\t\t\t - No credentials required for this webhook.\n\t\t\t\t</trigger 1>"
+}

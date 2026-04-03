@@ -1,0 +1,552 @@
+{
+  "workflow": {
+    "id": "umfP00229ZCt0tyO",
+    "name": "Higgins: Calendar content",
+    "active": true,
+    "isArchived": false,
+    "versionId": "c2d35583-59b1-450e-bebe-237d4e9adc57",
+    "activeVersionId": "c2d35583-59b1-450e-bebe-237d4e9adc57",
+    "triggerCount": 0,
+    "createdAt": "2025-12-08T16:28:56.91Z",
+    "updatedAt": "2026-04-03T16:21:32.643Z",
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": true
+    },
+    "connections": {
+      "EntryPoint": {
+        "main": [
+          [
+            {
+              "node": "Get job",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Edit Fields": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields (generated)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "_Defaults": {
+        "main": [
+          [
+            {
+              "node": "Edit Fields",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get job": {
+        "main": [
+          [
+            {
+              "node": "_Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "JobNumber"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          0,
+          -80
+        ],
+        "id": "388a0321-6ec2-4ca1-bfd8-a615ac7760bc",
+        "name": "EntryPoint"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "0f6e7b7a-6aeb-41ab-ab9e-61da287fc959",
+                "name": "subject",
+                "value": "=#{{ $json.job.JobNumber }} at {{ $json.job.AddressLine1 }}, {{ $json.job.Postcode }}",
+                "type": "string"
+              },
+              {
+                "id": "c6aad63c-22f1-4612-8a69-8841cf656982",
+                "name": "location",
+                "value": "={{ $json.job.AddressLatLong ?? ($json.job.AddressLine1 + ', ' + $json.job.Postcode) }}",
+                "type": "string"
+              },
+              {
+                "id": "aedd93fe-6fde-4cb3-a93f-db16890fa6b1",
+                "name": "imgMap",
+                "value": "=https://maps.googleapis.com/maps/api/staticmap?center={{ encodeURIComponent($json.job.AddressLatLong ?? ($json.job.Postcode + ' UK')) }}&key={{ $json.n8n_defaults.google_cloud.MapsApiKey }}&zoom=15&size=600x400&maptype=roadmap&markers=color:{{ encodeURIComponent('red|' + $json.job.Postcode.replaceAll(' ','') + ',UK') }}",
+                "type": "string"
+              },
+              {
+                "id": "43baebb2-4ac0-4fbb-b6e0-7fc4a3f38c28",
+                "name": "embedMap",
+                "value": "=https://www.google.com/maps/embed/v1/search?q={{ encodeURIComponent($json.job.AddressLatLong ?? ($json.job.Postcode + ' UK')) }}&key={{ $json.n8n_defaults.google_cloud.MapsApiKey }}",
+                "type": "string"
+              },
+              {
+                "id": "2a5acd5d-36b4-4d8e-a64c-031ad09365ca",
+                "name": "startTime",
+                "value": "={{ $json.JobDateTime ?? new Date(((d=new Date()).setDate(d.getDate()+((((7-d.getDay())%7)|| (d.getHours()>=9?7:0)))) , d.setHours(9,0,0,0), d)).toLocaleString(\"sv-SE\",{timeZone:\"Europe/London\"}).replace(\" \",\"T\") }}",
+                "type": "string"
+              },
+              {
+                "id": "bad41097-0ccf-446b-b1c4-2b120efd90a0",
+                "name": "durationHours",
+                "value": "={{ $json.job.JobDurationHours ?? 1.5 }}",
+                "type": "string"
+              },
+              {
+                "id": "eff696b7-4216-400f-80ec-2a1ca19725ea",
+                "name": "categories",
+                "value": "={{ $json.job.Tags.split(',') }}",
+                "type": "array"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          672,
+          -80
+        ],
+        "id": "3b4d5680-cce3-4ade-ad97-ac1cca5e3df4",
+        "name": "Edit Fields"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "ecb7da20-263a-4de5-8d34-025aacae4dd6",
+                "name": "endTime",
+                "value": "={{ new Date(new Date($json.startTime + \"Z\").getTime() + ($json.durationHours * 3600000)).toLocaleString(\"sv-SE\",{timeZone:\"Europe/London\"}).replace(\" \",\"T\") }}",
+                "type": "string"
+              },
+              {
+                "id": "8de12fad-3fbb-4d90-99ae-1fa36ddbcb24",
+                "name": "body",
+                "value": "=<h1>{{ $json.subject }}</h1><div>{{ $json.job.Description }}</div><hr /><img src=\"{{ $json.imgMap }}\" />\n<iframe src=\"{{ $json.embedMap }}\" />",
+                "type": "string"
+              }
+            ]
+          },
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          896,
+          -80
+        ],
+        "id": "1426d21b-9f54-43d9-9d8e-c83ac6b89a6d",
+        "name": "Edit Fields (generated)"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "RgFuxYHwCa6cNZTQ",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/RgFuxYHwCa6cNZTQ",
+            "cachedResultName": "WfD Shared Project — Higgins: _Defaults"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          448,
+          -80
+        ],
+        "id": "817e888e-d817-4aff-b66a-ffef354c0a90",
+        "name": "_Defaults"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "7GnSWkz7nyJh-HH5OQ_SE",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+            "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "jobNumber": "={{ $json.JobNumber }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "jobNumber",
+                "displayName": "jobNumber",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "job",
+                "displayName": "job",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "object",
+                "removed": true
+              },
+              {
+                "id": "include",
+                "displayName": "include",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "id",
+                "displayName": "id",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          224,
+          -80
+        ],
+        "id": "5e0b4fcc-f68d-400f-a4df-a45c9f0183b5",
+        "name": "Get job"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "workflowInputs": {
+              "values": [
+                {
+                  "name": "JobNumber"
+                }
+              ]
+            }
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            0,
+            -80
+          ],
+          "id": "388a0321-6ec2-4ca1-bfd8-a615ac7760bc",
+          "name": "EntryPoint"
+        },
+        {
+          "parameters": {
+            "assignments": {
+              "assignments": [
+                {
+                  "id": "0f6e7b7a-6aeb-41ab-ab9e-61da287fc959",
+                  "name": "subject",
+                  "value": "=#{{ $json.job.JobNumber }} at {{ $json.job.AddressLine1 }}, {{ $json.job.Postcode }}",
+                  "type": "string"
+                },
+                {
+                  "id": "c6aad63c-22f1-4612-8a69-8841cf656982",
+                  "name": "location",
+                  "value": "={{ $json.job.AddressLatLong ?? ($json.job.AddressLine1 + ', ' + $json.job.Postcode) }}",
+                  "type": "string"
+                },
+                {
+                  "id": "aedd93fe-6fde-4cb3-a93f-db16890fa6b1",
+                  "name": "imgMap",
+                  "value": "=https://maps.googleapis.com/maps/api/staticmap?center={{ encodeURIComponent($json.job.AddressLatLong ?? ($json.job.Postcode + ' UK')) }}&key={{ $json.n8n_defaults.google_cloud.MapsApiKey }}&zoom=15&size=600x400&maptype=roadmap&markers=color:{{ encodeURIComponent('red|' + $json.job.Postcode.replaceAll(' ','') + ',UK') }}",
+                  "type": "string"
+                },
+                {
+                  "id": "43baebb2-4ac0-4fbb-b6e0-7fc4a3f38c28",
+                  "name": "embedMap",
+                  "value": "=https://www.google.com/maps/embed/v1/search?q={{ encodeURIComponent($json.job.AddressLatLong ?? ($json.job.Postcode + ' UK')) }}&key={{ $json.n8n_defaults.google_cloud.MapsApiKey }}",
+                  "type": "string"
+                },
+                {
+                  "id": "2a5acd5d-36b4-4d8e-a64c-031ad09365ca",
+                  "name": "startTime",
+                  "value": "={{ $json.JobDateTime ?? new Date(((d=new Date()).setDate(d.getDate()+((((7-d.getDay())%7)|| (d.getHours()>=9?7:0)))) , d.setHours(9,0,0,0), d)).toLocaleString(\"sv-SE\",{timeZone:\"Europe/London\"}).replace(\" \",\"T\") }}",
+                  "type": "string"
+                },
+                {
+                  "id": "bad41097-0ccf-446b-b1c4-2b120efd90a0",
+                  "name": "durationHours",
+                  "value": "={{ $json.job.JobDurationHours ?? 1.5 }}",
+                  "type": "string"
+                },
+                {
+                  "id": "eff696b7-4216-400f-80ec-2a1ca19725ea",
+                  "name": "categories",
+                  "value": "={{ $json.job.Tags.split(',') }}",
+                  "type": "array"
+                }
+              ]
+            },
+            "includeOtherFields": true,
+            "options": {}
+          },
+          "type": "n8n-nodes-base.set",
+          "typeVersion": 3.4,
+          "position": [
+            672,
+            -80
+          ],
+          "id": "3b4d5680-cce3-4ade-ad97-ac1cca5e3df4",
+          "name": "Edit Fields"
+        },
+        {
+          "parameters": {
+            "assignments": {
+              "assignments": [
+                {
+                  "id": "ecb7da20-263a-4de5-8d34-025aacae4dd6",
+                  "name": "endTime",
+                  "value": "={{ new Date(new Date($json.startTime + \"Z\").getTime() + ($json.durationHours * 3600000)).toLocaleString(\"sv-SE\",{timeZone:\"Europe/London\"}).replace(\" \",\"T\") }}",
+                  "type": "string"
+                },
+                {
+                  "id": "8de12fad-3fbb-4d90-99ae-1fa36ddbcb24",
+                  "name": "body",
+                  "value": "=<h1>{{ $json.subject }}</h1><div>{{ $json.job.Description }}</div><hr /><img src=\"{{ $json.imgMap }}\" />\n<iframe src=\"{{ $json.embedMap }}\" />",
+                  "type": "string"
+                }
+              ]
+            },
+            "includeOtherFields": true,
+            "options": {}
+          },
+          "type": "n8n-nodes-base.set",
+          "typeVersion": 3.4,
+          "position": [
+            896,
+            -80
+          ],
+          "id": "1426d21b-9f54-43d9-9d8e-c83ac6b89a6d",
+          "name": "Edit Fields (generated)"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "RgFuxYHwCa6cNZTQ",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/RgFuxYHwCa6cNZTQ",
+              "cachedResultName": "WfD Shared Project — Higgins: _Defaults"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            448,
+            -80
+          ],
+          "id": "817e888e-d817-4aff-b66a-ffef354c0a90",
+          "name": "_Defaults"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "7GnSWkz7nyJh-HH5OQ_SE",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/7GnSWkz7nyJh-HH5OQ_SE",
+              "cachedResultName": "WfD Shared Project — Higgins: Job repo"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "jobNumber": "={{ $json.JobNumber }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "jobNumber",
+                  "displayName": "jobNumber",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "job",
+                  "displayName": "job",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "object",
+                  "removed": true
+                },
+                {
+                  "id": "include",
+                  "displayName": "include",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "id",
+                  "displayName": "id",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": true
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            224,
+            -80
+          ],
+          "id": "5e0b4fcc-f68d-400f-a4df-a45c9f0183b5",
+          "name": "Get job"
+        }
+      ],
+      "connections": {
+        "EntryPoint": {
+          "main": [
+            [
+              {
+                "node": "Get job",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Edit Fields": {
+          "main": [
+            [
+              {
+                "node": "Edit Fields (generated)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "_Defaults": {
+          "main": [
+            [
+              {
+                "node": "Edit Fields",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get job": {
+          "main": [
+            [
+              {
+                "node": "_Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

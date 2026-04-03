@@ -1,0 +1,636 @@
+{
+  "workflow": {
+    "id": "oTZFNCsindV24yxj",
+    "name": "Higgins: Job update",
+    "active": true,
+    "isArchived": false,
+    "versionId": "9319b7ff-ad71-48b4-96e6-d32d93476990",
+    "activeVersionId": "9319b7ff-ad71-48b4-96e6-d32d93476990",
+    "triggerCount": 0,
+    "createdAt": "2026-03-09T11:42:14.25Z",
+    "updatedAt": "2026-04-03T16:22:18.349Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true,
+      "binaryMode": "separate"
+    },
+    "connections": {
+      "_Sharepoint Defaults": {
+        "main": [
+          [
+            {
+              "node": "Wrap object",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Start": {
+        "main": [
+          [
+            {
+              "node": "_Sharepoint Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Wrap object": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Create or update files folder",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create or update files folder": {
+        "main": [
+          [
+            {
+              "node": "Rename Keys",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "HTTP Patch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Retain ID": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Rename Keys": {
+        "main": [
+          [
+            {
+              "node": "Retain ID",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "method": "PATCH",
+          "url": "=https://graph.microsoft.com/v1.0/sites/{{ $json.n8n_sharepoint.siteId }}/lists/{{ $json.n8n_sharepoint.lists[\"job\"].sharepointId }}/items/{{ $json.ID }}/fields",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "microsoftOutlookOAuth2Api",
+          "sendBody": true,
+          "contentType": "raw",
+          "rawContentType": "application/json",
+          "body": "={{ JSON.stringify($json.fields) }}",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1808,
+          -1616
+        ],
+        "id": "de07b3f4-e73d-4f05-8987-24ffb975307b",
+        "name": "HTTP Patch",
+        "notesInFlow": true,
+        "notes": "Patching this way means the field list is dynamic. Any matching column will be saved."
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "Dkd3fVOs3tYMZHkk",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/Dkd3fVOs3tYMZHkk",
+            "cachedResultName": "WfD Shared Project — Higgins: _Sharepoint Defaults"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          464,
+          -1616
+        ],
+        "id": "29548a77-12e0-4c91-b5fb-c648a5f13db9",
+        "name": "_Sharepoint Defaults"
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "id": "cdd8cfd2-8a5b-4065-99ce-54d55ee8fbbf",
+        "typeVersion": 1.1,
+        "name": "Start",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          240,
+          -1616
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "const job = $input.first().json.job || $input.first().job;\nconst keepFields = $input.first().json.n8n_sharepoint.lists[\"job\"].fields || [];\n\n// Remove JobNumber (used only for lookup)\nconst { JobNumber, ID, ...fields } = job;\n\nconst fieldsToUpdate = { Title: JobNumber };\n\nfor (const [key, value] of Object.entries(fields)) {\n  // Skip fields we shouldn't keep\n  if (!keepFields.includes(key)) continue;\n\n  // Skip undefined\n  if (value === undefined) continue;\n\n  // Convert array → comma separated string\n  if (Array.isArray(value)) {\n    fieldsToUpdate[key] = value.join(',');\n  } else {\n    fieldsToUpdate[key] = value;\n  }\n}\n\nreturn [{ \n  json: {\n    ID, \n    fields: fieldsToUpdate,\n    n8n_sharepoint: $input.first().json.n8n_sharepoint\n  }\n}];"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          688,
+          -1616
+        ],
+        "id": "554539a3-dad8-4e0b-a12e-4d7414d8b476",
+        "name": "Wrap object"
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "hkOcGa9t4l9ewaUJ",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/hkOcGa9t4l9ewaUJ",
+            "cachedResultName": "WfD Shared Project — Higgins: SP create/update folder"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "metadata": "={\n  \"Description\": \"{{ $json.fields.Description || null }}\",\n  \"JobNumber\": \"{{ $json.fields.Title }}\"\n}",
+              "folderType": "root",
+              "path": "={{ $json.fields.Title }}"
+            },
+            "matchingColumns": [],
+            "schema": [
+              {
+                "id": "path",
+                "displayName": "path",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "timestamp",
+                "displayName": "timestamp",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": true
+              },
+              {
+                "id": "metadata",
+                "displayName": "metadata",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "removed": false
+              },
+              {
+                "id": "folderType",
+                "displayName": "folderType",
+                "required": false,
+                "defaultMatch": false,
+                "display": true,
+                "canBeUsedToMatch": true,
+                "type": "string",
+                "removed": false
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          912,
+          -1552
+        ],
+        "id": "80f39e14-24ab-4a2d-9626-390fa8b985ef",
+        "name": "Create or update files folder"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          1584,
+          -1616
+        ],
+        "id": "368a208c-10e4-4a7b-b3a2-8f997163ed76",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "ae678e57-5ddb-4cdb-bd86-dea6b83fe1e3",
+                "name": "fields",
+                "value": "={{ $json.fields }}",
+                "type": "object"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          1360,
+          -1552
+        ],
+        "id": "443bd8b8-cd03-4bea-a083-05dab8970594",
+        "name": "Retain ID"
+      },
+      {
+        "parameters": {
+          "keys": {
+            "key": [
+              {
+                "currentKey": "id",
+                "newKey": "fields.SpFilesId"
+              },
+              {
+                "currentKey": "webUrl",
+                "newKey": "fields.SpFilesWebUrl"
+              }
+            ]
+          },
+          "additionalOptions": {}
+        },
+        "type": "n8n-nodes-base.renameKeys",
+        "typeVersion": 1,
+        "position": [
+          1136,
+          -1552
+        ],
+        "id": "6903f660-2379-4dfd-b86b-ff0ce58a08ef",
+        "name": "Rename Keys"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "method": "PATCH",
+            "url": "=https://graph.microsoft.com/v1.0/sites/{{ $json.n8n_sharepoint.siteId }}/lists/{{ $json.n8n_sharepoint.lists[\"job\"].sharepointId }}/items/{{ $json.ID }}/fields",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "microsoftOutlookOAuth2Api",
+            "sendBody": true,
+            "contentType": "raw",
+            "rawContentType": "application/json",
+            "body": "={{ JSON.stringify($json.fields) }}",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1808,
+            -1616
+          ],
+          "id": "de07b3f4-e73d-4f05-8987-24ffb975307b",
+          "name": "HTTP Patch",
+          "notesInFlow": true,
+          "notes": "Patching this way means the field list is dynamic. Any matching column will be saved."
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "Dkd3fVOs3tYMZHkk",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/Dkd3fVOs3tYMZHkk",
+              "cachedResultName": "WfD Shared Project — Higgins: _Sharepoint Defaults"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            464,
+            -1616
+          ],
+          "id": "29548a77-12e0-4c91-b5fb-c648a5f13db9",
+          "name": "_Sharepoint Defaults"
+        },
+        {
+          "parameters": {
+            "inputSource": "passthrough"
+          },
+          "id": "cdd8cfd2-8a5b-4065-99ce-54d55ee8fbbf",
+          "typeVersion": 1.1,
+          "name": "Start",
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "position": [
+            240,
+            -1616
+          ]
+        },
+        {
+          "parameters": {
+            "jsCode": "const job = $input.first().json.job || $input.first().job;\nconst keepFields = $input.first().json.n8n_sharepoint.lists[\"job\"].fields || [];\n\n// Remove JobNumber (used only for lookup)\nconst { JobNumber, ID, ...fields } = job;\n\nconst fieldsToUpdate = { Title: JobNumber };\n\nfor (const [key, value] of Object.entries(fields)) {\n  // Skip fields we shouldn't keep\n  if (!keepFields.includes(key)) continue;\n\n  // Skip undefined\n  if (value === undefined) continue;\n\n  // Convert array → comma separated string\n  if (Array.isArray(value)) {\n    fieldsToUpdate[key] = value.join(',');\n  } else {\n    fieldsToUpdate[key] = value;\n  }\n}\n\nreturn [{ \n  json: {\n    ID, \n    fields: fieldsToUpdate,\n    n8n_sharepoint: $input.first().json.n8n_sharepoint\n  }\n}];"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            688,
+            -1616
+          ],
+          "id": "554539a3-dad8-4e0b-a12e-4d7414d8b476",
+          "name": "Wrap object"
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "hkOcGa9t4l9ewaUJ",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/hkOcGa9t4l9ewaUJ",
+              "cachedResultName": "WfD Shared Project — Higgins: SP create/update folder"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "metadata": "={\n  \"Description\": \"{{ $json.fields.Description || null }}\",\n  \"JobNumber\": \"{{ $json.fields.Title }}\"\n}",
+                "folderType": "root",
+                "path": "={{ $json.fields.Title }}"
+              },
+              "matchingColumns": [],
+              "schema": [
+                {
+                  "id": "path",
+                  "displayName": "path",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "timestamp",
+                  "displayName": "timestamp",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": true
+                },
+                {
+                  "id": "metadata",
+                  "displayName": "metadata",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "removed": false
+                },
+                {
+                  "id": "folderType",
+                  "displayName": "folderType",
+                  "required": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "canBeUsedToMatch": true,
+                  "type": "string",
+                  "removed": false
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            912,
+            -1552
+          ],
+          "id": "80f39e14-24ab-4a2d-9626-390fa8b985ef",
+          "name": "Create or update files folder"
+        },
+        {
+          "parameters": {
+            "mode": "combine",
+            "combineBy": "combineByPosition",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.merge",
+          "typeVersion": 3.2,
+          "position": [
+            1584,
+            -1616
+          ],
+          "id": "368a208c-10e4-4a7b-b3a2-8f997163ed76",
+          "name": "Merge"
+        },
+        {
+          "parameters": {
+            "assignments": {
+              "assignments": [
+                {
+                  "id": "ae678e57-5ddb-4cdb-bd86-dea6b83fe1e3",
+                  "name": "fields",
+                  "value": "={{ $json.fields }}",
+                  "type": "object"
+                }
+              ]
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.set",
+          "typeVersion": 3.4,
+          "position": [
+            1360,
+            -1552
+          ],
+          "id": "443bd8b8-cd03-4bea-a083-05dab8970594",
+          "name": "Retain ID"
+        },
+        {
+          "parameters": {
+            "keys": {
+              "key": [
+                {
+                  "currentKey": "id",
+                  "newKey": "fields.SpFilesId"
+                },
+                {
+                  "currentKey": "webUrl",
+                  "newKey": "fields.SpFilesWebUrl"
+                }
+              ]
+            },
+            "additionalOptions": {}
+          },
+          "type": "n8n-nodes-base.renameKeys",
+          "typeVersion": 1,
+          "position": [
+            1136,
+            -1552
+          ],
+          "id": "6903f660-2379-4dfd-b86b-ff0ce58a08ef",
+          "name": "Rename Keys"
+        }
+      ],
+      "connections": {
+        "_Sharepoint Defaults": {
+          "main": [
+            [
+              {
+                "node": "Wrap object",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Start": {
+          "main": [
+            [
+              {
+                "node": "_Sharepoint Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Wrap object": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "Create or update files folder",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Create or update files folder": {
+          "main": [
+            [
+              {
+                "node": "Rename Keys",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Merge": {
+          "main": [
+            [
+              {
+                "node": "HTTP Patch",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Retain ID": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 1
+              }
+            ]
+          ]
+        },
+        "Rename Keys": {
+          "main": [
+            [
+              {
+                "node": "Retain ID",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

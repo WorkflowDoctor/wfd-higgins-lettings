@@ -1,0 +1,474 @@
+{
+  "workflow": {
+    "id": "Qwh1Atmshy4JjM2P",
+    "name": "Higgins: SP fetch folder delta",
+    "active": true,
+    "isArchived": false,
+    "versionId": "b10db37e-0489-46e1-9da7-d4125ac8ad2c",
+    "activeVersionId": "b10db37e-0489-46e1-9da7-d4125ac8ad2c",
+    "triggerCount": 0,
+    "createdAt": "2026-03-24T16:40:24.132Z",
+    "updatedAt": "2026-04-03T16:22:57.871Z",
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": true
+    },
+    "connections": {
+      "Init State": {
+        "main": [
+          [
+            {
+              "node": "Merge State And Response",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "HTTP Delta Page",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Delta Page": {
+        "main": [
+          [
+            {
+              "node": "Merge State And Response",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Merge State And Response": {
+        "main": [
+          [
+            {
+              "node": "Process Page",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Process Page": {
+        "main": [
+          [
+            {
+              "node": "Has Next Page?",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Has Next Page?": {
+        "main": [
+          [
+            {
+              "node": "Merge State And Response",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "HTTP Delta Page",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Return Results",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Start": {
+        "main": [
+          [
+            {
+              "node": "Init State",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "jsCode": "const input = $input.first().json;\n\nconst driveId = input.DriveId;\nconst folderId = input.FolderId;\nconst previous = input.Previous ?? {};\n\nconst priorDeltaLink = previous.deltaLink ?? null;\nconst priorItems = Array.isArray(previous.items) ? previous.items : [];\n\nif (!driveId) {\n  throw new Error('Missing DriveId');\n}\n\nif (!folderId) {\n  throw new Error('Missing FolderId');\n}\n\nconst initialUrl = `https://graph.microsoft.com/v1.0/drives/${driveId}/items/${folderId}/delta?$select=id,name,size,webUrl,file,folder,createdDateTime,lastModifiedDateTime,parentReference,deleted`;\n\nreturn [\n  {\n    json: {\n      driveId,\n      folderId,\n      initialUrl,\n      nextUrl: priorDeltaLink || initialUrl,\n      deltaLink: priorDeltaLink,\n      allItems: priorItems,\n      rootPath: previous.rootPath ?? null,\n      isIncremental: !!priorDeltaLink\n    }\n  }\n];"
+        },
+        "id": "ed588efb-994d-4d60-bc85-4f005023e6ce",
+        "name": "Init State",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          464,
+          96
+        ]
+      },
+      {
+        "parameters": {
+          "url": "={{ $json.nextUrl }}",
+          "authentication": "predefinedCredentialType",
+          "nodeCredentialType": "microsoftOutlookOAuth2Api",
+          "options": {}
+        },
+        "id": "655cdd6c-88b5-4ca3-9374-0c2a04d61fed",
+        "name": "HTTP Delta Page",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.2,
+        "position": [
+          1328,
+          80
+        ]
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "combineBy": "combineByPosition",
+          "options": {}
+        },
+        "id": "d1fedef4-9284-433f-a21a-15e88234f777",
+        "name": "Merge State And Response",
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.1,
+        "position": [
+          688,
+          -32
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "const input = $input.first().json;\n\nconst existing = Array.isArray(input.allItems) ? input.allItems : [];\nconst pageItems = Array.isArray(input.value) ? input.value : [];\n\nconst byId = new Map(existing.map(item => [item.id, item]));\n\nlet rootPath = input.rootPath ?? null;\n\n// Try to detect rootPath if not already known\nif (!rootPath && pageItems.length > 0) {\n  const candidate = pageItems[0]?.parentReference?.path;\n  if (candidate && candidate.includes('/drive/root:')) {\n    rootPath = candidate.replace('/drive/root:', '');\n  }\n}\n\nfor (const item of pageItems) {\n  if (item.deleted) {\n    byId.delete(item.id);\n    continue;\n  }\n\n  const fullParentPathRaw = item.parentReference?.path ?? '';\n  const fullParentPath = fullParentPathRaw.replace('/drive/root:', '');\n\n  let relativePath = fullParentPath;\n\n  if (rootPath && relativePath.startsWith(rootPath)) {\n    relativePath = relativePath.slice(rootPath.length);\n  }\n\n  if (relativePath.startsWith('/')) {\n    relativePath = relativePath.slice(1);\n  }\n\n  const fullRelativePath = relativePath\n    ? `${relativePath}/${item.name}`\n    : item.name;\n\n  byId.set(item.id, {\n    id: item.id,\n    name: item.name,\n    isFile: !!item.file,\n    isFolder: !!item.folder,\n    isDeleted: false,\n    size: item.size ?? null,\n    webUrl: item.webUrl ?? '',\n    lastModifiedDateTime: item.lastModifiedDateTime ?? null,\n    createdDateTime: item.createdDateTime ?? null,\n    parentPath: fullParentPath,\n    relativePath,\n    fullRelativePath\n  });\n}\n\nreturn [\n  {\n    json: {\n      driveId: input.driveId,\n      folderId: input.folderId,\n      initialUrl: input.initialUrl,\n      nextUrl: input['@odata.nextLink'] ?? null,\n      deltaLink: input['@odata.deltaLink'] ?? input.deltaLink ?? null,\n      rootPath,\n      allItems: Array.from(byId.values()),\n      isIncremental: input.isIncremental ?? false\n    }\n  }\n];"
+        },
+        "id": "0914620c-02e7-48f1-bbad-f5f45420d6e5",
+        "name": "Process Page",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          912,
+          -192
+        ]
+      },
+      {
+        "parameters": {
+          "conditions": {
+            "options": {
+              "caseSensitive": true,
+              "leftValue": "",
+              "typeValidation": "strict",
+              "version": 2
+            },
+            "conditions": [
+              {
+                "id": "has-next-url",
+                "leftValue": "={{ $json.nextUrl }}",
+                "rightValue": "",
+                "operator": {
+                  "type": "string",
+                  "operation": "notEmpty",
+                  "singleValue": true
+                }
+              }
+            ],
+            "combinator": "and"
+          },
+          "options": {}
+        },
+        "id": "0cdbb2a5-1960-4916-96b2-43c764b76be5",
+        "name": "Has Next Page?",
+        "type": "n8n-nodes-base.if",
+        "typeVersion": 2.2,
+        "position": [
+          1136,
+          -144
+        ]
+      },
+      {
+        "parameters": {
+          "jsCode": "const input = $input.first().json;\n\nreturn [\n  {\n    json: {\n      count: Array.isArray(input.allItems) ? input.allItems.length : 0,\n      deltaLink: input.deltaLink ?? null,\n      rootPath: input.rootPath ?? null,\n      isIncremental: input.isIncremental ?? false,\n      items: input.allItems ?? []\n    }\n  }\n];"
+        },
+        "id": "90c9c65e-cffc-486e-b055-085273b029bd",
+        "name": "Return Results",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1360,
+          -176
+        ]
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "DriveId"
+              },
+              {
+                "name": "FolderId"
+              },
+              {
+                "name": "Previous",
+                "type": "object"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          240,
+          96
+        ],
+        "id": "75ad0a55-ddc6-4af8-8365-99d9126b3840",
+        "name": "Start"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "jsCode": "const input = $input.first().json;\n\nconst driveId = input.DriveId;\nconst folderId = input.FolderId;\nconst previous = input.Previous ?? {};\n\nconst priorDeltaLink = previous.deltaLink ?? null;\nconst priorItems = Array.isArray(previous.items) ? previous.items : [];\n\nif (!driveId) {\n  throw new Error('Missing DriveId');\n}\n\nif (!folderId) {\n  throw new Error('Missing FolderId');\n}\n\nconst initialUrl = `https://graph.microsoft.com/v1.0/drives/${driveId}/items/${folderId}/delta?$select=id,name,size,webUrl,file,folder,createdDateTime,lastModifiedDateTime,parentReference,deleted`;\n\nreturn [\n  {\n    json: {\n      driveId,\n      folderId,\n      initialUrl,\n      nextUrl: priorDeltaLink || initialUrl,\n      deltaLink: priorDeltaLink,\n      allItems: priorItems,\n      rootPath: previous.rootPath ?? null,\n      isIncremental: !!priorDeltaLink\n    }\n  }\n];"
+          },
+          "id": "ed588efb-994d-4d60-bc85-4f005023e6ce",
+          "name": "Init State",
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            464,
+            96
+          ]
+        },
+        {
+          "parameters": {
+            "url": "={{ $json.nextUrl }}",
+            "authentication": "predefinedCredentialType",
+            "nodeCredentialType": "microsoftOutlookOAuth2Api",
+            "options": {}
+          },
+          "id": "655cdd6c-88b5-4ca3-9374-0c2a04d61fed",
+          "name": "HTTP Delta Page",
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.2,
+          "position": [
+            1328,
+            80
+          ]
+        },
+        {
+          "parameters": {
+            "mode": "combine",
+            "combineBy": "combineByPosition",
+            "options": {}
+          },
+          "id": "d1fedef4-9284-433f-a21a-15e88234f777",
+          "name": "Merge State And Response",
+          "type": "n8n-nodes-base.merge",
+          "typeVersion": 3.1,
+          "position": [
+            688,
+            -32
+          ]
+        },
+        {
+          "parameters": {
+            "jsCode": "const input = $input.first().json;\n\nconst existing = Array.isArray(input.allItems) ? input.allItems : [];\nconst pageItems = Array.isArray(input.value) ? input.value : [];\n\nconst byId = new Map(existing.map(item => [item.id, item]));\n\nlet rootPath = input.rootPath ?? null;\n\n// Try to detect rootPath if not already known\nif (!rootPath && pageItems.length > 0) {\n  const candidate = pageItems[0]?.parentReference?.path;\n  if (candidate && candidate.includes('/drive/root:')) {\n    rootPath = candidate.replace('/drive/root:', '');\n  }\n}\n\nfor (const item of pageItems) {\n  if (item.deleted) {\n    byId.delete(item.id);\n    continue;\n  }\n\n  const fullParentPathRaw = item.parentReference?.path ?? '';\n  const fullParentPath = fullParentPathRaw.replace('/drive/root:', '');\n\n  let relativePath = fullParentPath;\n\n  if (rootPath && relativePath.startsWith(rootPath)) {\n    relativePath = relativePath.slice(rootPath.length);\n  }\n\n  if (relativePath.startsWith('/')) {\n    relativePath = relativePath.slice(1);\n  }\n\n  const fullRelativePath = relativePath\n    ? `${relativePath}/${item.name}`\n    : item.name;\n\n  byId.set(item.id, {\n    id: item.id,\n    name: item.name,\n    isFile: !!item.file,\n    isFolder: !!item.folder,\n    isDeleted: false,\n    size: item.size ?? null,\n    webUrl: item.webUrl ?? '',\n    lastModifiedDateTime: item.lastModifiedDateTime ?? null,\n    createdDateTime: item.createdDateTime ?? null,\n    parentPath: fullParentPath,\n    relativePath,\n    fullRelativePath\n  });\n}\n\nreturn [\n  {\n    json: {\n      driveId: input.driveId,\n      folderId: input.folderId,\n      initialUrl: input.initialUrl,\n      nextUrl: input['@odata.nextLink'] ?? null,\n      deltaLink: input['@odata.deltaLink'] ?? input.deltaLink ?? null,\n      rootPath,\n      allItems: Array.from(byId.values()),\n      isIncremental: input.isIncremental ?? false\n    }\n  }\n];"
+          },
+          "id": "0914620c-02e7-48f1-bbad-f5f45420d6e5",
+          "name": "Process Page",
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            912,
+            -192
+          ]
+        },
+        {
+          "parameters": {
+            "conditions": {
+              "options": {
+                "caseSensitive": true,
+                "leftValue": "",
+                "typeValidation": "strict",
+                "version": 2
+              },
+              "conditions": [
+                {
+                  "id": "has-next-url",
+                  "leftValue": "={{ $json.nextUrl }}",
+                  "rightValue": "",
+                  "operator": {
+                    "type": "string",
+                    "operation": "notEmpty",
+                    "singleValue": true
+                  }
+                }
+              ],
+              "combinator": "and"
+            },
+            "options": {}
+          },
+          "id": "0cdbb2a5-1960-4916-96b2-43c764b76be5",
+          "name": "Has Next Page?",
+          "type": "n8n-nodes-base.if",
+          "typeVersion": 2.2,
+          "position": [
+            1136,
+            -144
+          ]
+        },
+        {
+          "parameters": {
+            "jsCode": "const input = $input.first().json;\n\nreturn [\n  {\n    json: {\n      count: Array.isArray(input.allItems) ? input.allItems.length : 0,\n      deltaLink: input.deltaLink ?? null,\n      rootPath: input.rootPath ?? null,\n      isIncremental: input.isIncremental ?? false,\n      items: input.allItems ?? []\n    }\n  }\n];"
+          },
+          "id": "90c9c65e-cffc-486e-b055-085273b029bd",
+          "name": "Return Results",
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1360,
+            -176
+          ]
+        },
+        {
+          "parameters": {
+            "workflowInputs": {
+              "values": [
+                {
+                  "name": "DriveId"
+                },
+                {
+                  "name": "FolderId"
+                },
+                {
+                  "name": "Previous",
+                  "type": "object"
+                }
+              ]
+            }
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            240,
+            96
+          ],
+          "id": "75ad0a55-ddc6-4af8-8365-99d9126b3840",
+          "name": "Start"
+        }
+      ],
+      "connections": {
+        "Init State": {
+          "main": [
+            [
+              {
+                "node": "Merge State And Response",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "HTTP Delta Page",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "HTTP Delta Page": {
+          "main": [
+            [
+              {
+                "node": "Merge State And Response",
+                "type": "main",
+                "index": 1
+              }
+            ]
+          ]
+        },
+        "Merge State And Response": {
+          "main": [
+            [
+              {
+                "node": "Process Page",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Process Page": {
+          "main": [
+            [
+              {
+                "node": "Has Next Page?",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Has Next Page?": {
+          "main": [
+            [
+              {
+                "node": "Merge State And Response",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "HTTP Delta Page",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Return Results",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Start": {
+          "main": [
+            [
+              {
+                "node": "Init State",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

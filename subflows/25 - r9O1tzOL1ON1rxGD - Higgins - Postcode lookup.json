@@ -1,0 +1,1163 @@
+{
+  "workflow": {
+    "id": "r9O1tzOL1ON1rxGD",
+    "name": "Higgins: Postcode lookup",
+    "active": true,
+    "isArchived": false,
+    "versionId": "33ad70fc-a760-4ffe-bc0e-20021f9a197d",
+    "activeVersionId": "33ad70fc-a760-4ffe-bc0e-20021f9a197d",
+    "triggerCount": 0,
+    "createdAt": "2025-12-10T19:01:48.893Z",
+    "updatedAt": "2026-04-03T16:12:53.559Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true
+    },
+    "connections": {
+      "SubWorkflow": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Defaults": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "HTTP Request": {
+        "main": [
+          [
+            {
+              "node": "Simplify response",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Empty result",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many items": {
+        "main": [
+          [
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get an item": {
+        "main": [
+          [
+            {
+              "node": "Extract Json Response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Extract Json Response": {
+        "main": [
+          [
+            {
+              "node": "Loop Over Items",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Create or update item (upsert)": {
+        "main": [
+          [
+            {
+              "node": "Extract Json Response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Get an item",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Skip Lookup",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "HTTP Request",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Skip Lookup": {
+        "main": [
+          [
+            {
+              "node": "Extract Json Response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Simplify response": {
+        "main": [
+          [
+            {
+              "node": "Create or update item (upsert)",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Loop Over Items": {
+        "main": [
+          [
+            {
+              "node": "Return",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get many items",
+              "type": "main",
+              "index": 0
+            },
+            {
+              "node": "Merge",
+              "type": "main",
+              "index": 1
+            }
+          ]
+        ]
+      },
+      "Merge": {
+        "main": [
+          [
+            {
+              "node": "Defaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Empty result": {
+        "main": [
+          [
+            {
+              "node": "Extract Json Response",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "postcode"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -144,
+          0
+        ],
+        "id": "5df2643f-541c-4f4c-b620-61b52f1daa95",
+        "name": "SubWorkflow",
+        "notesInFlow": true
+      },
+      {
+        "parameters": {
+          "workflowId": {
+            "__rl": true,
+            "value": "RgFuxYHwCa6cNZTQ",
+            "mode": "list",
+            "cachedResultUrl": "/workflow/RgFuxYHwCa6cNZTQ",
+            "cachedResultName": "WfD Shared Project — Higgins: _Defaults"
+          },
+          "workflowInputs": {
+            "mappingMode": "defineBelow",
+            "value": {},
+            "matchingColumns": [],
+            "schema": [],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": true
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.executeWorkflow",
+        "typeVersion": 1.3,
+        "position": [
+          752,
+          -192
+        ],
+        "id": "7225ca8f-3716-4a59-b361-29ad6d5a6090",
+        "name": "Defaults"
+      },
+      {
+        "parameters": {
+          "url": "=https://api.ideal-postcodes.co.uk/v1/postcodes/{{ encodeURIComponent($json.postcode) }}",
+          "authentication": "genericCredentialType",
+          "genericAuthType": "httpQueryAuth",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 4.3,
+        "position": [
+          1200,
+          32
+        ],
+        "id": "ece63421-8543-4220-b5c0-32128c9297ac",
+        "name": "HTTP Request",
+        "alwaysOutputData": false,
+        "retryOnFail": false,
+        "onError": "continueErrorOutput"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "2bb43345-c116-4f3c-a77d-068d7dd71f47",
+            "mode": "list",
+            "cachedResultName": "LISA - PostcodeCache"
+          },
+          "filter": "=fields/Title eq '{{ $json.postcode }}'",
+          "options": {
+            "fields": [
+              "fields"
+            ]
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          304,
+          -272
+        ],
+        "id": "9d56603a-3469-43d8-a374-79fd7a286eb7",
+        "name": "Get many items",
+        "alwaysOutputData": true
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "operation": "get",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "2bb43345-c116-4f3c-a77d-068d7dd71f47",
+            "mode": "list",
+            "cachedResultName": "LISA - PostcodeCache"
+          },
+          "item": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          1648,
+          -384
+        ],
+        "id": "aa598a68-7fd0-41f7-aa46-a28acbaf11a5",
+        "name": "Get an item"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "function decimalToDMS(decimal, isLatitude = true) {\n  const absolute = Math.abs(decimal);\n\n  const degrees = Math.floor(absolute);\n  const minutesFull = (absolute - degrees) * 60;\n  const minutes = Math.floor(minutesFull);\n  const seconds = (minutesFull - minutes) * 60;\n\n  const hemisphere = isLatitude\n    ? (decimal >= 0 ? 'N' : 'S')\n    : (decimal >= 0 ? 'E' : 'W');\n\n  return `${degrees}°${minutes.toString().padStart(2, '0')}'${seconds.toFixed(1).padStart(4, '0')}\"${hemisphere}`;\n}\n\nconst suggestions = $json?.fields?.JsonResponse ? JSON.parse($json?.fields?.JsonResponse) : {};\n\nconst enriched = suggestions?.result.map(s => {\n  const lat = Number(s.latitude);\n  const lng = Number(s.longitude);\n\n  if (!isFinite(lat) || !isFinite(lng)) {\n    return { ...s, location: '' };\n  }\n\n  return {\n    ...s,\n    location: `${decimalToDMS(lat, true)} ${decimalToDMS(lng, false)}`\n  };\n});\n\nreturn {\n  json: { \n    postcode: $('SubWorkflow').first().json.postcode,\n    address_suggestions: enriched\n  }\n};\n"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1872,
+          -80
+        ],
+        "id": "ce4d9ee6-a342-4c2c-89ae-c38ec083a569",
+        "name": "Extract Json Response"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "operation": "upsert",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "2bb43345-c116-4f3c-a77d-068d7dd71f47",
+            "mode": "list",
+            "cachedResultName": "LISA - PostcodeCache"
+          },
+          "columns": {
+            "mappingMode": "defineBelow",
+            "value": {
+              "Title": "={{ $json.postcode }}",
+              "JsonResponse": "={{ JSON.stringify($json,null,2) }}"
+            },
+            "matchingColumns": [
+              "Title"
+            ],
+            "schema": [
+              {
+                "id": "Title",
+                "canBeUsedToMatch": true,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "Title",
+                "readOnly": false,
+                "required": true,
+                "type": "string",
+                "removed": false
+              },
+              {
+                "id": "JsonResponse",
+                "canBeUsedToMatch": false,
+                "defaultMatch": false,
+                "display": true,
+                "displayName": "JsonResponse",
+                "readOnly": false,
+                "required": false,
+                "type": "string"
+              }
+            ],
+            "attemptToConvertTypes": false,
+            "convertFieldsToString": false
+          },
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          1648,
+          0
+        ],
+        "id": "a5e0ccc6-23b9-48a8-8dfa-8cfe8b149d23",
+        "name": "Create or update item (upsert)"
+      },
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.id }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "string",
+                        "operation": "exists",
+                        "singleValue": true
+                      },
+                      "id": "6843440c-146c-4f87-be2d-086005da2598"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "EXISTS"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "cd0ef144-0d08-43cb-92d7-534808b71e6a",
+                      "leftValue": "={{ $json.n8n_defaults?.skipPostcodeLookup }}",
+                      "rightValue": false,
+                      "operator": {
+                        "type": "boolean",
+                        "operation": "true",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "SKIP LOOKUP"
+              }
+            ]
+          },
+          "options": {
+            "fallbackOutput": "extra"
+          }
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          976,
+          -208
+        ],
+        "id": "1616503a-3a15-4fa2-acf7-babb09149efc",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "content": "## Postcode lookup\n**Input:** [ postcode ]\n**Output:** [ postcode, [suggestions] ]\n\nFor each incoming postcode, check if it is cached already, if so, use cached suggestions.\n\nIf not cached then perform lookup, cache, return result.\n\nIf no result then return the postcode with empty suggestions.",
+          "height": 240,
+          "width": 448
+        },
+        "type": "n8n-nodes-base.stickyNote",
+        "typeVersion": 1,
+        "position": [
+          -400,
+          -416
+        ],
+        "id": "2d7e2d1b-7a8c-4dfe-97d1-cbae30a691ad",
+        "name": "Sticky Note"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          1648,
+          -192
+        ],
+        "id": "37f156ec-aaaa-4d87-897a-946a89525ad3",
+        "name": "Skip Lookup"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "// Fields we want to keep from each address\nconst keep = [\n  \"premise\",\"line_1\",\"line_2\",\"line_3\",\"post_town\",\n  \"traditional_county\",\"county\",\"postcode\",\"country\",\n  \"id\",\"udprn\",\"umprn\",\"latitude\",\"longitude\"\n];\n\n// Original results array from Ideal Postcodes\nconst results = $json.result ?? [];\n\n// Filter each result object\nconst filteredResults = results.map(r => {\n  const out = {};\n  for (const k of keep) {\n    if (Object.prototype.hasOwnProperty.call(r, k)) {\n      out[k] = r[k];\n    }\n  }\n  return out;\n});\n\n// Postcode from SubWorkflow node\nconst inputPostcode = $('Defaults').first().json.postcode;\n\n// Return a single item, preserving schema shape\nreturn {\n  postcode: inputPostcode,\n  result: filteredResults,\n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1424,
+          0
+        ],
+        "id": "9943c112-a0ef-464e-aa2a-78cc8f4406fa",
+        "name": "Simplify response"
+      },
+      {
+        "parameters": {
+          "options": {}
+        },
+        "type": "n8n-nodes-base.splitInBatches",
+        "typeVersion": 3,
+        "position": [
+          80,
+          0
+        ],
+        "id": "31a6bcc0-ccfa-4f1a-a23a-541297bf16fd",
+        "name": "Loop Over Items"
+      },
+      {
+        "parameters": {},
+        "type": "n8n-nodes-base.noOp",
+        "typeVersion": 1,
+        "position": [
+          304,
+          192
+        ],
+        "id": "83bef106-4453-4b96-9330-90409826a2db",
+        "name": "Return"
+      },
+      {
+        "parameters": {
+          "mode": "combine",
+          "advanced": true,
+          "mergeByFields": {
+            "values": [
+              {
+                "field1": "fields.Title",
+                "field2": "postcode"
+              }
+            ]
+          },
+          "joinMode": "enrichInput2",
+          "options": {}
+        },
+        "type": "n8n-nodes-base.merge",
+        "typeVersion": 3.2,
+        "position": [
+          528,
+          -192
+        ],
+        "id": "ecb1833f-c79c-4b0a-b4eb-b043558fdc9f",
+        "name": "Merge"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "return {};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          1648,
+          192
+        ],
+        "id": "0ad432d0-9648-44bf-8cf7-256e47342856",
+        "name": "Empty result"
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "workflowInputs": {
+              "values": [
+                {
+                  "name": "postcode"
+                }
+              ]
+            }
+          },
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "typeVersion": 1.1,
+          "position": [
+            -144,
+            0
+          ],
+          "id": "5df2643f-541c-4f4c-b620-61b52f1daa95",
+          "name": "SubWorkflow",
+          "notesInFlow": true
+        },
+        {
+          "parameters": {
+            "workflowId": {
+              "__rl": true,
+              "value": "RgFuxYHwCa6cNZTQ",
+              "mode": "list",
+              "cachedResultUrl": "/workflow/RgFuxYHwCa6cNZTQ",
+              "cachedResultName": "WfD Shared Project — Higgins: _Defaults"
+            },
+            "workflowInputs": {
+              "mappingMode": "defineBelow",
+              "value": {},
+              "matchingColumns": [],
+              "schema": [],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": true
+            },
+            "options": {}
+          },
+          "type": "n8n-nodes-base.executeWorkflow",
+          "typeVersion": 1.3,
+          "position": [
+            752,
+            -192
+          ],
+          "id": "7225ca8f-3716-4a59-b361-29ad6d5a6090",
+          "name": "Defaults"
+        },
+        {
+          "parameters": {
+            "url": "=https://api.ideal-postcodes.co.uk/v1/postcodes/{{ encodeURIComponent($json.postcode) }}",
+            "authentication": "genericCredentialType",
+            "genericAuthType": "httpQueryAuth",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.httpRequest",
+          "typeVersion": 4.3,
+          "position": [
+            1200,
+            32
+          ],
+          "id": "ece63421-8543-4220-b5c0-32128c9297ac",
+          "name": "HTTP Request",
+          "alwaysOutputData": false,
+          "retryOnFail": false,
+          "onError": "continueErrorOutput"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "2bb43345-c116-4f3c-a77d-068d7dd71f47",
+              "mode": "list",
+              "cachedResultName": "LISA - PostcodeCache"
+            },
+            "filter": "=fields/Title eq '{{ $json.postcode }}'",
+            "options": {
+              "fields": [
+                "fields"
+              ]
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            304,
+            -272
+          ],
+          "id": "9d56603a-3469-43d8-a374-79fd7a286eb7",
+          "name": "Get many items",
+          "alwaysOutputData": true
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "operation": "get",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "2bb43345-c116-4f3c-a77d-068d7dd71f47",
+              "mode": "list",
+              "cachedResultName": "LISA - PostcodeCache"
+            },
+            "item": {
+              "__rl": true,
+              "value": "={{ $json.id }}",
+              "mode": "id"
+            },
+            "simplify": false,
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            1648,
+            -384
+          ],
+          "id": "aa598a68-7fd0-41f7-aa46-a28acbaf11a5",
+          "name": "Get an item"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "function decimalToDMS(decimal, isLatitude = true) {\n  const absolute = Math.abs(decimal);\n\n  const degrees = Math.floor(absolute);\n  const minutesFull = (absolute - degrees) * 60;\n  const minutes = Math.floor(minutesFull);\n  const seconds = (minutesFull - minutes) * 60;\n\n  const hemisphere = isLatitude\n    ? (decimal >= 0 ? 'N' : 'S')\n    : (decimal >= 0 ? 'E' : 'W');\n\n  return `${degrees}°${minutes.toString().padStart(2, '0')}'${seconds.toFixed(1).padStart(4, '0')}\"${hemisphere}`;\n}\n\nconst suggestions = $json?.fields?.JsonResponse ? JSON.parse($json?.fields?.JsonResponse) : {};\n\nconst enriched = suggestions?.result.map(s => {\n  const lat = Number(s.latitude);\n  const lng = Number(s.longitude);\n\n  if (!isFinite(lat) || !isFinite(lng)) {\n    return { ...s, location: '' };\n  }\n\n  return {\n    ...s,\n    location: `${decimalToDMS(lat, true)} ${decimalToDMS(lng, false)}`\n  };\n});\n\nreturn {\n  json: { \n    postcode: $('SubWorkflow').first().json.postcode,\n    address_suggestions: enriched\n  }\n};\n"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1872,
+            -80
+          ],
+          "id": "ce4d9ee6-a342-4c2c-89ae-c38ec083a569",
+          "name": "Extract Json Response"
+        },
+        {
+          "parameters": {
+            "resource": "item",
+            "operation": "upsert",
+            "site": {
+              "__rl": true,
+              "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+              "mode": "list",
+              "cachedResultName": "Workflows"
+            },
+            "list": {
+              "__rl": true,
+              "value": "2bb43345-c116-4f3c-a77d-068d7dd71f47",
+              "mode": "list",
+              "cachedResultName": "LISA - PostcodeCache"
+            },
+            "columns": {
+              "mappingMode": "defineBelow",
+              "value": {
+                "Title": "={{ $json.postcode }}",
+                "JsonResponse": "={{ JSON.stringify($json,null,2) }}"
+              },
+              "matchingColumns": [
+                "Title"
+              ],
+              "schema": [
+                {
+                  "id": "Title",
+                  "canBeUsedToMatch": true,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "Title",
+                  "readOnly": false,
+                  "required": true,
+                  "type": "string",
+                  "removed": false
+                },
+                {
+                  "id": "JsonResponse",
+                  "canBeUsedToMatch": false,
+                  "defaultMatch": false,
+                  "display": true,
+                  "displayName": "JsonResponse",
+                  "readOnly": false,
+                  "required": false,
+                  "type": "string"
+                }
+              ],
+              "attemptToConvertTypes": false,
+              "convertFieldsToString": false
+            },
+            "requestOptions": {}
+          },
+          "type": "n8n-nodes-base.microsoftSharePoint",
+          "typeVersion": 1,
+          "position": [
+            1648,
+            0
+          ],
+          "id": "a5e0ccc6-23b9-48a8-8dfa-8cfe8b149d23",
+          "name": "Create or update item (upsert)"
+        },
+        {
+          "parameters": {
+            "rules": {
+              "values": [
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": true,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 3
+                    },
+                    "conditions": [
+                      {
+                        "leftValue": "={{ $json.id }}",
+                        "rightValue": "",
+                        "operator": {
+                          "type": "string",
+                          "operation": "exists",
+                          "singleValue": true
+                        },
+                        "id": "6843440c-146c-4f87-be2d-086005da2598"
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "EXISTS"
+                },
+                {
+                  "conditions": {
+                    "options": {
+                      "caseSensitive": true,
+                      "leftValue": "",
+                      "typeValidation": "strict",
+                      "version": 3
+                    },
+                    "conditions": [
+                      {
+                        "id": "cd0ef144-0d08-43cb-92d7-534808b71e6a",
+                        "leftValue": "={{ $json.n8n_defaults?.skipPostcodeLookup }}",
+                        "rightValue": false,
+                        "operator": {
+                          "type": "boolean",
+                          "operation": "true",
+                          "singleValue": true
+                        }
+                      }
+                    ],
+                    "combinator": "and"
+                  },
+                  "renameOutput": true,
+                  "outputKey": "SKIP LOOKUP"
+                }
+              ]
+            },
+            "options": {
+              "fallbackOutput": "extra"
+            }
+          },
+          "type": "n8n-nodes-base.switch",
+          "typeVersion": 3.4,
+          "position": [
+            976,
+            -208
+          ],
+          "id": "1616503a-3a15-4fa2-acf7-babb09149efc",
+          "name": "Switch"
+        },
+        {
+          "parameters": {
+            "content": "## Postcode lookup\n**Input:** [ postcode ]\n**Output:** [ postcode, [suggestions] ]\n\nFor each incoming postcode, check if it is cached already, if so, use cached suggestions.\n\nIf not cached then perform lookup, cache, return result.\n\nIf no result then return the postcode with empty suggestions.",
+            "height": 240,
+            "width": 448
+          },
+          "type": "n8n-nodes-base.stickyNote",
+          "typeVersion": 1,
+          "position": [
+            -400,
+            -416
+          ],
+          "id": "2d7e2d1b-7a8c-4dfe-97d1-cbae30a691ad",
+          "name": "Sticky Note"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            1648,
+            -192
+          ],
+          "id": "37f156ec-aaaa-4d87-897a-946a89525ad3",
+          "name": "Skip Lookup"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "// Fields we want to keep from each address\nconst keep = [\n  \"premise\",\"line_1\",\"line_2\",\"line_3\",\"post_town\",\n  \"traditional_county\",\"county\",\"postcode\",\"country\",\n  \"id\",\"udprn\",\"umprn\",\"latitude\",\"longitude\"\n];\n\n// Original results array from Ideal Postcodes\nconst results = $json.result ?? [];\n\n// Filter each result object\nconst filteredResults = results.map(r => {\n  const out = {};\n  for (const k of keep) {\n    if (Object.prototype.hasOwnProperty.call(r, k)) {\n      out[k] = r[k];\n    }\n  }\n  return out;\n});\n\n// Postcode from SubWorkflow node\nconst inputPostcode = $('Defaults').first().json.postcode;\n\n// Return a single item, preserving schema shape\nreturn {\n  postcode: inputPostcode,\n  result: filteredResults,\n};"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1424,
+            0
+          ],
+          "id": "9943c112-a0ef-464e-aa2a-78cc8f4406fa",
+          "name": "Simplify response"
+        },
+        {
+          "parameters": {
+            "options": {}
+          },
+          "type": "n8n-nodes-base.splitInBatches",
+          "typeVersion": 3,
+          "position": [
+            80,
+            0
+          ],
+          "id": "31a6bcc0-ccfa-4f1a-a23a-541297bf16fd",
+          "name": "Loop Over Items"
+        },
+        {
+          "parameters": {},
+          "type": "n8n-nodes-base.noOp",
+          "typeVersion": 1,
+          "position": [
+            304,
+            192
+          ],
+          "id": "83bef106-4453-4b96-9330-90409826a2db",
+          "name": "Return"
+        },
+        {
+          "parameters": {
+            "mode": "combine",
+            "advanced": true,
+            "mergeByFields": {
+              "values": [
+                {
+                  "field1": "fields.Title",
+                  "field2": "postcode"
+                }
+              ]
+            },
+            "joinMode": "enrichInput2",
+            "options": {}
+          },
+          "type": "n8n-nodes-base.merge",
+          "typeVersion": 3.2,
+          "position": [
+            528,
+            -192
+          ],
+          "id": "ecb1833f-c79c-4b0a-b4eb-b043558fdc9f",
+          "name": "Merge"
+        },
+        {
+          "parameters": {
+            "mode": "runOnceForEachItem",
+            "jsCode": "return {};"
+          },
+          "type": "n8n-nodes-base.code",
+          "typeVersion": 2,
+          "position": [
+            1648,
+            192
+          ],
+          "id": "0ad432d0-9648-44bf-8cf7-256e47342856",
+          "name": "Empty result"
+        }
+      ],
+      "connections": {
+        "SubWorkflow": {
+          "main": [
+            [
+              {
+                "node": "Loop Over Items",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Defaults": {
+          "main": [
+            [
+              {
+                "node": "Switch",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "HTTP Request": {
+          "main": [
+            [
+              {
+                "node": "Simplify response",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Empty result",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get many items": {
+          "main": [
+            [
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Get an item": {
+          "main": [
+            [
+              {
+                "node": "Extract Json Response",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Extract Json Response": {
+          "main": [
+            [
+              {
+                "node": "Loop Over Items",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Create or update item (upsert)": {
+          "main": [
+            [
+              {
+                "node": "Extract Json Response",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Switch": {
+          "main": [
+            [
+              {
+                "node": "Get an item",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Skip Lookup",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "HTTP Request",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Skip Lookup": {
+          "main": [
+            [
+              {
+                "node": "Extract Json Response",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Simplify response": {
+          "main": [
+            [
+              {
+                "node": "Create or update item (upsert)",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Loop Over Items": {
+          "main": [
+            [
+              {
+                "node": "Return",
+                "type": "main",
+                "index": 0
+              }
+            ],
+            [
+              {
+                "node": "Get many items",
+                "type": "main",
+                "index": 0
+              },
+              {
+                "node": "Merge",
+                "type": "main",
+                "index": 1
+              }
+            ]
+          ]
+        },
+        "Merge": {
+          "main": [
+            [
+              {
+                "node": "Defaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "Empty result": {
+          "main": [
+            [
+              {
+                "node": "Extract Json Response",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": {
+      "templateCredsSetupCompleted": true
+    },
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

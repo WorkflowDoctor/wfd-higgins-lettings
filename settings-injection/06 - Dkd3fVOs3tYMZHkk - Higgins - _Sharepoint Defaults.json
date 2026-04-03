@@ -1,0 +1,138 @@
+{
+  "workflow": {
+    "id": "Dkd3fVOs3tYMZHkk",
+    "name": "Higgins: _Sharepoint Defaults",
+    "active": true,
+    "isArchived": false,
+    "versionId": "b676376e-b7fb-413a-8ab0-d1cda0ae51d6",
+    "activeVersionId": "b676376e-b7fb-413a-8ab0-d1cda0ae51d6",
+    "triggerCount": 0,
+    "createdAt": "2026-01-19T15:12:50.78Z",
+    "updatedAt": "2026-04-03T16:23:48.515Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true,
+      "binaryMode": "separate"
+    },
+    "connections": {
+      "Start": {
+        "main": [
+          [
+            {
+              "node": "_SharepointDefaults",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "_SharepointDefaults": {
+        "main": [
+          []
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "mode": "raw",
+          "jsonOutput": "={\n    \"n8n_sharepoint\": {\n        \"siteId\": \"4ecae6d0-0cab-4509-9312-226c51c8145c\",\n        \"driveId\": \"b!0ObKTqsMCUWTEiJsUcgUXL0Zxz0lcfROhwBOkKuegeG9rHDRYvYbTLyiGrt33DzC\",\n        \"drives\": {\n            \"_default\": {\n                \"sharepointId\": \"b!0ObKTqsMCUWTEiJsUcgUXL0Zxz0lcfROhwBOkKuegeG9rHDRYvYbTLyiGrt33DzC\",\n                \"paths\": {\n                    \"email\": \"OriginalEmails\",\n                    \"root\": \"Attachments\",\n\t\t\t\t\t\"file\": Attachments\",\n                    \"note\": \"Attachments\",\n                    \"completion\": \"Attachments\"\n                },\n                \"timestampColumn\": \"Timestamp\",\n                \"fields\": [\n                    \"Comment\",\n                    \"Description\",\n                    \"Timestamp\",\n                    \"ConversationId\",\n                    \"Subject\",\n                    \"JobNumber\"\n                ]\n            }\n        },\n        \"lists\": {\n            \"document\": {\n                \"sharepointId\": \"d170acbd-f662-4c1b-bca2-1abb77dc3cc2\",\n                \"fields\": [\n                    \"Comment\",\n                    \"Description\",\n                    \"Timestamp\",\n                    \"ConversationId\",\n                    \"Subject\",\n                    \"JobNumber\",\n                    \"Title\"\n                ]\n            },\n            \"postcode\": {\n                \"sharepointId\": \"2bb43345-c116-4f3c-a77d-068d7dd71f47\",\n                \"fields\": [\n                    \"JsonResponse\",\n                    \"Title\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"quote\": {\n                \"sharepointId\": \"3ce960bc-e246-483f-ae86-069bf240735a\",\n                \"fields\": [\n                    \"AcceptedBy\",\n                    \"AcceptedDate\",\n                    \"AcceptedValue\",\n                    \"Job\",\n                    \"QuoteDetail\",\n                    \"QuoteVersion\",\n                    \"Title\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"property\": {\n                \"sharepointId\": \"145a83ee-8cab-4316-83c6-0adf01e5dee3\",\n                \"fields\": [\n                    \"Address_2\",\n                    \"Address_3\",\n                    \"Address_4\",\n                    \"Address_Name\",\n                    \"Address_Number\",\n                    \"Address_PAF\",\n                    \"Address_Postcode\",\n                    \"Address_Street\",\n                    \"KeyNum\",\n                    \"Landlord\",\n                    \"LatLong\",\n                    \"Management_Type\",\n                    \"PostcodeCache\",\n                    \"Title\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"email\": {\n                \"sharepointId\": \"be45f44d-50b0-41cd-82ee-7ad2f30a0e94\",\n                \"fields\": [\n                    \"AiDone\",\n                    \"Body\",\n                    \"ConversationId\",\n                    \"From\",\n                    \"Importance\",\n                    \"Job\",\n                    \"JobNumber\",\n                    \"MessageId\",\n                    \"OutlookUrl\",\n                    \"ReceivedDate\",\n                    \"SpThreadId\",\n                    \"Status\",\n                    \"Subject\",\n                    \"Thread\",\n                    \"ThreadSummary\",\n                    \"Title\",\n                    \"To\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"note\": {\n                \"sharepointId\": \"a87361c5-3794-4a2e-a72c-a9ca209b4d05\",\n                \"fields\": [\n                    \"FolderSuffix\",\n                    \"From\",\n                    \"Job\",\n                    \"JobLookupId\",\n                    \"Note\",\n                    \"SpFolderId\",\n                    \"SpFolderUrl\",\n                    \"Title\",\n                    \"To\",\n                    \"Urgent\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"job\": {\n                \"sharepointId\": \"a68024e7-1ff9-4e0d-a523-f709da9cca8f\",\n                \"fields\": [\n\t\t\t\t\t\"Action\",\n                    \"Address\",\n                    \"AddressLatLong\",\n                    \"AddressLine1\",\n                    \"AddressPaf\",\n                    \"ContactForAccess\",\n                    \"ContactNumber\",\n                    \"ConversationId\",\n                    \"Description\",\n                    \"JobDateTime\",\n                    \"JobDurationHours\",\n                    \"KeyNum\",\n                    \"MessageId\",\n                    \"Postcode\",\n                    \"PreApproved\",\n                    \"Priority\",\n                    \"Property\",\n                    \"PropertyManagerEmail\",\n                    \"RequiredDate\",\n                    \"SoleQuote\",\n\t\t\t\t\t\"SpFilesId\",\n\t\t\t\t\t\"SpFilesJson\",\n\t\t\t\t\t\"SpFilesDelta\",\n                    \"SpFilesWebUrl\",\n                    \"SpThreadId\",\n                    \"Status\",\n                    \"Subject\",\n                    \"Tags\",\n                    \"Thread\",\n                    \"ThreadSummary\",\n                    \"Title\",\n                    \"Toggl\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"ignoreFields\": [\n                \"AccessPolicy\",\n                \"AppAuthor\",\n                \"AppEditor\",\n                \"Attachments\",\n                \"Author\",\n                \"BaseName\",\n                \"ComplianceAssetId\",\n                \"ContentTypeId\",\n                \"ContentVersion\",\n                \"Created\",\n                \"Created_x0020_Date\",\n                \"DocIcon\",\n                \"Edit\",\n                \"Editor\",\n                \"EncodedAbsUrl\",\n                \"File_x0020_Type\",\n                \"FileDirRef\",\n                \"FileLeafRef\",\n                \"FileRef\",\n                \"FolderChildCount\",\n                \"FSObjType\",\n                \"GUID\",\n                \"HTML_x0020_File_x0020_Type\",\n                \"InstanceID\",\n                \"ItemChildCount\",\n                \"Last_x0020_Modified\",\n                \"LinkFilename\",\n                \"LinkFilename2\",\n                \"LinkFilenameNoMenu\",\n                \"LinkTitle\",\n                \"LinkTitle2\",\n                \"LinkTitleNoMenu\",\n                \"MainLinkSettings\",\n                \"MetaInfo\",\n                \"Modified\",\n                \"NoExecute\",\n                \"Order\",\n                \"OriginatorId\",\n                \"owshiddenversion\",\n                \"ParentUniqueId\",\n                \"PermMask\",\n                \"PrincipalCount\",\n                \"ProgId\",\n                \"Restricted\",\n                \"ScopeId\",\n                \"SelectTitle\",\n                \"ServerUrl\",\n                \"SMLastModifiedDate\",\n                \"SMTotalFileCount\",\n                \"SMTotalFileStreamSize\",\n                \"SMTotalSize\",\n                \"SortBehavior\",\n                \"SyncClientId\",\n                \"UniqueId\",\n                \"WorkflowInstanceID\",\n                \"WorkflowVersion\",\n                \"** FOLOWING ARE FOLDER COLUMNS**\",\n                \"A2ODMountCount\",\n                \"BSN\",\n                \"CheckedOutTitle\",\n                \"CheckedOutUserId\",\n                \"CheckoutUser\",\n                \"Combine\",\n                \"Created_x0020_By\",\n                \"DocConcurrencyNumber\",\n                \"ExtractedMetadataComputed\",\n                \"File_x0020_Size\",\n                \"FileSizeDisplay\",\n                \"IsCheckedoutToLocal\",\n                \"lcf76f155ced4ddcb4097134ff3c332f\",\n                \"LinkCheckedOutTitle\",\n                \"MediaGeneratedMetadata\",\n                \"MediaUserMetadata\",\n                \"Modified_x0020_By\",\n                \"ParentLeafName\",\n                \"ParentVersionString\",\n                \"PolicyDisabledUICapabilities\",\n                \"RepairDocument\",\n                \"SelectFilename\",\n                \"StreamHash\",\n                \"TaxCatchAll\",\n                \"TemplateUrl\",\n                \"TriggerFlowInfo\",\n                \"VirusStatus\",\n                \"xd_ProgID\"\n            ],\n            \"listId\": \"d170acbd-f662-4c1b-bca2-1abb77dc3cc2\",\n            \"jobListId\": \"a68024e7-1ff9-4e0d-a523-f709da9cca8f\",\n            \"quoteListId\": \"3ce960bc-e246-483f-ae86-069bf240735a\",\n            \"notesListId\": \"a87361c5-3794-4a2e-a72c-a9ca209b4d05\",\n            \"columns\": [\n                \"Comment\",\n                \"Description\",\n                \"Timestamp\",\n                \"ConversationId\",\n                \"Subject\"\n            ]\n        }\n    }\n}",
+          "includeOtherFields": true,
+          "options": {}
+        },
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 3.4,
+        "position": [
+          784,
+          -32
+        ],
+        "id": "a5e16ca3-8046-4bdc-9e0a-8935d43b14c7",
+        "name": "_SharepointDefaults"
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "id": "faa9935d-e25d-4491-ae83-ee25feaed941",
+        "typeVersion": 1.1,
+        "name": "Start",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          576,
+          -32
+        ]
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "mode": "raw",
+            "jsonOutput": "={\n    \"n8n_sharepoint\": {\n        \"siteId\": \"4ecae6d0-0cab-4509-9312-226c51c8145c\",\n        \"driveId\": \"b!0ObKTqsMCUWTEiJsUcgUXL0Zxz0lcfROhwBOkKuegeG9rHDRYvYbTLyiGrt33DzC\",\n        \"drives\": {\n            \"_default\": {\n                \"sharepointId\": \"b!0ObKTqsMCUWTEiJsUcgUXL0Zxz0lcfROhwBOkKuegeG9rHDRYvYbTLyiGrt33DzC\",\n                \"paths\": {\n                    \"email\": \"OriginalEmails\",\n                    \"root\": \"Attachments\",\n\t\t\t\t\t\"file\": Attachments\",\n                    \"note\": \"Attachments\",\n                    \"completion\": \"Attachments\"\n                },\n                \"timestampColumn\": \"Timestamp\",\n                \"fields\": [\n                    \"Comment\",\n                    \"Description\",\n                    \"Timestamp\",\n                    \"ConversationId\",\n                    \"Subject\",\n                    \"JobNumber\"\n                ]\n            }\n        },\n        \"lists\": {\n            \"document\": {\n                \"sharepointId\": \"d170acbd-f662-4c1b-bca2-1abb77dc3cc2\",\n                \"fields\": [\n                    \"Comment\",\n                    \"Description\",\n                    \"Timestamp\",\n                    \"ConversationId\",\n                    \"Subject\",\n                    \"JobNumber\",\n                    \"Title\"\n                ]\n            },\n            \"postcode\": {\n                \"sharepointId\": \"2bb43345-c116-4f3c-a77d-068d7dd71f47\",\n                \"fields\": [\n                    \"JsonResponse\",\n                    \"Title\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"quote\": {\n                \"sharepointId\": \"3ce960bc-e246-483f-ae86-069bf240735a\",\n                \"fields\": [\n                    \"AcceptedBy\",\n                    \"AcceptedDate\",\n                    \"AcceptedValue\",\n                    \"Job\",\n                    \"QuoteDetail\",\n                    \"QuoteVersion\",\n                    \"Title\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"property\": {\n                \"sharepointId\": \"145a83ee-8cab-4316-83c6-0adf01e5dee3\",\n                \"fields\": [\n                    \"Address_2\",\n                    \"Address_3\",\n                    \"Address_4\",\n                    \"Address_Name\",\n                    \"Address_Number\",\n                    \"Address_PAF\",\n                    \"Address_Postcode\",\n                    \"Address_Street\",\n                    \"KeyNum\",\n                    \"Landlord\",\n                    \"LatLong\",\n                    \"Management_Type\",\n                    \"PostcodeCache\",\n                    \"Title\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"email\": {\n                \"sharepointId\": \"be45f44d-50b0-41cd-82ee-7ad2f30a0e94\",\n                \"fields\": [\n                    \"AiDone\",\n                    \"Body\",\n                    \"ConversationId\",\n                    \"From\",\n                    \"Importance\",\n                    \"Job\",\n                    \"JobNumber\",\n                    \"MessageId\",\n                    \"OutlookUrl\",\n                    \"ReceivedDate\",\n                    \"SpThreadId\",\n                    \"Status\",\n                    \"Subject\",\n                    \"Thread\",\n                    \"ThreadSummary\",\n                    \"Title\",\n                    \"To\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"note\": {\n                \"sharepointId\": \"a87361c5-3794-4a2e-a72c-a9ca209b4d05\",\n                \"fields\": [\n                    \"FolderSuffix\",\n                    \"From\",\n                    \"Job\",\n                    \"JobLookupId\",\n                    \"Note\",\n                    \"SpFolderId\",\n                    \"SpFolderUrl\",\n                    \"Title\",\n                    \"To\",\n                    \"Urgent\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"job\": {\n                \"sharepointId\": \"a68024e7-1ff9-4e0d-a523-f709da9cca8f\",\n                \"fields\": [\n\t\t\t\t\t\"Action\",\n                    \"Address\",\n                    \"AddressLatLong\",\n                    \"AddressLine1\",\n                    \"AddressPaf\",\n                    \"ContactForAccess\",\n                    \"ContactNumber\",\n                    \"ConversationId\",\n                    \"Description\",\n                    \"JobDateTime\",\n                    \"JobDurationHours\",\n                    \"KeyNum\",\n                    \"MessageId\",\n                    \"Postcode\",\n                    \"PreApproved\",\n                    \"Priority\",\n                    \"Property\",\n                    \"PropertyManagerEmail\",\n                    \"RequiredDate\",\n                    \"SoleQuote\",\n\t\t\t\t\t\"SpFilesId\",\n\t\t\t\t\t\"SpFilesJson\",\n\t\t\t\t\t\"SpFilesDelta\",\n                    \"SpFilesWebUrl\",\n                    \"SpThreadId\",\n                    \"Status\",\n                    \"Subject\",\n                    \"Tags\",\n                    \"Thread\",\n                    \"ThreadSummary\",\n                    \"Title\",\n                    \"Toggl\"\n                ],\n                \"readonly\": [\n                    \"ID\",\n                    \"id\",\n                    \"Created\"\n                ]\n            },\n            \"ignoreFields\": [\n                \"AccessPolicy\",\n                \"AppAuthor\",\n                \"AppEditor\",\n                \"Attachments\",\n                \"Author\",\n                \"BaseName\",\n                \"ComplianceAssetId\",\n                \"ContentTypeId\",\n                \"ContentVersion\",\n                \"Created\",\n                \"Created_x0020_Date\",\n                \"DocIcon\",\n                \"Edit\",\n                \"Editor\",\n                \"EncodedAbsUrl\",\n                \"File_x0020_Type\",\n                \"FileDirRef\",\n                \"FileLeafRef\",\n                \"FileRef\",\n                \"FolderChildCount\",\n                \"FSObjType\",\n                \"GUID\",\n                \"HTML_x0020_File_x0020_Type\",\n                \"InstanceID\",\n                \"ItemChildCount\",\n                \"Last_x0020_Modified\",\n                \"LinkFilename\",\n                \"LinkFilename2\",\n                \"LinkFilenameNoMenu\",\n                \"LinkTitle\",\n                \"LinkTitle2\",\n                \"LinkTitleNoMenu\",\n                \"MainLinkSettings\",\n                \"MetaInfo\",\n                \"Modified\",\n                \"NoExecute\",\n                \"Order\",\n                \"OriginatorId\",\n                \"owshiddenversion\",\n                \"ParentUniqueId\",\n                \"PermMask\",\n                \"PrincipalCount\",\n                \"ProgId\",\n                \"Restricted\",\n                \"ScopeId\",\n                \"SelectTitle\",\n                \"ServerUrl\",\n                \"SMLastModifiedDate\",\n                \"SMTotalFileCount\",\n                \"SMTotalFileStreamSize\",\n                \"SMTotalSize\",\n                \"SortBehavior\",\n                \"SyncClientId\",\n                \"UniqueId\",\n                \"WorkflowInstanceID\",\n                \"WorkflowVersion\",\n                \"** FOLOWING ARE FOLDER COLUMNS**\",\n                \"A2ODMountCount\",\n                \"BSN\",\n                \"CheckedOutTitle\",\n                \"CheckedOutUserId\",\n                \"CheckoutUser\",\n                \"Combine\",\n                \"Created_x0020_By\",\n                \"DocConcurrencyNumber\",\n                \"ExtractedMetadataComputed\",\n                \"File_x0020_Size\",\n                \"FileSizeDisplay\",\n                \"IsCheckedoutToLocal\",\n                \"lcf76f155ced4ddcb4097134ff3c332f\",\n                \"LinkCheckedOutTitle\",\n                \"MediaGeneratedMetadata\",\n                \"MediaUserMetadata\",\n                \"Modified_x0020_By\",\n                \"ParentLeafName\",\n                \"ParentVersionString\",\n                \"PolicyDisabledUICapabilities\",\n                \"RepairDocument\",\n                \"SelectFilename\",\n                \"StreamHash\",\n                \"TaxCatchAll\",\n                \"TemplateUrl\",\n                \"TriggerFlowInfo\",\n                \"VirusStatus\",\n                \"xd_ProgID\"\n            ],\n            \"listId\": \"d170acbd-f662-4c1b-bca2-1abb77dc3cc2\",\n            \"jobListId\": \"a68024e7-1ff9-4e0d-a523-f709da9cca8f\",\n            \"quoteListId\": \"3ce960bc-e246-483f-ae86-069bf240735a\",\n            \"notesListId\": \"a87361c5-3794-4a2e-a72c-a9ca209b4d05\",\n            \"columns\": [\n                \"Comment\",\n                \"Description\",\n                \"Timestamp\",\n                \"ConversationId\",\n                \"Subject\"\n            ]\n        }\n    }\n}",
+            "includeOtherFields": true,
+            "options": {}
+          },
+          "type": "n8n-nodes-base.set",
+          "typeVersion": 3.4,
+          "position": [
+            784,
+            -32
+          ],
+          "id": "a5e16ca3-8046-4bdc-9e0a-8935d43b14c7",
+          "name": "_SharepointDefaults"
+        },
+        {
+          "parameters": {
+            "inputSource": "passthrough"
+          },
+          "id": "faa9935d-e25d-4491-ae83-ee25feaed941",
+          "typeVersion": 1.1,
+          "name": "Start",
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "position": [
+            576,
+            -32
+          ]
+        }
+      ],
+      "connections": {
+        "Start": {
+          "main": [
+            [
+              {
+                "node": "_SharepointDefaults",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        },
+        "_SharepointDefaults": {
+          "main": [
+            []
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}

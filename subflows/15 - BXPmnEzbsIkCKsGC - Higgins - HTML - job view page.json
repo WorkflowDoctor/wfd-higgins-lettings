@@ -1,0 +1,122 @@
+{
+  "workflow": {
+    "id": "BXPmnEzbsIkCKsGC",
+    "name": "Higgins: HTML - job view page",
+    "active": true,
+    "isArchived": false,
+    "versionId": "c1875545-e0bc-4797-bec9-6081ea2977d4",
+    "activeVersionId": "c1875545-e0bc-4797-bec9-6081ea2977d4",
+    "triggerCount": 0,
+    "createdAt": "2026-03-06T17:00:54.994Z",
+    "updatedAt": "2026-04-03T16:21:23.26Z",
+    "settings": {
+      "executionOrder": "v1",
+      "availableInMCP": true,
+      "binaryMode": "separate"
+    },
+    "connections": {
+      "Start": {
+        "main": [
+          [
+            {
+              "node": "HTML View",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "html": "<!-- #pageTitle 'Job #{{ $json.job.JobNumber }}' -->\n<!-- #userEmail '{{ $json.user?.email }}' -->\n\n<!-- #jobCreated '{{ new Date($json.job?.Created || '').toLocaleString('en-GB') }}' -->\n<!-- #jobStatus '{{ $json.job?.Status || '' }}' -->\n\n<!-- Summary -->\n<div class=\"row mb-4\">\n    <div class=\"col-12\">\n        <div class=\"alert alert-info\">\n            {{ $json.job.Description }}\n        </div>\n    </div>\n</div>\n\n<!-- Location -->\n<div class=\"row mb-4\">\n    <div class=\"col-6\">\n        <h2>Location</h2>\n        <dl class=\"row\">\n            <dt class=\"col-4\">Address</dt>\n            <dd class=\"col-8\">{{ $json.job.Address }}</dd>\n\n            <dt class=\"col-4\">Postcode</dt>\n            <dd class=\"col-8\">{{ $json.job.Postcode }}</dd>\n\n            <dt class=\"col-4\">Contact</dt>\n            <dd class=\"col-8\">{{ $json.job.ContactForAccess }}</dd>\n\n            <dt class=\"col-4\">Contact number</dt>\n            <dd class=\"col-8\">{{ $json.job.ContactNumber }}</dd>\n\n            <dt class=\"col-4\">Key number</dt>\n            <dd class=\"col-8\">{{ $json.job.KeyNum ?? '' }}</dd>\n        </dl>\n    </div>\n\n    <div class=\"col-6\">\n        <iframe\n            class=\"border rounded\"\n            style=\"width:100%; min-height:300px;\"\n            src=\"https://www.google.com/maps/embed/v1/search?q={{ encodeURIComponent($json.job.AddressLatLong ?? ($json.job.Postcode + ' UK')) }}&amp;key={{ $json.n8n_defaults.google_cloud.MapsApiKey }}\">\n        </iframe>\n    </div>\n</div>\n\n<!-- Details -->\n<div class=\"row mb-4\">\n    <div class=\"col-12\">\n        <h2>Details</h2>\n        <div class=\"border rounded p-3 bg-light\">\n            {{ $json.job.Description }}\n        </div>\n    </div>\n</div>\n\n<!-- Attributes -->\n<div class=\"row mb-4\">\n    <div class=\"col-12\">\n        <dl class=\"row\">\n\n            <dt class=\"col-3\">Priority</dt>\n            <dd class=\"col-9\">\n                {{ $json.job.Priority ?? $('Defaults').item.json.DefaultPriority }}\n                {{ $json.job.PreApproved ? ' (Pre-Approved)' : '' }}\n            </dd>\n\n            <dt class=\"col-3\">Action</dt>\n            <dd class=\"col-9\">\n                {{ $json.job.Action }}\n            </dd>\n\n            <dt class=\"col-3\">Tags</dt>\n            <dd class=\"col-9\">\n                {{ $json.job.Tags }}\n            </dd>\n\n        </dl>\n    </div>\n</div>\n\n{{ $json.modulesHtml ?? '' }}"
+        },
+        "type": "n8n-nodes-base.html",
+        "typeVersion": 1.2,
+        "position": [
+          3280,
+          -1056
+        ],
+        "id": "7faba054-f1b9-4b64-b580-c9467a867502",
+        "name": "HTML View"
+      },
+      {
+        "parameters": {
+          "inputSource": "passthrough"
+        },
+        "id": "4a6e5361-e73c-4c22-8ece-2bc1f332e492",
+        "typeVersion": 1.1,
+        "name": "Start",
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "position": [
+          3072,
+          -1056
+        ]
+      }
+    ],
+    "activeVersion": {
+      "nodes": [
+        {
+          "parameters": {
+            "html": "<!-- #pageTitle 'Job #{{ $json.job.JobNumber }}' -->\n<!-- #userEmail '{{ $json.user?.email }}' -->\n\n<!-- #jobCreated '{{ new Date($json.job?.Created || '').toLocaleString('en-GB') }}' -->\n<!-- #jobStatus '{{ $json.job?.Status || '' }}' -->\n\n<!-- Summary -->\n<div class=\"row mb-4\">\n    <div class=\"col-12\">\n        <div class=\"alert alert-info\">\n            {{ $json.job.Description }}\n        </div>\n    </div>\n</div>\n\n<!-- Location -->\n<div class=\"row mb-4\">\n    <div class=\"col-6\">\n        <h2>Location</h2>\n        <dl class=\"row\">\n            <dt class=\"col-4\">Address</dt>\n            <dd class=\"col-8\">{{ $json.job.Address }}</dd>\n\n            <dt class=\"col-4\">Postcode</dt>\n            <dd class=\"col-8\">{{ $json.job.Postcode }}</dd>\n\n            <dt class=\"col-4\">Contact</dt>\n            <dd class=\"col-8\">{{ $json.job.ContactForAccess }}</dd>\n\n            <dt class=\"col-4\">Contact number</dt>\n            <dd class=\"col-8\">{{ $json.job.ContactNumber }}</dd>\n\n            <dt class=\"col-4\">Key number</dt>\n            <dd class=\"col-8\">{{ $json.job.KeyNum ?? '' }}</dd>\n        </dl>\n    </div>\n\n    <div class=\"col-6\">\n        <iframe\n            class=\"border rounded\"\n            style=\"width:100%; min-height:300px;\"\n            src=\"https://www.google.com/maps/embed/v1/search?q={{ encodeURIComponent($json.job.AddressLatLong ?? ($json.job.Postcode + ' UK')) }}&amp;key={{ $json.n8n_defaults.google_cloud.MapsApiKey }}\">\n        </iframe>\n    </div>\n</div>\n\n<!-- Details -->\n<div class=\"row mb-4\">\n    <div class=\"col-12\">\n        <h2>Details</h2>\n        <div class=\"border rounded p-3 bg-light\">\n            {{ $json.job.Description }}\n        </div>\n    </div>\n</div>\n\n<!-- Attributes -->\n<div class=\"row mb-4\">\n    <div class=\"col-12\">\n        <dl class=\"row\">\n\n            <dt class=\"col-3\">Priority</dt>\n            <dd class=\"col-9\">\n                {{ $json.job.Priority ?? $('Defaults').item.json.DefaultPriority }}\n                {{ $json.job.PreApproved ? ' (Pre-Approved)' : '' }}\n            </dd>\n\n            <dt class=\"col-3\">Action</dt>\n            <dd class=\"col-9\">\n                {{ $json.job.Action }}\n            </dd>\n\n            <dt class=\"col-3\">Tags</dt>\n            <dd class=\"col-9\">\n                {{ $json.job.Tags }}\n            </dd>\n\n        </dl>\n    </div>\n</div>\n\n{{ $json.modulesHtml ?? '' }}"
+          },
+          "type": "n8n-nodes-base.html",
+          "typeVersion": 1.2,
+          "position": [
+            3280,
+            -1056
+          ],
+          "id": "7faba054-f1b9-4b64-b580-c9467a867502",
+          "name": "HTML View"
+        },
+        {
+          "parameters": {
+            "inputSource": "passthrough"
+          },
+          "id": "4a6e5361-e73c-4c22-8ece-2bc1f332e492",
+          "typeVersion": 1.1,
+          "name": "Start",
+          "type": "n8n-nodes-base.executeWorkflowTrigger",
+          "position": [
+            3072,
+            -1056
+          ]
+        }
+      ],
+      "connections": {
+        "Start": {
+          "main": [
+            [
+              {
+                "node": "HTML View",
+                "type": "main",
+                "index": 0
+              }
+            ]
+          ]
+        }
+      }
+    },
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:create",
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:list",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:share",
+      "workflow:unpublish",
+      "workflow:unshare",
+      "workflow:update",
+      "workflow:updateRedactionSetting"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}
