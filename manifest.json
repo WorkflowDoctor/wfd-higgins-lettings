@@ -1,10 +1,10 @@
 {
-  "exportedAtUtc": "2026-04-03T16:30:14.5920558Z",
+  "exportedAtUtc": "2026-04-13T21:08:37.930273Z",
   "source": "n8n MCP get_workflow_details",
   "scope": "Higgins MCP-enabled production workflows only",
   "counts": {
-    "total": 31,
-    "subflows": 23,
+    "total": 32,
+    "subflows": 24,
     "settingsInjection": 3,
     "parentLevel": 5
   },
@@ -28,8 +28,8 @@
       "category": "parent-level",
       "active": true,
       "triggerCount": 1,
-      "updatedAt": "2026-04-03T16:23:31.314Z",
-      "versionId": "878cf817-7353-4ab5-aec0-90105aa05d28",
+      "updatedAt": "2026-04-10T14:01:08.777Z",
+      "versionId": "78e742fd-fa79-464d-b6ab-2257b4ea42e5",
       "activeVersionId": "208c62fa-d9d0-4458-9caa-f5e6df531829",
       "file": "parent-level\\02 - NC6EhQ289DgA4G71 - Higgins 02 - Job edit.json"
     },
@@ -220,7 +220,7 @@
       "category": "subflows",
       "active": true,
       "triggerCount": 0,
-      "updatedAt": "2026-04-03T16:23:13.171Z",
+      "updatedAt": "2026-04-10T14:04:44.441Z",
       "versionId": "7aabe302-4d93-4c3d-9181-e5feef88c885",
       "activeVersionId": "7aabe302-4d93-4c3d-9181-e5feef88c885",
       "file": "subflows\\18 - 7GnSWkz7nyJh-HH5OQ_SE - Higgins - Job repo.json"
@@ -380,6 +380,18 @@
       "versionId": "1f0d6bf4-1996-4fb7-b69b-eefa69c59663",
       "activeVersionId": "1f0d6bf4-1996-4fb7-b69b-eefa69c59663",
       "file": "parent-level\\31 - b-NVafCFlUVsXRzbPbomQ - Higgins - Toggl webhook.json"
+    },
+    {
+      "index": 32,
+      "id": "a3NuXDVhjUE3jSWt",
+      "name": "Higgins: People repo",
+      "category": "subflows",
+      "active": false,
+      "triggerCount": 0,
+      "updatedAt": "2026-04-13T20:25:36.780Z",
+      "versionId": "e99b48cd-6ca3-49c1-93f7-e7980ca19b52",
+      "activeVersionId": null,
+      "file": "subflows\\32 - a3NuXDVhjUE3jSWt - Higgins - People repo.json"
     }
   ]
 }

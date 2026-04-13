@@ -1,0 +1,348 @@
+{
+  "workflow": {
+    "id": "a3NuXDVhjUE3jSWt",
+    "name": "Higgins: People repo",
+    "active": false,
+    "isArchived": false,
+    "versionId": "e99b48cd-6ca3-49c1-93f7-e7980ca19b52",
+    "activeVersionId": null,
+    "triggerCount": 0,
+    "createdAt": "2026-04-07T10:56:03.473Z",
+    "updatedAt": "2026-04-13T20:25:36.780Z",
+    "settings": {
+      "executionOrder": "v1",
+      "binaryMode": "separate",
+      "availableInMCP": true
+    },
+    "connections": {
+      "Switch": {
+        "main": [
+          [
+            {
+              "node": "Get by email",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get by ID",
+              "type": "main",
+              "index": 0
+            }
+          ],
+          [
+            {
+              "node": "Get many",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "EntryPoint": {
+        "main": [
+          [
+            {
+              "node": "Switch",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get by email": {
+        "main": [
+          [
+            {
+              "node": "Sort",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get by ID": {
+        "main": [
+          [
+            {
+              "node": "Sort",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Get many": {
+        "main": [
+          [
+            {
+              "node": "Sort",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      },
+      "Sort": {
+        "main": [
+          [
+            {
+              "node": "Wrap output",
+              "type": "main",
+              "index": 0
+            }
+          ]
+        ]
+      }
+    },
+    "nodes": [
+      {
+        "parameters": {
+          "rules": {
+            "values": [
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "leftValue": "={{ $json.email }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "string",
+                        "operation": "notEmpty",
+                        "singleValue": true
+                      },
+                      "id": "0fd1f538-abe6-4cc5-af2a-040d197c3d63"
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "GETBYEMAIL"
+              },
+              {
+                "conditions": {
+                  "options": {
+                    "caseSensitive": true,
+                    "leftValue": "",
+                    "typeValidation": "strict",
+                    "version": 3
+                  },
+                  "conditions": [
+                    {
+                      "id": "65f7025d-fad0-43e4-b431-b87fb83a7739",
+                      "leftValue": "={{ $json.id }}",
+                      "rightValue": "",
+                      "operator": {
+                        "type": "number",
+                        "operation": "notEmpty",
+                        "singleValue": true
+                      }
+                    }
+                  ],
+                  "combinator": "and"
+                },
+                "renameOutput": true,
+                "outputKey": "GETBYID"
+              }
+            ]
+          },
+          "options": {
+            "fallbackOutput": "extra"
+          }
+        },
+        "type": "n8n-nodes-base.switch",
+        "typeVersion": 3.4,
+        "position": [
+          -224,
+          176
+        ],
+        "id": "cae15ede-55c9-40d0-bfc2-38e8bb5dae13",
+        "name": "Switch"
+      },
+      {
+        "parameters": {
+          "workflowInputs": {
+            "values": [
+              {
+                "name": "email"
+              },
+              {
+                "name": "id",
+                "type": "number"
+              },
+              {
+                "name": "role"
+              }
+            ]
+          }
+        },
+        "type": "n8n-nodes-base.executeWorkflowTrigger",
+        "typeVersion": 1.1,
+        "position": [
+          -448,
+          192
+        ],
+        "id": "27031207-77f2-4aa7-ac12-95bca93584f7",
+        "name": "EntryPoint"
+      },
+      {
+        "parameters": {
+          "mode": "runOnceForEachItem",
+          "jsCode": "// Keep only these SharePoint field names\nconst objectType = \"job\";\nconst keepFields = [\n  \"Title\", \"Email\", \"Role\", \"Order0\", \"OOO\", \"Delegate\"\n//  ...($json.n8n_sharepoint.lists[objectType].fields || []),\n//  ...($json.n8n_sharepoint.lists[objectType].readonly || [])\n];\n\nconst fields = $json?.fields ?? $json;\nconst ID = $json.id || $json.ID;\nconst Name = fields.Title;\n\nconst item = Object.fromEntries(\n  Object.entries(fields).filter(([k]) => keepFields.includes(k))\n);\n\nreturn {\n  json: {\n    [objectType]: {\n      ID,\n      Name,\n      ...item\n    }\n  }\n};"
+        },
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 2,
+        "position": [
+          448,
+          192
+        ],
+        "id": "8d069e5e-832e-4a2f-b2a8-61498c4edb32",
+        "name": "Wrap output"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "8b7ce055-bf24-4552-8d7e-3698f7b11285",
+            "mode": "list",
+            "cachedResultName": "LISA - People"
+          },
+          "filter": "=fields/Email eq '{{ $json.email }}'",
+          "limit": 100,
+          "options": {
+            "fields": [
+              "fields"
+            ]
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          0,
+          0
+        ],
+        "id": "f1ce3ff4-709c-4d95-ad78-9794a453bea1",
+        "name": "Get by email"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "operation": "get",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "8b7ce055-bf24-4552-8d7e-3698f7b11285",
+            "mode": "list",
+            "cachedResultName": "LISA - People"
+          },
+          "item": {
+            "__rl": true,
+            "value": "={{ $json.id }}",
+            "mode": "id"
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          0,
+          192
+        ],
+        "id": "987d3b7f-ffac-4ad8-ba95-05c44d2e3d34",
+        "name": "Get by ID"
+      },
+      {
+        "parameters": {
+          "resource": "item",
+          "site": {
+            "__rl": true,
+            "value": "higginslettings.sharepoint.com,4ecae6d0-0cab-4509-9312-226c51c8145c,3dc719bd-7125-4ef4-8700-4e90ab9e81e1",
+            "mode": "list",
+            "cachedResultName": "Workflows"
+          },
+          "list": {
+            "__rl": true,
+            "value": "8b7ce055-bf24-4552-8d7e-3698f7b11285",
+            "mode": "list",
+            "cachedResultName": "LISA - People"
+          },
+          "filter": "=",
+          "limit": 100,
+          "options": {
+            "fields": [
+              "fields"
+            ]
+          },
+          "simplify": false,
+          "requestOptions": {}
+        },
+        "type": "n8n-nodes-base.microsoftSharePoint",
+        "typeVersion": 1,
+        "position": [
+          0,
+          384
+        ],
+        "id": "47dc8bcd-712d-4e22-b423-72667118c55b",
+        "name": "Get many"
+      },
+      {
+        "parameters": {
+          "sortFieldsUi": {
+            "sortField": [
+              {
+                "fieldName": "fields.Order0"
+              }
+            ]
+          },
+          "options": {}
+        },
+        "type": "n8n-nodes-base.sort",
+        "typeVersion": 1,
+        "position": [
+          224,
+          192
+        ],
+        "id": "baf99b1c-89d9-4a9e-989b-cfa27d12b41a",
+        "name": "Sort"
+      }
+    ],
+    "activeVersion": null,
+    "tags": [],
+    "meta": null,
+    "parentFolderId": null,
+    "scopes": [
+      "workflow:delete",
+      "workflow:execute",
+      "workflow:execute-chat",
+      "workflow:move",
+      "workflow:publish",
+      "workflow:read",
+      "workflow:unpublish",
+      "workflow:update"
+    ],
+    "canExecute": true
+  },
+  "triggerInfo": "This workflow has no production triggers (Schedule, Webhook, Form, or Chat). It can only be executed in manual mode."
+}
