@@ -1,12 +1,12 @@
 {
-  "exportedAtUtc": "2026-04-13T21:08:37.930273Z",
+  "exportedAtUtc": "2026-04-15T14:45:00.000000Z",
   "source": "n8n MCP get_workflow_details",
   "scope": "Higgins MCP-enabled production workflows only",
   "counts": {
-    "total": 32,
-    "subflows": 24,
+    "total": 35,
+    "subflows": 26,
     "settingsInjection": 3,
-    "parentLevel": 5
+    "parentLevel": 6
   },
   "items": [
     {
@@ -392,6 +392,42 @@
       "versionId": "e99b48cd-6ca3-49c1-93f7-e7980ca19b52",
       "activeVersionId": null,
       "file": "subflows\\32 - a3NuXDVhjUE3jSWt - Higgins - People repo.json"
+    },
+    {
+      "index": 33,
+      "id": "OKAvMTznsWUq9JhZ",
+      "name": "Higgins 02 - Job edit - VJ",
+      "category": "parent-level",
+      "active": true,
+      "triggerCount": 1,
+      "updatedAt": "2026-04-15T13:54:23.652Z",
+      "versionId": "a9c59141-ccb8-490b-869c-646cccda9afa",
+      "activeVersionId": "a9c59141-ccb8-490b-869c-646cccda9afa",
+      "file": "parent-level\\33 - OKAvMTznsWUq9JhZ - Higgins 02 - Job edit - VJ.json"
+    },
+    {
+      "index": 34,
+      "id": "ZqVJgn1x1hZAKDGl",
+      "name": "Higgins: HTML - build modules - VJ",
+      "category": "subflows",
+      "active": true,
+      "triggerCount": 0,
+      "updatedAt": "2026-04-15T13:54:35.231Z",
+      "versionId": "7b10deb2-60fa-4691-9937-11d699a4ebf9",
+      "activeVersionId": "7b10deb2-60fa-4691-9937-11d699a4ebf9",
+      "file": "subflows\\34 - ZqVJgn1x1hZAKDGl - Higgins - HTML - build modules - VJ.json"
+    },
+    {
+      "index": 35,
+      "id": "XjQdL8XZxjM8iker",
+      "name": "Higgins - Job edit POST - VJ",
+      "category": "subflows",
+      "active": true,
+      "triggerCount": 0,
+      "updatedAt": "2026-04-15T09:05:44.722Z",
+      "versionId": "9e22ff84-ce6d-46d4-9168-64914cdc2ce7",
+      "activeVersionId": "9e22ff84-ce6d-46d4-9168-64914cdc2ce7",
+      "file": "subflows\\35 - XjQdL8XZxjM8iker - Higgins - Job edit POST - VJ.json"
     }
   ]
 }
